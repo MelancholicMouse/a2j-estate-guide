@@ -1,0 +1,10 @@
+# Dependencies (sharp was only used once to compress the image)
+node_modules/
+
+# Original uncompressed source image — the optimized assets/background.jpg is what ships
+assets/background.png
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
