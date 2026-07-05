@@ -165,67 +165,73 @@
 <script>
 /* ---- Decision points extracted from the Quick Reference table ---- */
 const QUESTIONS = [
-  { stage:"Step 1 · The Will",
+  { key:"wasiat", stage:"Step 1 · The Will",
     q:"Did the deceased leave a Wasiat (will)?",
     help:"A <b>Wasiat</b> is an Islamic will. Under Faraid it can dispose of up to 1/3 of the estate.",
     yes:{label:"Yes — there is a Wasiat", out:"Assess the Wasiat; the executor applies for a Grant of Probate (an Inheritance Certificate is still needed first)."},
     no:{label:"No Wasiat", out:"The estate is distributed under full Faraid; apply for Letters of Administration (LOA)."} },
 
-  { stage:"Step 2 · Nominated assets",
+  { key:"grantApplied", stage:"Step 2 · Existing application",
+    q:"Have you or another applied for Letters of Administration or a Grant of Probate?",
+    help:"Only one grant can be issued per estate. Check whether an application is already in progress before starting a new one.",
+    yes:{label:"Yes — an application has been made", out:"Check the status of the existing application and coordinate with the applicant — avoid filing a duplicate."},
+    no:{label:"No — not yet applied", out:"A grant application (LOA or Probate) will need to be filed as part of the process."} },
+
+  { key:"nomination", stage:"Step 3 · Nominated assets",
     q:"Does the asset have a valid CPF or insurance nomination?",
     help:"Nominated CPF / insurance pays out <b>outside</b> the estate — but a CPF nominee must still distribute per Faraid under the MUIS Fatwa.",
     yes:{label:"Yes — there's a nomination", out:"Paid directly to the nominee outside the estate (CPF nominee must still distribute per Faraid per the MUIS Fatwa)."},
     no:{label:"No nomination", out:"The asset falls into the estate."} },
 
-  { stage:"Step 3 · Property holding",
+  { key:"jointTenancy", stage:"Step 4 · Property holding",
     q:"Is the property held in joint tenancy?",
     help:"<b>Joint tenancy</b> passes automatically to the surviving owner by survivorship.",
     yes:{label:"Yes — joint tenancy", out:"Automatic survivorship — the property is not part of the estate."},
     no:{label:"No — tenancy-in-common / sole", out:"It is part of the estate; include it in the LOA process."} },
 
-  { stage:"Step 4 · Inheritance Certificate",
+  { key:"priorIC", stage:"Step 5 · Inheritance Certificate",
     q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
     help:"The <b>IC</b> from the Syariah Court (SYC) lists the lawful heirs and their shares.",
     yes:{label:"Yes — one exists", out:"Apply for an Extract or a Revision of the IC, as appropriate."},
     no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
 
-  { stage:"Step 5 · IC application review",
+  { key:"icApproved", stage:"Step 6 · IC application review",
     q:"Did the IC application pass preliminary SYC approval?",
     help:"The Syariah Court does a completeness check before processing.",
     yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
     no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
 
-  { stage:"Step 6 · Securing the IC",
+  { key:"icDownloaded", stage:"Step 7 · Securing the IC",
     q:"Was the IC downloaded within 14 days of issuance?",
     help:"The digital IC must be retrieved within the access window.",
     yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
     no:{label:"No — window missed", out:"Apply for an Extract of the IC ($34)."} },
 
-  { stage:"Step 7 · Administration route",
+  { key:"smallEstate", stage:"Step 8 · Administration route",
     q:"Is the estate ≤ $50,000 with no disqualifying factors?",
     help:"Small estates may use the simpler Public Trustee route instead of court.",
     yes:{label:"Yes — small estate", out:"Consider the Public Trustee's Office route (Stage 4A)."},
     no:{label:"No — larger / disqualified", out:"Use the Family Justice Courts LOA process (Stage 4B)."} },
 
-  { stage:"Step 8 · Which court",
+  { key:"underFiveM", stage:"Step 9 · Which court",
     q:"Is the estate value ≤ $5 million?",
     help:"Court level depends on the value of the estate (Stage 4B).",
     yes:{label:"Yes — ≤ $5m", out:"Apply to the Family Courts."},
     no:{label:"No — over $5m", out:"Apply to the Family Division of the High Court."} },
 
-  { stage:"Step 9 · Forms version",
+  { key:"forms2024", stage:"Step 10 · Forms version",
     q:"Was the LOA application filed on or after 15 Oct 2024?",
     help:"The Family Justice Courts Practice Directions changed the required forms.",
     yes:{label:"Yes — on/after 15 Oct 2024", out:"Use the FJCPD 2024 forms (Forms 162, 163, 167, 177, 166)."},
     no:{label:"No — before 15 Oct 2024", out:"Use the FJCPD 2015 forms (OS, Forms 255, 54, 226, 53)."} },
 
-  { stage:"Step 10 · Disputes",
+  { key:"caveats", stage:"Step 11 · Disputes",
     q:"Were any caveats or competing applications found?",
     help:"A <b>caveat</b> blocks a grant until a dispute is resolved.",
     yes:{label:"Yes — caveat / dispute", out:"Negotiate withdrawal, or proceed via contentious probate."},
     no:{label:"No disputes", out:"Proceed with the standard application."} },
 
-  { stage:"Step 11 · Changes before distribution",
+  { key:"beneficiaryDied", stage:"Step 12 · Changes before distribution",
     q:"Did a beneficiary die before the final distribution?",
     help:"A death among the heirs can change the lawful shares.",
     yes:{label:"Yes — a beneficiary died", out:"Apply for a Revision of the IC at SYC ($34/page) before distributing."},
@@ -233,7 +239,7 @@ const QUESTIONS = [
 ];
 
 let idx = 0;
-const answers = new Array(QUESTIONS.length).fill(null);
+let answers = {};   /* keyed by question.key, e.g. answers.wasiat === 'yes' */
 const card = document.getElementById('card');
 
 function render(){
@@ -264,7 +270,7 @@ function render(){
       <span class="dots">${item.stage.split('·')[0].trim()}</span>
     </div>`;
   card.querySelectorAll('.ans').forEach(b=>{
-    b.onclick = ()=>{ answers[idx] = b.dataset.v; idx++; render(); };
+    b.onclick = ()=>{ answers[item.key] = b.dataset.v; idx++; render(); };
   });
   const back = document.getElementById('back');
   if(back) back.onclick = ()=>{ if(idx>0){ idx--; render(); } };
@@ -274,52 +280,55 @@ function render(){
 function buildNarrative(){
   const a = answers;
   const parts = [];
-  parts.push(a[0]==='yes'
+  parts.push(a.wasiat==='yes'
     ? "Because the deceased left a Wasiat, the estate is handled through a Grant of Probate, with the executor giving effect to the will (up to one-third) and the remainder distributed under Faraid."
     : "With no Wasiat in place, the entire estate is distributed according to Faraid, and the family applies for Letters of Administration.");
-  if(a[1]==='yes') parts.push("Some assets carry a valid CPF or insurance nomination, so they pay out directly to the nominee outside the estate — though a CPF nominee remains obliged to distribute those funds per Faraid under the MUIS Fatwa.");
+  if(a.grantApplied==='yes') parts.push("A grant application (Letters of Administration or Probate) has already been started for this estate, so the priority is to check its status and coordinate with whoever filed it rather than lodging a duplicate.");
+  else parts.push("No grant application has been filed yet, so applying for Letters of Administration (or Probate) will form part of your route.");
+  if(a.nomination==='yes') parts.push("Some assets carry a valid CPF or insurance nomination, so they pay out directly to the nominee outside the estate — though a CPF nominee remains obliged to distribute those funds per Faraid under the MUIS Fatwa.");
   else parts.push("Without nominations, those assets fall into the general estate.");
-  if(a[2]==='yes') parts.push("The property is held in joint tenancy and passes automatically by survivorship, so it sits outside the estate.");
+  if(a.jointTenancy==='yes') parts.push("The property is held in joint tenancy and passes automatically by survivorship, so it sits outside the estate.");
   else parts.push("The property forms part of the estate and must be included in the administration.");
-  parts.push(a[3]==='yes'
+  parts.push(a.priorIC==='yes'
     ? "An Inheritance Certificate already exists, so you'll work from an Extract or a Revision rather than a fresh application."
     : "No Inheritance Certificate has been issued yet, so obtaining one from the Syariah Court is the first foundational step.");
-  if(a[4]==='no') parts.push("The IC application was returned as incomplete — this needs attention before anything else can progress.");
-  if(a[5]==='no') parts.push("The 14-day download window was missed, so an Extract of the IC will need to be purchased.");
-  parts.push(a[6]==='yes'
+  if(a.icApproved==='no') parts.push("The IC application was returned as incomplete — this needs attention before anything else can progress.");
+  if(a.icDownloaded==='no') parts.push("The 14-day download window was missed, so an Extract of the IC will need to be purchased.");
+  parts.push(a.smallEstate==='yes'
     ? "As a smaller estate (≤ $50,000) with no disqualifying factors, the streamlined Public Trustee route is available, which is faster and cheaper than court."
     : "Given the estate's size or circumstances, administration goes through the Family Justice Courts.");
-  if(a[6]==='no'){
-    parts.push(a[7]==='yes'
+  if(a.smallEstate==='no'){
+    parts.push(a.underFiveM==='yes'
       ? "At ≤ $5 million the matter is dealt with by the Family Courts."
       : "Because the estate exceeds $5 million, it is handled by the Family Division of the High Court.");
-    parts.push(a[8]==='yes'
+    parts.push(a.forms2024==='yes'
       ? "Filing falls on or after 15 Oct 2024, so the FJCPD 2024 forms apply."
       : "Filing predates 15 Oct 2024, so the older FJCPD 2015 forms apply.");
   }
-  if(a[9]==='yes') parts.push("A caveat or competing application has surfaced, which makes this a contested matter — expect a negotiation or contentious-probate track.");
-  if(a[10]==='yes') parts.push("A beneficiary has died before distribution, so the Inheritance Certificate must be revised to reflect the corrected shares before any funds move.");
+  if(a.caveats==='yes') parts.push("A caveat or competing application has surfaced, which makes this a contested matter — expect a negotiation or contentious-probate track.");
+  if(a.beneficiaryDied==='yes') parts.push("A beneficiary has died before distribution, so the Inheritance Certificate must be revised to reflect the corrected shares before any funds move.");
   return parts.join(" ");
 }
 
 function buildSteps(){
   const a = answers, steps = [];
-  if(a[3]==='no') steps.push("Apply to the Syariah Court for a new Inheritance Certificate (gather the death certificate, list of heirs and asset details).");
-  else if(a[5]==='no') steps.push("Apply for an Extract of the existing Inheritance Certificate ($34) to restore your copy.");
+  if(a.grantApplied==='yes') steps.push("Check the status of the existing Letters of Administration / Grant of Probate application before filing anything new, and coordinate with whoever lodged it to avoid a duplicate grant.");
+  if(a.priorIC==='no') steps.push("Apply to the Syariah Court for a new Inheritance Certificate (gather the death certificate, list of heirs and asset details).");
+  else if(a.icDownloaded==='no') steps.push("Apply for an Extract of the existing Inheritance Certificate ($34) to restore your copy.");
   else steps.push("Retrieve / confirm the Inheritance Certificate that records the lawful heirs and shares.");
-  if(a[4]==='no') steps.push("Respond to the Syariah Court's 'Returned as Incomplete' notice and resubmit the corrected IC application.");
-  if(a[0]==='yes') steps.push("Engage the named executor to apply for a Grant of Probate and validate the Wasiat (capped at one-third of the estate).");
-  if(a[1]==='yes') steps.push("Claim nominated CPF / insurance directly via the nominee, and ensure CPF monies are on-distributed per Faraid (MUIS Fatwa).");
-  if(a[6]==='yes'){
+  if(a.icApproved==='no') steps.push("Respond to the Syariah Court's 'Returned as Incomplete' notice and resubmit the corrected IC application.");
+  if(a.wasiat==='yes') steps.push("Engage the named executor to apply for a Grant of Probate and validate the Wasiat (capped at one-third of the estate).");
+  if(a.nomination==='yes') steps.push("Claim nominated CPF / insurance directly via the nominee, and ensure CPF monies are on-distributed per Faraid (MUIS Fatwa).");
+  if(a.smallEstate==='yes'){
     steps.push("Approach the Public Trustee's Office (PTO) to administer the estate (≤ $50,000) without a court application.");
   } else {
-    const court = a[7]==='yes' ? "the Family Courts" : "the Family Division of the High Court";
-    const forms = a[8]==='yes' ? "FJCPD 2024 forms (162, 163, 167, 177, 166)" : "FJCPD 2015 forms (OS, 255, 54, 226, 53)";
+    const court = a.underFiveM==='yes' ? "the Family Courts" : "the Family Division of the High Court";
+    const forms = a.forms2024==='yes' ? "FJCPD 2024 forms (162, 163, 167, 177, 166)" : "FJCPD 2015 forms (OS, 255, 54, 226, 53)";
     steps.push(`Prepare and file the Letters of Administration application at ${court} using the ${forms}.`);
   }
-  if(a[2]==='no') steps.push("Include the property in the estate inventory for the LOA / distribution.");
-  if(a[9]==='yes') steps.push("Address the caveat or competing application — negotiate a withdrawal, or proceed through contentious probate.");
-  if(a[10]==='yes') steps.push("File a Revision of the Inheritance Certificate at the Syariah Court ($34/page) to update the shares before distributing.");
+  if(a.jointTenancy==='no') steps.push("Include the property in the estate inventory for the LOA / distribution.");
+  if(a.caveats==='yes') steps.push("Address the caveat or competing application — negotiate a withdrawal, or proceed through contentious probate.");
+  if(a.beneficiaryDied==='yes') steps.push("File a Revision of the Inheritance Certificate at the Syariah Court ($34/page) to update the shares before distributing.");
   steps.push("Distribute the estate to the heirs in the exact shares set out in the (current) Inheritance Certificate, keeping receipts.");
   return steps;
 }
@@ -338,8 +347,8 @@ function typeText(el, text, done){
 
 function renderSummary(){
   card.className = 'card fade summary';
-  const recapRows = QUESTIONS.map((item,i)=>{
-    const v = answers[i];
+  const recapRows = QUESTIONS.map((item)=>{
+    const v = answers[item.key];
     const cls = v==='yes'?'pill-yes':'pill-no';
     return `<tr><td>${item.q}</td><td class="${cls}">${v?v.toUpperCase():'—'}</td></tr>`;
   }).join('');
@@ -364,7 +373,7 @@ function renderSummary(){
     after.classList.add('fade');
   });
   document.getElementById('restart').onclick = ()=>{
-    idx=0; answers.fill(null); render();
+    idx=0; answers={}; render();
   };
 }
 
