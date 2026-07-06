@@ -196,6 +196,13 @@ const QUESTIONS = [
       {value:"none", label:"No — Neither", out:"A grant application (LOA or Probate) will need to be filed as part of the process."},
     ] },
 
+  { key:"icApproved", section:"Preliminary Questions", stage:"IC application review",
+    showIf: a => a.grantApplied === 'loa',
+    q:"Did the IC application pass preliminary SYC approval?",
+    help:"The Syariah Court does a completeness check before processing.",
+    yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
+    no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
+
   { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
     q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
     help:"The <b>IC</b> from the Syariah Court (SYC) lists the lawful heirs and their shares.",
@@ -208,12 +215,6 @@ const QUESTIONS = [
     help:"The digital IC must be retrieved within the access window.",
     yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
     no:{label:"No — window missed", out:"Apply for an Extract of the IC ($34)."} },
-
-  { key:"icApproved", section:"Preliminary Questions", stage:"IC application review",
-    q:"Did the IC application pass preliminary SYC approval?",
-    help:"The Syariah Court does a completeness check before processing.",
-    yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
-    no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
 
   { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
     q:"Was the LOA application filed on or after 15 Oct 2024?",
