@@ -66,6 +66,15 @@
   .progress-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .45s cubic-bezier(.4,0,.2,1)}
   .progress-label{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 
+  .section-head{
+    display:flex;align-items:center;gap:12px;
+    font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+    color:var(--gold);margin-bottom:14px;
+  }
+  .section-head::after{
+    content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(184,146,63,.45),transparent);
+  }
   .stage-tag{
     display:inline-block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
     color:var(--accent-dark);background:rgba(31,111,87,.10);
@@ -126,6 +135,10 @@
   .recap td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
   .recap td:first-child{color:var(--muted);width:62%}
   .recap td:last-child{font-weight:700;text-align:right;white-space:nowrap}
+  .recap td.recap-section{
+    font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+    color:var(--accent-dark);padding-top:16px;
+  }
   .pill-yes{color:var(--yes)}
   .pill-no{color:var(--no)}
 
@@ -164,78 +177,80 @@
 
 <script>
 /* ---- Decision points extracted from the Quick Reference table ---- */
+/* Two sections: "Preliminary Questions" then "Estate". Answers are keyed by
+   `key`, so the display order here is independent of the summary/step logic. */
 const QUESTIONS = [
-  { key:"wasiat", stage:"Step 1 · The Will",
+  { key:"wasiat", section:"Preliminary Questions", stage:"The Will",
     q:"Did the deceased leave a Wasiat (will)?",
     help:"A <b>Wasiat</b> is an Islamic will. Under Faraid it can dispose of up to 1/3 of the estate.",
     yes:{label:"Yes — there is a Wasiat", out:"Assess the Wasiat; the executor applies for a Grant of Probate (an Inheritance Certificate is still needed first)."},
     no:{label:"No Wasiat", out:"The estate is distributed under full Faraid; apply for Letters of Administration (LOA)."} },
 
-  { key:"grantApplied", stage:"Step 2 · Existing application",
+  { key:"grantApplied", section:"Preliminary Questions", stage:"Existing application",
     q:"Have you or another applied for Letters of Administration or a Grant of Probate?",
     help:"Only one grant can be issued per estate. Check whether an application is already in progress before starting a new one.",
     yes:{label:"Yes — an application has been made", out:"Check the status of the existing application and coordinate with the applicant — avoid filing a duplicate."},
     no:{label:"No — not yet applied", out:"A grant application (LOA or Probate) will need to be filed as part of the process."} },
 
-  { key:"nomination", stage:"Step 3 · Nominated assets",
-    q:"Does the asset have a valid CPF or insurance nomination?",
-    help:"Nominated CPF / insurance pays out <b>outside</b> the estate — but a CPF nominee must still distribute per Faraid under the MUIS Fatwa.",
-    yes:{label:"Yes — there's a nomination", out:"Paid directly to the nominee outside the estate (CPF nominee must still distribute per Faraid per the MUIS Fatwa)."},
-    no:{label:"No nomination", out:"The asset falls into the estate."} },
-
-  { key:"jointTenancy", stage:"Step 4 · Property holding",
+  { key:"jointTenancy", section:"Preliminary Questions", stage:"Property holding",
     q:"Is the property held in joint tenancy?",
     help:"<b>Joint tenancy</b> passes automatically to the surviving owner by survivorship.",
     yes:{label:"Yes — joint tenancy", out:"Automatic survivorship — the property is not part of the estate."},
     no:{label:"No — tenancy-in-common / sole", out:"It is part of the estate; include it in the LOA process."} },
 
-  { key:"priorIC", stage:"Step 5 · Inheritance Certificate",
+  { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
     q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
     help:"The <b>IC</b> from the Syariah Court (SYC) lists the lawful heirs and their shares.",
     yes:{label:"Yes — one exists", out:"Apply for an Extract or a Revision of the IC, as appropriate."},
     no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
 
-  { key:"icApproved", stage:"Step 6 · IC application review",
+  { key:"icApproved", section:"Preliminary Questions", stage:"IC application review",
     q:"Did the IC application pass preliminary SYC approval?",
     help:"The Syariah Court does a completeness check before processing.",
     yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
     no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
 
-  { key:"icDownloaded", stage:"Step 7 · Securing the IC",
+  { key:"icDownloaded", section:"Preliminary Questions", stage:"Securing the IC",
     q:"Was the IC downloaded within 14 days of issuance?",
     help:"The digital IC must be retrieved within the access window.",
     yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
     no:{label:"No — window missed", out:"Apply for an Extract of the IC ($34)."} },
 
-  { key:"smallEstate", stage:"Step 8 · Administration route",
-    q:"Is the estate ≤ $50,000 with no disqualifying factors?",
-    help:"Small estates may use the simpler Public Trustee route instead of court.",
-    yes:{label:"Yes — small estate", out:"Consider the Public Trustee's Office route (Stage 4A)."},
-    no:{label:"No — larger / disqualified", out:"Use the Family Justice Courts LOA process (Stage 4B)."} },
-
-  { key:"underFiveM", stage:"Step 9 · Which court",
-    q:"Is the estate value ≤ $5 million?",
-    help:"Court level depends on the value of the estate (Stage 4B).",
-    yes:{label:"Yes — ≤ $5m", out:"Apply to the Family Courts."},
-    no:{label:"No — over $5m", out:"Apply to the Family Division of the High Court."} },
-
-  { key:"forms2024", stage:"Step 10 · Forms version",
+  { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
     q:"Was the LOA application filed on or after 15 Oct 2024?",
     help:"The Family Justice Courts Practice Directions changed the required forms.",
     yes:{label:"Yes — on/after 15 Oct 2024", out:"Use the FJCPD 2024 forms (Forms 162, 163, 167, 177, 166)."},
     no:{label:"No — before 15 Oct 2024", out:"Use the FJCPD 2015 forms (OS, Forms 255, 54, 226, 53)."} },
 
-  { key:"caveats", stage:"Step 11 · Disputes",
+  { key:"caveats", section:"Preliminary Questions", stage:"Disputes",
     q:"Were any caveats or competing applications found?",
     help:"A <b>caveat</b> blocks a grant until a dispute is resolved.",
     yes:{label:"Yes — caveat / dispute", out:"Negotiate withdrawal, or proceed via contentious probate."},
     no:{label:"No disputes", out:"Proceed with the standard application."} },
 
-  { key:"beneficiaryDied", stage:"Step 12 · Changes before distribution",
+  { key:"beneficiaryDied", section:"Preliminary Questions", stage:"Changes before distribution",
     q:"Did a beneficiary die before the final distribution?",
     help:"A death among the heirs can change the lawful shares.",
     yes:{label:"Yes — a beneficiary died", out:"Apply for a Revision of the IC at SYC ($34/page) before distributing."},
     no:{label:"No — heirs unchanged", out:"Proceed with the original IC."} },
+
+  { key:"nomination", section:"Estate", stage:"Nominated assets",
+    q:"Does the asset have a valid CPF or insurance nomination?",
+    help:"Nominated CPF / insurance pays out <b>outside</b> the estate — but a CPF nominee must still distribute per Faraid under the MUIS Fatwa.",
+    yes:{label:"Yes — there's a nomination", out:"Paid directly to the nominee outside the estate (CPF nominee must still distribute per Faraid per the MUIS Fatwa)."},
+    no:{label:"No nomination", out:"The asset falls into the estate."} },
+
+  { key:"smallEstate", section:"Estate", stage:"Administration route",
+    q:"Is the estate ≤ $50,000 with no disqualifying factors?",
+    help:"Small estates may use the simpler Public Trustee route instead of court.",
+    yes:{label:"Yes — small estate", out:"Consider the Public Trustee's Office route (Stage 4A)."},
+    no:{label:"No — larger / disqualified", out:"Use the Family Justice Courts LOA process (Stage 4B)."} },
+
+  { key:"underFiveM", section:"Estate", stage:"Which court",
+    q:"Is the estate value ≤ $5 million?",
+    help:"Court level depends on the value of the estate (Stage 4B).",
+    yes:{label:"Yes — ≤ $5m", out:"Apply to the Family Courts."},
+    no:{label:"No — over $5m", out:"Apply to the Family Division of the High Court."} },
 ];
 
 let idx = 0;
@@ -246,12 +261,15 @@ function render(){
   if(idx >= QUESTIONS.length){ renderSummary(); return; }
   const item = QUESTIONS[idx];
   const pct = Math.round((idx/QUESTIONS.length)*100);
+  const sectionItems = QUESTIONS.filter(x => x.section === item.section);
+  const posInSection = sectionItems.indexOf(item) + 1;
   card.className = 'card fade';
   card.innerHTML = `
     <div class="progress-wrap">
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
       <div class="progress-label">${idx+1} / ${QUESTIONS.length}</div>
     </div>
+    <div class="section-head">${item.section}</div>
     <span class="stage-tag">${item.stage}</span>
     <h2 class="question">${item.q}</h2>
     <p class="helper">${item.help}</p>
@@ -267,7 +285,7 @@ function render(){
     </div>
     <div class="nav">
       <button class="back-btn" id="back" ${idx===0?'disabled':''}>&larr; Back</button>
-      <span class="dots">${item.stage.split('·')[0].trim()}</span>
+      <span class="dots">${item.section} · ${posInSection} of ${sectionItems.length}</span>
     </div>`;
   card.querySelectorAll('.ans').forEach(b=>{
     b.onclick = ()=>{ answers[item.key] = b.dataset.v; idx++; render(); };
@@ -347,10 +365,16 @@ function typeText(el, text, done){
 
 function renderSummary(){
   card.className = 'card fade summary';
+  let lastSection = null;
   const recapRows = QUESTIONS.map((item)=>{
     const v = answers[item.key];
     const cls = v==='yes'?'pill-yes':'pill-no';
-    return `<tr><td>${item.q}</td><td class="${cls}">${v?v.toUpperCase():'—'}</td></tr>`;
+    let header = '';
+    if(item.section !== lastSection){
+      lastSection = item.section;
+      header = `<tr><td colspan="2" class="recap-section">${item.section}</td></tr>`;
+    }
+    return `${header}<tr><td>${item.q}</td><td class="${cls}">${v?v.toUpperCase():'—'}</td></tr>`;
   }).join('');
   card.innerHTML = `
     <div class="summary-head">
