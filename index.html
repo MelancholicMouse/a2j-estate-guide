@@ -149,6 +149,18 @@
   }
   .restart:hover{background:#000}
 
+  /* Landing / main page */
+  .intro-title{font-size:26px;line-height:1.25;font-weight:700;margin:14px 0 12px;color:var(--ink)}
+  .intro-text{font-size:15px;line-height:1.6;color:var(--muted);margin:0 0 14px}
+  .start-btn{
+    margin-top:10px;width:100%;padding:18px 16px;border:none;border-radius:14px;cursor:pointer;
+    background:linear-gradient(90deg,var(--accent),var(--gold));color:#fff;
+    font-size:16px;font-weight:700;transition:.16s;
+    box-shadow:0 12px 28px rgba(31,111,87,.28);
+  }
+  .start-btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(31,111,87,.34)}
+  .intro-note{text-align:center;font-size:12.5px;color:var(--muted);margin:18px 0 0}
+
   .disclaimer{
     text-align:center;color:rgba(255,255,255,.78);font-size:12px;line-height:1.5;
     margin-top:22px;text-shadow:0 1px 8px rgba(0,0,0,.5);max-width:560px;margin-left:auto;margin-right:auto;
@@ -477,11 +489,26 @@ function renderSummary(){
     after.classList.add('fade');
   });
   document.getElementById('restart').onclick = ()=>{
-    idx=0; answers={}; render();
+    renderIntro();
   };
 }
 
-render();
+/* ---- Landing / main page: the questionnaire and summary only start
+   once the visitor presses the button. ---- */
+function renderIntro(){
+  idx = 0; answers = {};
+  card.className = 'card fade intro';
+  card.innerHTML = `
+    <span class="stage-tag">Access to Justice · Guided pathfinder</span>
+    <h2 class="intro-title">Help administering a loved one's estate</h2>
+    <p class="intro-text">Answer a short series of questions about the estate — the will, any existing court applications, the Inheritance Certificate, and the assets and property — and we'll map out a tailored route with recommended next steps.</p>
+    <p class="intro-text">It takes just a few minutes, and nothing you enter is saved.</p>
+    <button class="start-btn" id="start">Help with administering the estate</button>
+    <p class="intro-note">General guidance only — this is not legal advice.</p>`;
+  document.getElementById('start').onclick = ()=>{ render(); };
+}
+
+renderIntro();
 </script>
 </body>
 </html>
