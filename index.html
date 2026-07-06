@@ -160,6 +160,27 @@
   }
   .start-btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(31,111,87,.34)}
   .intro-note{text-align:center;font-size:12.5px;color:var(--muted);margin:18px 0 0}
+  .start-btn.alt{background:#fff;color:var(--accent-dark);border:2px solid var(--accent);box-shadow:0 8px 20px rgba(31,111,87,.14);margin-top:12px;font-size:14.5px;line-height:1.3}
+  .start-btn.alt:hover{background:rgba(31,111,87,.06)}
+
+  /* Form 162 flow */
+  .f162-fields{margin-bottom:4px}
+  .f162-field{display:block;margin-bottom:14px;text-align:left}
+  .f162-lbl-txt{display:block;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:6px}
+  .f162-in{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;font-size:15px;font-family:inherit;color:var(--ink);background:#fff}
+  .f162-in:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,111,87,.12)}
+  textarea.f162-in{resize:vertical}
+  .f162-radios{display:flex;flex-wrap:wrap;gap:8px}
+  .f162-opt{cursor:pointer;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:9px 13px;font-size:13.5px;font-weight:600;color:var(--ink);transition:.15s}
+  .f162-opt:hover{border-color:var(--accent)}
+  .f162-opt.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .f162-group{border:1px solid var(--line);border-radius:13px;padding:14px;margin-bottom:12px;background:rgba(31,111,87,.03)}
+  .f162-group-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-dark);margin-bottom:10px}
+  .f162-rm{background:none;border:none;color:var(--no);font-size:12px;cursor:pointer;font-weight:600}
+  .f162-add{background:none;border:1.5px dashed var(--accent);color:var(--accent-dark);border-radius:11px;padding:10px;width:100%;cursor:pointer;font-size:13.5px;font-weight:600;margin-bottom:6px}
+  .f162-note{font-size:13px;color:var(--accent-dark);background:rgba(184,146,63,.10);border-left:3px solid var(--gold);padding:10px 12px;border-radius:8px;margin:0 0 14px}
+  .f162-next{background:var(--accent);color:#fff;border:none;border-radius:11px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer}
+  .f162-next:hover{background:var(--accent-dark)}
 
   .disclaimer{
     text-align:center;color:rgba(255,255,255,.78);font-size:12px;line-height:1.5;
@@ -188,6 +209,9 @@
     <p class="disclaimer">This prototype provides general guidance only and is not legal advice. IC = Inheritance Certificate · SYC = Syariah Court · LOA = Letters of Administration · CPF = Central Provident Fund · MUIS = Islamic Religious Council of Singapore.</p>
   </div>
 
+<!-- Libraries for client-side Form 162 (.docx) generation -->
+<script src="assets/vendor/pizzip.min.js"></script>
+<script src="assets/vendor/docxtemplater.min.js"></script>
 <script>
 /* ---- Decision points extracted from the Quick Reference table ---- */
 /* Two sections: "Preliminary Questions" then "Estate". Answers are keyed by
@@ -507,8 +531,220 @@ function renderIntro(){
     <p class="intro-text">Answer a short series of questions about the estate — the will, any existing court applications, the Inheritance Certificate, and the assets and property — and we'll map out a tailored route with recommended next steps.</p>
     <p class="intro-text">It takes just a few minutes, and nothing you enter is saved.</p>
     <button class="start-btn" id="start">Help with administering the estate</button>
+    <button class="start-btn alt" id="start162">Help with filling in Form 162 — Applying for a grant of probate or letters of administration</button>
     <p class="intro-note">General guidance only — this is not legal advice.</p>`;
   document.getElementById('start').onclick = ()=>{ render(); };
+  document.getElementById('start162').onclick = ()=>{ renderF162(); };
+}
+
+/* =========================================================================
+   FORM 162 — Originating Application for Probate / Administration (PAA 1934)
+   A separate guided flow that collects the intake answers (with skip logic)
+   and fills the official Form 162 .docx in the browser via docxtemplater.
+   v1 scope: Probate (Path A) and Letters of Administration (Path B).
+   ========================================================================= */
+const f162 = {};
+let f162Idx = 0;
+const YN = [{value:'yes',label:'Yes'},{value:'no',label:'No'}];
+const escv = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const F162_STEPS = [
+  { id:'grant', title:'Type of grant', intro:'Which grant are you applying for?',
+    fields:[ {key:'grantType', type:'radio', label:'Type of grant', options:[
+      {value:'probate', label:'Probate — the deceased left a will naming you as executor'},
+      {value:'administration', label:'Letters of Administration — no will / intestacy'} ]} ] },
+  { id:'filing', title:'Filing & header details', fields:[
+      {key:'caseNo', type:'text', label:'Case number, if already assigned (optional)', placeholder:'e.g. FC/P 123/2026'},
+      {key:'filingDate', type:'text', label:'Date of filing', placeholder:'e.g. 6 July 2026'},
+      {key:'applicantName', type:'text', label:"Applicant's full name"},
+      {key:'applicantId', type:'text', label:"Applicant's ID number"},
+      {key:'prayers', type:'textarea', label:'Orders sought (prayers) — one per line'},
+      {key:'solicitor', type:'textarea', label:'Solicitor — name, address, email, telephone'} ] },
+  /* ---- PATH A: PROBATE ---- */
+  { id:'aDec', title:'Probate — Particulars of the deceased', showIf:a=>a.grantType==='probate', fields:[
+      {key:'a_dec_name',type:'text',label:'Deceased — full name'},
+      {key:'a_dec_id',type:'text',label:'Deceased — ID number'},
+      {key:'a_dec_addr',type:'text',label:'Deceased — last address'},
+      {key:'a_dec_dod',type:'text',label:'Date of death'},
+      {key:'a_dec_pod',type:'text',label:'Place of death'},
+      {key:'a_dec_domicile',type:'text',label:'Domicile'},
+      {key:'a_dec_gender',type:'text',label:'Gender'} ] },
+  { id:'aApp', title:'Probate — Particulars of the applicant', showIf:a=>a.grantType==='probate', fields:[
+      {key:'a_app_addr',type:'text',label:"Applicant's address"},
+      {key:'a_app_gender',type:'text',label:"Applicant's gender"} ] },
+  { id:'aGen', title:'Probate — General details', showIf:a=>a.grantType==='probate', fields:[
+      {key:'a_willFiled',type:'radio',label:'Is a certified true copy of the original will filed with the application?',options:YN},
+      {key:'a_codicil',type:'radio',label:'Is there a codicil annexed to the will?',options:YN},
+      {key:'a_soleExec',type:'radio',label:'Are you the sole executor named in the will, or one of several?',options:[{value:'sole',label:'Sole executor'},{value:'several',label:'One of several'}]},
+      {key:'a_within6',type:'radio',label:'Is the application filed within 6 months of the date of death?',options:YN},
+      {key:'a_delayReason',type:'textarea',label:'Reasons for the delay',showIf:a=>a.a_within6==='no'} ] },
+  { id:'aExec', title:'Probate — Other executor', showIf:a=>a.grantType==='probate'&&a.a_soleExec==='several', fields:[
+      {key:'a_exec_name',type:'text',label:'Executor (other than applicant) — name'},
+      {key:'a_exec_status',type:'text',label:'Status (e.g. renounced probate, deceased, power reserved)'},
+      {key:'a_exec_date',type:'text',label:'Date of renunciation or death (if applicable)'} ] },
+  { id:'aOther', title:'Probate — Other information', showIf:a=>a.grantType==='probate', fields:[
+      {key:'a_bankrupt',type:'radio',label:'Is the applicant an undischarged bankrupt?',options:YN},
+      {key:'a_bankruptDetails',type:'textarea',label:'Details of court permission to act as personal representative',showIf:a=>a.a_bankrupt==='yes'},
+      {key:'a_otherInfo',type:'textarea',label:'Any other relevant information (optional)'} ] },
+  /* ---- PATH B: ADMINISTRATION ---- */
+  { id:'bDec', title:'Administration — Particulars of the deceased', showIf:a=>a.grantType==='administration', fields:[
+      {key:'b_dec_name',type:'text',label:'Deceased — full name'},
+      {key:'b_dec_id',type:'text',label:'Deceased — ID number'},
+      {key:'b_dec_addr',type:'text',label:'Deceased — address'},
+      {key:'b_dec_dod',type:'text',label:'Date of death'},
+      {key:'b_dec_pod',type:'text',label:'Place of death'},
+      {key:'b_dec_domicile',type:'text',label:'Domicile'},
+      {key:'b_dec_nationality',type:'text',label:'Nationality (e.g. Singapore)'},
+      {key:'b_dec_religion',type:'text',label:'Religion (e.g. Christian, Buddhist, Hindu, Muslim)',rerenderOnChange:true},
+      {key:'_muslim',type:'note',text:'Note: Muslim estates generally fall under the Syariah Court / Inheritance Certificate regime — confirm Form 162 is the correct route, and note the Mazhab.',showIf:a=>/muslim/i.test(a.b_dec_religion||'')},
+      {key:'b_dec_marital',type:'text',label:'Marital status (widower, widow, spinster, bachelor)'},
+      {key:'b_dec_gender',type:'text',label:'Gender'} ] },
+  { id:'bApp', title:'Administration — Particulars of the applicant', showIf:a=>a.grantType==='administration', fields:[
+      {key:'b_app_addr',type:'text',label:"Applicant's address"},
+      {key:'b_app_gender',type:'text',label:"Applicant's gender"},
+      {key:'b_app_rel',type:'text',label:'Relationship to the deceased / capacity in which applying'} ] },
+  { id:'bGen', title:'Administration — General details', showIf:a=>a.grantType==='administration', fields:[
+      {key:'b_within6',type:'radio',label:'Is the application filed within 6 months of the date of death?',options:YN},
+      {key:'b_delayReason',type:'textarea',label:'Reasons for the delay',showIf:a=>a.b_within6==='no'} ] },
+  { id:'bBenes', title:'Administration — Beneficiaries', showIf:a=>a.grantType==='administration',
+    intro:'Add every person entitled to a share of the estate.',
+    repeat:{ key:'benes', itemLabel:'Beneficiary', addLabel:'+ Add another beneficiary', min:1, fields:[
+      {key:'name',type:'text',label:'Name'},
+      {key:'gender',type:'text',label:'Gender'},
+      {key:'ageDob',type:'text',label:'Age or date of birth'},
+      {key:'relationship',type:'text',label:'Relationship to the deceased'} ]} },
+  { id:'bNok', title:'Administration — Deceased next-of-kin', showIf:a=>a.grantType==='administration', fields:[
+      {key:'b_hasNok',type:'radio',label:'Are any of the spouse / next-of-kin deceased?',options:YN},
+      {key:'b_nok_name',type:'text',label:'Name',showIf:a=>a.b_hasNok==='yes'},
+      {key:'b_nok_gender',type:'text',label:'Gender',showIf:a=>a.b_hasNok==='yes'},
+      {key:'b_nok_dod',type:'text',label:'Date of death',showIf:a=>a.b_hasNok==='yes'},
+      {key:'b_nok_rel',type:'text',label:'Relationship to the deceased',showIf:a=>a.b_hasNok==='yes'} ] },
+  { id:'bPrior', title:'Administration — Persons with prior/equal rights', showIf:a=>a.grantType==='administration', fields:[
+      {key:'b_hasPrior',type:'radio',label:'Is there anyone with a prior or equal right to the grant?',options:YN},
+      {key:'b_prior_name',type:'text',label:'Name',showIf:a=>a.b_hasPrior==='yes'},
+      {key:'b_prior_manner',type:'text',label:'Manner of clearing off (renunciation, citation, death)',showIf:a=>a.b_hasPrior==='yes'},
+      {key:'b_prior_date',type:'text',label:'Date of clearing off',showIf:a=>a.b_hasPrior==='yes'} ] },
+  { id:'bMinor', title:'Administration — Minority interests', showIf:a=>a.grantType==='administration', fields:[
+      {key:'b_hasMinor',type:'radio',label:'Are there any minority (or life) interests in the estate?',options:YN},
+      {key:'b_minor_name',type:'text',label:'Minor — name',showIf:a=>a.b_hasMinor==='yes'},
+      {key:'b_minor_share',type:'text',label:'Share entitlement / nature of interest',showIf:a=>a.b_hasMinor==='yes'} ] },
+  { id:'bCoadmin', title:'Administration — Co-administrator', showIf:a=>a.grantType==='administration', fields:[
+      {key:'b_coAdmin',type:'radio',label:'Is a co-administrator being appointed? (usually required where there is a minority interest)',options:YN},
+      {key:'b_coadmin_name',type:'text',label:'Co-administrator — name',showIf:a=>a.b_coAdmin==='yes'},
+      {key:'b_coadmin_id',type:'text',label:'ID number',showIf:a=>a.b_coAdmin==='yes'},
+      {key:'b_coadmin_addr',type:'text',label:'Address',showIf:a=>a.b_coAdmin==='yes'},
+      {key:'b_coadmin_gender',type:'text',label:'Gender',showIf:a=>a.b_coAdmin==='yes'},
+      {key:'b_coadmin_rel',type:'text',label:'Relationship to the deceased (if any)',showIf:a=>a.b_coAdmin==='yes'} ] },
+  { id:'bOther', title:'Administration — Other information', showIf:a=>a.grantType==='administration', fields:[
+      {key:'b_bankrupt',type:'radio',label:'Is the applicant (or co-administrator) an undischarged bankrupt?',options:YN},
+      {key:'b_bankruptDetails',type:'textarea',label:'Details of court permission to act as personal representative',showIf:a=>a.b_bankrupt==='yes'},
+      {key:'b_otherInfo',type:'textarea',label:'Any other relevant information (optional)'} ] },
+];
+
+const f162Visible = () => F162_STEPS.filter(s => !s.showIf || s.showIf(f162));
+function renderF162(){ Object.keys(f162).forEach(k=>delete f162[k]); f162.benes=[{}]; f162Idx=0; renderF162Step(); }
+
+function f162Field(f){
+  if(f.showIf && !f.showIf(f162)) return '';
+  if(f.type==='note') return `<p class="f162-note">${f.text}</p>`;
+  if(f.type==='radio') return `<div class="f162-field"><div class="f162-lbl-txt">${f.label}</div>`+
+    `<div class="f162-radios" data-k="${f.key}">${f.options.map(o=>`<button type="button" class="f162-opt${f162[f.key]===o.value?' active':''}" data-v="${o.value}">${o.label}</button>`).join('')}</div></div>`;
+  if(f.type==='textarea') return `<label class="f162-field"><span class="f162-lbl-txt">${f.label}</span><textarea class="f162-in" data-k="${f.key}" rows="3">${escv(f162[f.key])}</textarea></label>`;
+  return `<label class="f162-field"><span class="f162-lbl-txt">${f.label}</span><input class="f162-in" type="text" data-k="${f.key}"${f.rerenderOnChange?' data-rerender="1"':''} value="${escv(f162[f.key])}"${f.placeholder?` placeholder="${escv(f.placeholder)}"`:''}></label>`;
+}
+function f162RepeatHtml(rep){
+  const arr = (f162[rep.key] && f162[rep.key].length) ? f162[rep.key] : [{}];
+  f162[rep.key]=arr;
+  return arr.map((item,i)=>`<div class="f162-group"><div class="f162-group-head"><span>${rep.itemLabel} ${i+1}</span>`+
+    `${arr.length>rep.min?`<button type="button" class="f162-rm" data-rm="${i}">Remove</button>`:''}</div>`+
+    rep.fields.map(f=>`<label class="f162-field"><span class="f162-lbl-txt">${f.label}</span><input class="f162-in" type="text" data-rk="${rep.key}" data-ri="${i}" data-k="${f.key}" value="${escv(item[f.key])}"></label>`).join('')+
+    `</div>`).join('') + `<button type="button" class="f162-add" id="f162add">${rep.addLabel}</button>`;
+}
+function saveF162Inputs(){
+  card.querySelectorAll('.f162-in').forEach(el=>{
+    const k=el.dataset.k;
+    if(el.dataset.rk){ const rk=el.dataset.rk, ri=+el.dataset.ri; f162[rk]=f162[rk]||[]; f162[rk][ri]=f162[rk][ri]||{}; f162[rk][ri][k]=el.value; }
+    else f162[k]=el.value;
+  });
+}
+function renderF162Step(){
+  const steps=f162Visible();
+  if(f162Idx>=steps.length){ renderF162Review(); return; }
+  const step=steps[f162Idx];
+  const pct=Math.round((f162Idx/(steps.length+1))*100);
+  const body = step.repeat ? f162RepeatHtml(step.repeat) : step.fields.map(f162Field).join('');
+  card.className='card fade';
+  card.innerHTML=`
+    <div class="progress-wrap"><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">Form 162 · ${f162Idx+1} / ${steps.length}</div></div>
+    <div class="section-head">Form 162</div>
+    <h2 class="question">${step.title}</h2>
+    ${step.intro?`<p class="helper">${step.intro}</p>`:''}
+    <div class="f162-fields">${body}</div>
+    <div class="nav">
+      <button class="back-btn" id="fback" ${f162Idx===0?'disabled':''}>&larr; Back</button>
+      <button class="f162-next" id="fnext">${f162Idx===steps.length-1?'Review &rarr;':'Next &rarr;'}</button>
+    </div>`;
+  card.querySelectorAll('.f162-radios').forEach(g=>g.querySelectorAll('.f162-opt').forEach(b=>{
+    b.onclick=()=>{ saveF162Inputs(); f162[g.dataset.k]=b.dataset.v; renderF162Step(); };
+  }));
+  card.querySelectorAll('.f162-in[data-rerender]').forEach(el=>el.onchange=()=>{ saveF162Inputs(); renderF162Step(); });
+  const add=document.getElementById('f162add'); if(add&&step.repeat) add.onclick=()=>{ saveF162Inputs(); f162[step.repeat.key].push({}); renderF162Step(); };
+  card.querySelectorAll('.f162-rm').forEach(b=>b.onclick=()=>{ saveF162Inputs(); f162[step.repeat.key].splice(+b.dataset.rm,1); renderF162Step(); });
+  const back=document.getElementById('fback'); if(back&&f162Idx>0) back.onclick=()=>{ saveF162Inputs(); f162Idx--; renderF162Step(); };
+  const next=document.getElementById('fnext'); if(next) next.onclick=()=>{ saveF162Inputs(); f162Idx++; renderF162Step(); };
+}
+function renderF162Review(){
+  card.className='card fade';
+  card.innerHTML=`
+    <div class="section-head">Form 162</div>
+    <h2 class="question">Ready to generate your Form 162</h2>
+    <p class="helper">We'll fill the official Form 162 with your answers and download it as a Word document. Open it, delete any "* delete as appropriate" alternatives, and check everything before filing. Nothing you entered leaves your browser.</p>
+    <button class="start-btn" id="f162gen">Download filled Form 162 (.docx)</button>
+    <p class="intro-note" id="f162status"></p>
+    <div class="nav"><button class="back-btn" id="fback">&larr; Back</button><span class="dots">Draft — not legal advice</span></div>
+    <button class="restart" id="f162restart">Start over</button>`;
+  document.getElementById('f162gen').onclick=generateForm162;
+  document.getElementById('fback').onclick=()=>{ f162Idx=f162Visible().length-1; renderF162Step(); };
+  document.getElementById('f162restart').onclick=renderIntro;
+}
+function buildF162Data(){
+  const a=f162, probate=a.grantType==='probate', v=x=>x||'';
+  const d={ caseNo:v(a.caseNo), filingDate:v(a.filingDate), applicantName:v(a.applicantName), applicantId:v(a.applicantId),
+    prayers:v(a.prayers), solicitor:v(a.solicitor),
+    deceasedName: probate?v(a.a_dec_name):v(a.b_dec_name), deceasedId: probate?v(a.a_dec_id):v(a.b_dec_id), b_benes:[] };
+  if(probate){ Object.assign(d,{
+    a_dec_name:v(a.a_dec_name),a_dec_id:v(a.a_dec_id),a_dec_addr:v(a.a_dec_addr),a_dec_dod:v(a.a_dec_dod),a_dec_pod:v(a.a_dec_pod),a_dec_domicile:v(a.a_dec_domicile),a_dec_gender:v(a.a_dec_gender),
+    a_app_name:v(a.applicantName),a_app_id:v(a.applicantId),a_app_addr:v(a.a_app_addr),a_app_gender:v(a.a_app_gender),
+    a_delayReason:a.a_within6==='no'?v(a.a_delayReason):'',
+    a_exec_name:a.a_soleExec==='several'?v(a.a_exec_name):'',a_exec_status:a.a_soleExec==='several'?v(a.a_exec_status):'',a_exec_date:a.a_soleExec==='several'?v(a.a_exec_date):'',
+    a_bankruptDetails:a.a_bankrupt==='yes'?v(a.a_bankruptDetails):'',a_otherInfo:v(a.a_otherInfo) });
+  } else { Object.assign(d,{
+    b_dec_name:v(a.b_dec_name),b_dec_id:v(a.b_dec_id),b_dec_addr:v(a.b_dec_addr),b_dec_dod:v(a.b_dec_dod),b_dec_pod:v(a.b_dec_pod),b_dec_domicile:v(a.b_dec_domicile),b_dec_nationality:v(a.b_dec_nationality),b_dec_religion:v(a.b_dec_religion),b_dec_marital:v(a.b_dec_marital),b_dec_gender:v(a.b_dec_gender),
+    b_app_name:v(a.applicantName),b_app_id:v(a.applicantId),b_app_addr:v(a.b_app_addr),b_app_gender:v(a.b_app_gender),b_app_rel:v(a.b_app_rel),
+    b_delayReason:a.b_within6==='no'?v(a.b_delayReason):'',
+    b_benes:(a.benes||[]).filter(x=>x&&(x.name||x.gender||x.ageDob||x.relationship)),
+    b_nok_name:a.b_hasNok==='yes'?v(a.b_nok_name):'',b_nok_gender:a.b_hasNok==='yes'?v(a.b_nok_gender):'',b_nok_dod:a.b_hasNok==='yes'?v(a.b_nok_dod):'',b_nok_rel:a.b_hasNok==='yes'?v(a.b_nok_rel):'',
+    b_prior_name:a.b_hasPrior==='yes'?v(a.b_prior_name):'',b_prior_manner:a.b_hasPrior==='yes'?v(a.b_prior_manner):'',b_prior_date:a.b_hasPrior==='yes'?v(a.b_prior_date):'',
+    b_minor_name:a.b_hasMinor==='yes'?v(a.b_minor_name):'',b_minor_share:a.b_hasMinor==='yes'?v(a.b_minor_share):'',
+    b_coadmin_name:a.b_coAdmin==='yes'?v(a.b_coadmin_name):'',b_coadmin_id:a.b_coAdmin==='yes'?v(a.b_coadmin_id):'',b_coadmin_addr:a.b_coAdmin==='yes'?v(a.b_coadmin_addr):'',b_coadmin_gender:a.b_coAdmin==='yes'?v(a.b_coadmin_gender):'',b_coadmin_rel:a.b_coAdmin==='yes'?v(a.b_coadmin_rel):'',
+    b_bankruptDetails:a.b_bankrupt==='yes'?v(a.b_bankruptDetails):'',b_otherInfo:v(a.b_otherInfo) });
+  }
+  return d;
+}
+async function generateForm162(){
+  const status=document.getElementById('f162status'); status.textContent='Generating…';
+  try{
+    const resp=await fetch('assets/form162-template.docx'); const buf=await resp.arrayBuffer();
+    const zip=new PizZip(buf);
+    const doc=new window.docxtemplater(zip,{paragraphLoop:true,linebreaks:true,nullGetter:()=>''});
+    doc.render(buildF162Data());
+    const out=doc.getZip().generate({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+    const url=URL.createObjectURL(out); const el=document.createElement('a');
+    el.href=url; el.download='Form162-filled.docx'; document.body.appendChild(el); el.click(); el.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+    status.textContent='Downloaded ✓ — check your downloads folder.';
+  }catch(e){ status.textContent='Sorry, generation failed: '+e.message; console.error(e); }
 }
 
 renderIntro();
