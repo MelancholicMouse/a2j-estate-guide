@@ -187,12 +187,6 @@ const QUESTIONS = [
     yes:{label:"Yes — there is a Wasiat", out:"Assess the Wasiat; the executor applies for a Grant of Probate (an Inheritance Certificate is still needed first)."},
     no:{label:"No Wasiat", out:"The estate is distributed under full Faraid; apply for Letters of Administration (LOA)."} },
 
-  { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
-    q:"Was the LOA application filed on or after 15 Oct 2024?",
-    help:"The Family Justice Courts Practice Directions changed the required forms.",
-    yes:{label:"Yes — on/after 15 Oct 2024", out:"Use the FJCPD 2024 forms (Forms 162, 163, 167, 177, 166)."},
-    no:{label:"No — before 15 Oct 2024", out:"Use the FJCPD 2015 forms (OS, Forms 255, 54, 226, 53)."} },
-
   { key:"grantApplied", section:"Preliminary Questions", stage:"Existing application",
     q:"Have you or another applied for Letters of Administration or a Grant of Probate?",
     help:"Only one grant can be issued per estate. Check whether an application is already in progress before starting a new one.",
@@ -202,22 +196,27 @@ const QUESTIONS = [
       {value:"none", label:"No — Neither", out:"A grant application (LOA or Probate) will need to be filed as part of the process."},
     ] },
 
-  { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
+  { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
     showIf: a => a.grantApplied === 'loa',
+    q:"Was the LOA application filed on or after 15 Oct 2024?",
+    help:"The Family Justice Courts Practice Directions changed the required forms.",
+    yes:{label:"Yes — on/after 15 Oct 2024", out:"Use the FJCPD 2024 forms (Forms 162, 163, 167, 177, 166)."},
+    no:{label:"No — before 15 Oct 2024", out:"Use the FJCPD 2015 forms (OS, Forms 255, 54, 226, 53)."} },
+
+  { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
     q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
     help:"The <b>IC</b> from the Syariah Court (SYC) lists the lawful heirs and their shares.",
     yes:{label:"Yes — one exists", out:"Apply for an Extract or a Revision of the IC, as appropriate."},
     no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
 
   { key:"icApproved", section:"Preliminary Questions", stage:"IC application review",
-    showIf: a => a.grantApplied === 'loa',
+    showIf: a => a.priorIC === 'no',
     q:"Did the IC application pass preliminary SYC approval?",
     help:"The Syariah Court does a completeness check before processing.",
     yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
     no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
 
   { key:"icDownloaded", section:"Preliminary Questions", stage:"Securing the IC",
-    showIf: a => a.priorIC === 'no',
     q:"Was the IC downloaded within 14 days of issuance?",
     help:"The digital IC must be retrieved within the access window.",
     yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
@@ -375,7 +374,7 @@ function buildNarrative(){
     parts.push(a.underFiveM==='yes'
       ? "At ≤ $5 million the matter is dealt with by the Family Courts."
       : "Because the estate exceeds $5 million, it is handled by the Family Division of the High Court.");
-    parts.push(a.forms2024==='yes'
+    if(a.forms2024) parts.push(a.forms2024==='yes'
       ? "Filing falls on or after 15 Oct 2024, so the FJCPD 2024 forms apply."
       : "Filing predates 15 Oct 2024, so the older FJCPD 2015 forms apply.");
   }
@@ -400,8 +399,10 @@ function buildSteps(){
     steps.push("Approach the Public Trustee's Office (PTO) to administer the estate (≤ $50,000) without a court application.");
   } else {
     const court = a.underFiveM==='yes' ? "the Family Courts" : "the Family Division of the High Court";
-    const forms = a.forms2024==='yes' ? "FJCPD 2024 forms (162, 163, 167, 177, 166)" : "FJCPD 2015 forms (OS, 255, 54, 226, 53)";
-    steps.push(`Prepare and file the Letters of Administration application at ${court} using the ${forms}.`);
+    const forms = a.forms2024==='yes' ? "the FJCPD 2024 forms (162, 163, 167, 177, 166)"
+                : a.forms2024==='no' ? "the FJCPD 2015 forms (OS, 255, 54, 226, 53)"
+                : "the applicable FJCPD forms";
+    steps.push(`Prepare and file the Letters of Administration application at ${court} using ${forms}.`);
   }
   if(a.holdsProperty==='yes'){
     if(a.propertyHolding==='tenancy-in-common') steps.push("Include the deceased's tenancy-in-common share of the property in the estate inventory for the LOA / distribution.");
