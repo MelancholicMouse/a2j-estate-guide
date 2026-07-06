@@ -243,12 +243,14 @@ const QUESTIONS = [
     no:{label:"No — window missed", out:"Apply for an Extract of the IC ($34)."} },
 
   { key:"caveats", section:"Preliminary Questions", stage:"Disputes",
+    showIf: a => a.icApplied === 'yes',
     q:"Were any caveats or competing applications found?",
     help:"A <b>caveat</b> blocks a grant until a dispute is resolved.",
     yes:{label:"Yes — caveat / dispute", out:"Negotiate withdrawal, or proceed via contentious probate."},
     no:{label:"No disputes", out:"Proceed with the standard application."} },
 
   { key:"beneficiaryDied", section:"Preliminary Questions", stage:"Changes before distribution",
+    showIf: a => a.icApplied !== 'no',
     q:"Did a beneficiary die before the final distribution?",
     help:"A death among the heirs can change the lawful shares.",
     yes:{label:"Yes — a beneficiary died", out:"Apply for a Revision of the IC at SYC ($34/page) before distributing."},
