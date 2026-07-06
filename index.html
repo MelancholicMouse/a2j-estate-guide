@@ -222,6 +222,7 @@ const QUESTIONS = [
     no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
 
   { key:"icApplied", section:"Preliminary Questions", stage:"IC application",
+    showIf: a => a.priorIC === 'no',
     q:"Has an Inheritance Certificate been applied for?",
     help:"Whether an application for an Inheritance Certificate has been lodged with the Syariah Court.",
     yes:{label:"Yes — applied for", out:"Track the application through the Syariah Court's preliminary review."},
