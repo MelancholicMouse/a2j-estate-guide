@@ -190,8 +190,11 @@ const QUESTIONS = [
   { key:"grantApplied", section:"Preliminary Questions", stage:"Existing application",
     q:"Have you or another applied for Letters of Administration or a Grant of Probate?",
     help:"Only one grant can be issued per estate. Check whether an application is already in progress before starting a new one.",
-    yes:{label:"Yes — an application has been made", out:"Check the status of the existing application and coordinate with the applicant — avoid filing a duplicate."},
-    no:{label:"No — not yet applied", out:"A grant application (LOA or Probate) will need to be filed as part of the process."} },
+    options:[
+      {value:"probate", label:"Yes — A grant of probate", out:"Check the status of the probate application and coordinate with the applicant — avoid filing a duplicate."},
+      {value:"loa", label:"Yes — For Letters of Administration", out:"Check the status of the LOA application and coordinate with the applicant — avoid filing a duplicate."},
+      {value:"none", label:"No — Neither", out:"A grant application (LOA or Probate) will need to be filed as part of the process."},
+    ] },
 
   { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
     q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
@@ -199,17 +202,18 @@ const QUESTIONS = [
     yes:{label:"Yes — one exists", out:"Apply for an Extract or a Revision of the IC, as appropriate."},
     no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
 
+  { key:"icDownloaded", section:"Preliminary Questions", stage:"Securing the IC",
+    showIf: a => a.priorIC === 'no',
+    q:"Was the IC downloaded within 14 days of issuance?",
+    help:"The digital IC must be retrieved within the access window.",
+    yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
+    no:{label:"No — window missed", out:"Apply for an Extract of the IC ($34)."} },
+
   { key:"icApproved", section:"Preliminary Questions", stage:"IC application review",
     q:"Did the IC application pass preliminary SYC approval?",
     help:"The Syariah Court does a completeness check before processing.",
     yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
     no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
-
-  { key:"icDownloaded", section:"Preliminary Questions", stage:"Securing the IC",
-    q:"Was the IC downloaded within 14 days of issuance?",
-    help:"The digital IC must be retrieved within the access window.",
-    yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
-    no:{label:"No — window missed", out:"Apply for an Extract of the IC ($34)."} },
 
   { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
     q:"Was the LOA application filed on or after 15 Oct 2024?",
@@ -344,7 +348,8 @@ function buildNarrative(){
   parts.push(a.wasiat==='yes'
     ? "Because the deceased left a Wasiat, the estate is handled through a Grant of Probate, with the executor giving effect to the will (up to one-third) and the remainder distributed under Faraid."
     : "With no Wasiat in place, the entire estate is distributed according to Faraid, and the family applies for Letters of Administration.");
-  if(a.grantApplied==='yes') parts.push("A grant application (Letters of Administration or Probate) has already been started for this estate, so the priority is to check its status and coordinate with whoever filed it rather than lodging a duplicate.");
+  if(a.grantApplied==='probate') parts.push("A Grant of Probate application has already been started for this estate, so the priority is to check its status and coordinate with whoever filed it rather than lodging a duplicate.");
+  else if(a.grantApplied==='loa') parts.push("A Letters of Administration application has already been started for this estate, so the priority is to check its status and coordinate with whoever filed it rather than lodging a duplicate.");
   else parts.push("No grant application has been filed yet, so applying for Letters of Administration (or Probate) will form part of your route.");
   if(a.nomination==='yes') parts.push("Some assets carry a valid CPF or insurance nomination, so they pay out directly to the nominee outside the estate — though a CPF nominee remains obliged to distribute those funds per Faraid under the MUIS Fatwa.");
   else parts.push("Without nominations, those assets fall into the general estate.");
@@ -379,7 +384,10 @@ function buildNarrative(){
 
 function buildSteps(){
   const a = answers, steps = [];
-  if(a.grantApplied==='yes') steps.push("Check the status of the existing Letters of Administration / Grant of Probate application before filing anything new, and coordinate with whoever lodged it to avoid a duplicate grant.");
+  if(a.grantApplied==='probate' || a.grantApplied==='loa'){
+    const grantKind = a.grantApplied==='probate' ? 'Grant of Probate' : 'Letters of Administration';
+    steps.push(`Check the status of the existing ${grantKind} application before filing anything new, and coordinate with whoever lodged it to avoid a duplicate grant.`);
+  }
   if(a.priorIC==='no') steps.push("Apply to the Syariah Court for a new Inheritance Certificate (gather the death certificate, list of heirs and asset details).");
   else if(a.icDownloaded==='no') steps.push("Apply for an Extract of the existing Inheritance Certificate ($34) to restore your copy.");
   else steps.push("Retrieve / confirm the Inheritance Certificate that records the lawful heirs and shares.");
