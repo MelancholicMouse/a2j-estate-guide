@@ -85,6 +85,7 @@
   .helper b{color:var(--ink)}
 
   .answers{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .answers.stack{grid-template-columns:1fr}
   .ans{
     cursor:pointer;border:1.5px solid var(--line);background:#fff;
     border-radius:14px;padding:18px 16px;text-align:left;
@@ -192,12 +193,6 @@ const QUESTIONS = [
     yes:{label:"Yes — an application has been made", out:"Check the status of the existing application and coordinate with the applicant — avoid filing a duplicate."},
     no:{label:"No — not yet applied", out:"A grant application (LOA or Probate) will need to be filed as part of the process."} },
 
-  { key:"jointTenancy", section:"Preliminary Questions", stage:"Property holding",
-    q:"Is the property held in joint tenancy?",
-    help:"<b>Joint tenancy</b> passes automatically to the surviving owner by survivorship.",
-    yes:{label:"Yes — joint tenancy", out:"Automatic survivorship — the property is not part of the estate."},
-    no:{label:"No — tenancy-in-common / sole", out:"It is part of the estate; include it in the LOA process."} },
-
   { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
     q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
     help:"The <b>IC</b> from the Syariah Court (SYC) lists the lawful heirs and their shares.",
@@ -251,29 +246,59 @@ const QUESTIONS = [
     help:"Court level depends on the value of the estate (Stage 4B).",
     yes:{label:"Yes — ≤ $5m", out:"Apply to the Family Courts."},
     no:{label:"No — over $5m", out:"Apply to the Family Division of the High Court."} },
+
+  { key:"holdsProperty", section:"Estate", stage:"Property",
+    q:"Does the deceased hold any property?",
+    help:"Real property (a flat, house or land) needs to be accounted for in the estate.",
+    yes:{label:"Yes — there is property", out:"Determine how the property is held to see whether it falls into the estate."},
+    no:{label:"No property", out:"There is no real property to include in the estate."} },
+
+  { key:"propertyHolding", section:"Estate", stage:"Property holding",
+    showIf: a => a.holdsProperty === 'yes',
+    q:"Is this property held solely, as a joint tenancy or as part of a tenancy in common?",
+    help:"How the property is held determines whether — and how much of — it falls into the estate.",
+    options:[
+      {value:"solely", label:"Held solely", out:"The whole property falls into the estate and is distributed under Faraid via the LOA."},
+      {value:"joint", label:"Joint tenancy", out:"Passes automatically to the surviving co-owner by survivorship — outside the estate."},
+      {value:"tenancy-in-common", label:"Tenancy-in-common", out:"The deceased's share falls into the estate; include it in the LOA / distribution."},
+    ] },
+
+  { key:"propertyHDB", section:"Estate", stage:"Property type",
+    showIf: a => a.holdsProperty === 'yes',
+    q:"Is the property a HDB?",
+    help:"HDB flats carry their own ownership and eligibility rules on transfer, on top of Faraid.",
+    yes:{label:"Yes — HDB flat", out:"HDB ownership / eligibility rules apply; liaise with HDB on the transfer."},
+    no:{label:"No — private property", out:"Deal with the property through the normal estate distribution."} },
 ];
 
 let idx = 0;
 let answers = {};   /* keyed by question.key, e.g. answers.wasiat === 'yes' */
 const card = document.getElementById('card');
 
+/* A question is shown only if it has no showIf, or its showIf(answers) is true.
+   This lets later questions depend on earlier answers. */
+const isVisible = item => !item.showIf || item.showIf(answers);
+const visibleQuestions = () => QUESTIONS.filter(isVisible);
+
 function render(){
+  // Skip forward over any questions hidden by the current answers.
+  while(idx < QUESTIONS.length && !isVisible(QUESTIONS[idx])) idx++;
   if(idx >= QUESTIONS.length){ renderSummary(); return; }
   const item = QUESTIONS[idx];
-  const pct = Math.round((idx/QUESTIONS.length)*100);
-  const sectionItems = QUESTIONS.filter(x => x.section === item.section);
-  const posInSection = sectionItems.indexOf(item) + 1;
-  card.className = 'card fade';
-  card.innerHTML = `
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <div class="progress-label">${idx+1} / ${QUESTIONS.length}</div>
-    </div>
-    <div class="section-head">${item.section}</div>
-    <span class="stage-tag">${item.stage}</span>
-    <h2 class="question">${item.q}</h2>
-    <p class="helper">${item.help}</p>
-    <div class="answers">
+  const visibles = visibleQuestions();
+  const overallPos = visibles.indexOf(item) + 1;
+  const total = visibles.length;
+  const pct = Math.round(((overallPos-1)/total)*100);
+  const sectionVisibles = visibles.filter(x => x.section === item.section);
+  const posInSection = sectionVisibles.indexOf(item) + 1;
+  const isFirst = visibles.indexOf(item) === 0;
+
+  let answersHtml;
+  if(item.options){
+    answersHtml = item.options.map(o =>
+      `<button class="ans opt" data-v="${o.value}"><span>${o.label}</span></button>`).join('');
+  } else {
+    answersHtml = `
       <button class="ans yes" data-v="yes">
         <span class="tag">YES</span>
         <span>${item.yes.label}</span>
@@ -281,17 +306,35 @@ function render(){
       <button class="ans no" data-v="no">
         <span class="tag">NO</span>
         <span>${item.no.label}</span>
-      </button>
+      </button>`;
+  }
+
+  card.className = 'card fade';
+  card.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">${overallPos} / ${total}</div>
+    </div>
+    <div class="section-head">${item.section}</div>
+    <span class="stage-tag">${item.stage}</span>
+    <h2 class="question">${item.q}</h2>
+    <p class="helper">${item.help}</p>
+    <div class="answers${item.options ? ' stack' : ''}">
+      ${answersHtml}
     </div>
     <div class="nav">
-      <button class="back-btn" id="back" ${idx===0?'disabled':''}>&larr; Back</button>
-      <span class="dots">${item.section} · ${posInSection} of ${sectionItems.length}</span>
+      <button class="back-btn" id="back" ${isFirst?'disabled':''}>&larr; Back</button>
+      <span class="dots">${item.section} · ${posInSection} of ${sectionVisibles.length}</span>
     </div>`;
   card.querySelectorAll('.ans').forEach(b=>{
     b.onclick = ()=>{ answers[item.key] = b.dataset.v; idx++; render(); };
   });
   const back = document.getElementById('back');
-  if(back) back.onclick = ()=>{ if(idx>0){ idx--; render(); } };
+  if(back) back.onclick = ()=>{
+    let p = idx - 1;
+    while(p >= 0 && !isVisible(QUESTIONS[p])) p--;
+    if(p >= 0){ idx = p; render(); }
+  };
 }
 
 /* ---- "AI" summary composed from the answers ---- */
@@ -305,8 +348,14 @@ function buildNarrative(){
   else parts.push("No grant application has been filed yet, so applying for Letters of Administration (or Probate) will form part of your route.");
   if(a.nomination==='yes') parts.push("Some assets carry a valid CPF or insurance nomination, so they pay out directly to the nominee outside the estate — though a CPF nominee remains obliged to distribute those funds per Faraid under the MUIS Fatwa.");
   else parts.push("Without nominations, those assets fall into the general estate.");
-  if(a.jointTenancy==='yes') parts.push("The property is held in joint tenancy and passes automatically by survivorship, so it sits outside the estate.");
-  else parts.push("The property forms part of the estate and must be included in the administration.");
+  if(a.holdsProperty==='yes'){
+    if(a.propertyHolding==='joint') parts.push("The deceased's property is held in joint tenancy, so it passes automatically to the surviving co-owner by survivorship and sits outside the estate.");
+    else if(a.propertyHolding==='tenancy-in-common') parts.push("The property is held as tenancy-in-common, so only the deceased's share falls into the estate and must be included in the administration.");
+    else if(a.propertyHolding==='solely') parts.push("The property is held solely by the deceased, so it falls wholly into the estate for distribution.");
+    if(a.propertyHDB==='yes') parts.push("As an HDB flat, HDB's ownership and eligibility rules apply to the transfer, on top of the Faraid distribution.");
+  } else if(a.holdsProperty==='no'){
+    parts.push("There is no real property in the estate to deal with.");
+  }
   parts.push(a.priorIC==='yes'
     ? "An Inheritance Certificate already exists, so you'll work from an Extract or a Revision rather than a fresh application."
     : "No Inheritance Certificate has been issued yet, so obtaining one from the Syariah Court is the first foundational step.");
@@ -344,7 +393,12 @@ function buildSteps(){
     const forms = a.forms2024==='yes' ? "FJCPD 2024 forms (162, 163, 167, 177, 166)" : "FJCPD 2015 forms (OS, 255, 54, 226, 53)";
     steps.push(`Prepare and file the Letters of Administration application at ${court} using the ${forms}.`);
   }
-  if(a.jointTenancy==='no') steps.push("Include the property in the estate inventory for the LOA / distribution.");
+  if(a.holdsProperty==='yes'){
+    if(a.propertyHolding==='tenancy-in-common') steps.push("Include the deceased's tenancy-in-common share of the property in the estate inventory for the LOA / distribution.");
+    else if(a.propertyHolding==='solely') steps.push("Include the solely-held property in the estate inventory for the LOA / distribution.");
+    else if(a.propertyHolding==='joint') steps.push("Confirm the joint-tenancy property passes to the surviving co-owner by survivorship (outside the estate) and update the title accordingly.");
+    if(a.propertyHDB==='yes') steps.push("Check HDB ownership / eligibility rules and liaise with HDB on transferring the flat to the beneficiaries.");
+  }
   if(a.caveats==='yes') steps.push("Address the caveat or competing application — negotiate a withdrawal, or proceed through contentious probate.");
   if(a.beneficiaryDied==='yes') steps.push("File a Revision of the Inheritance Certificate at the Syariah Court ($34/page) to update the shares before distributing.");
   steps.push("Distribute the estate to the heirs in the exact shares set out in the (current) Inheritance Certificate, keeping receipts.");
@@ -366,15 +420,18 @@ function typeText(el, text, done){
 function renderSummary(){
   card.className = 'card fade summary';
   let lastSection = null;
-  const recapRows = QUESTIONS.map((item)=>{
+  const shown = QUESTIONS.filter(isVisible);
+  const recapRows = shown.map((item)=>{
     const v = answers[item.key];
-    const cls = v==='yes'?'pill-yes':'pill-no';
+    const cls = v==='yes'?'pill-yes':(v==='no'?'pill-no':'');
+    let disp = '—';
+    if(v) disp = item.options ? ((item.options.find(o=>o.value===v)||{}).label || v) : v.toUpperCase();
     let header = '';
     if(item.section !== lastSection){
       lastSection = item.section;
       header = `<tr><td colspan="2" class="recap-section">${item.section}</td></tr>`;
     }
-    return `${header}<tr><td>${item.q}</td><td class="${cls}">${v?v.toUpperCase():'—'}</td></tr>`;
+    return `${header}<tr><td>${item.q}</td><td class="${cls}">${disp}</td></tr>`;
   }).join('');
   card.innerHTML = `
     <div class="summary-head">
@@ -386,7 +443,7 @@ function renderSummary(){
       <div class="section-title">Recommended next steps</div>
       <ol class="steps">${buildSteps().map(s=>`<li>${s}</li>`).join('')}</ol>
       <details class="recap">
-        <summary>Review your answers (${QUESTIONS.length})</summary>
+        <summary>Review your answers (${shown.length})</summary>
         <table>${recapRows}</table>
       </details>
       <button class="restart" id="restart">Start over</button>
