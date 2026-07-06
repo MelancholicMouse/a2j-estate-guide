@@ -209,14 +209,21 @@ const QUESTIONS = [
     yes:{label:"Yes — one exists", out:"Apply for an Extract or a Revision of the IC, as appropriate."},
     no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
 
+  { key:"icApplied", section:"Preliminary Questions", stage:"IC application",
+    q:"Has an Inheritance Certificate been applied for?",
+    help:"Whether an application for an Inheritance Certificate has been lodged with the Syariah Court.",
+    yes:{label:"Yes — applied for", out:"Track the application through the Syariah Court's preliminary review."},
+    no:{label:"No — not yet applied", out:"Apply to the Syariah Court for an Inheritance Certificate."} },
+
   { key:"icApproved", section:"Preliminary Questions", stage:"IC application review",
-    showIf: a => a.priorIC === 'no',
+    showIf: a => a.icApplied === 'yes',
     q:"Did the IC application pass preliminary SYC approval?",
     help:"The Syariah Court does a completeness check before processing.",
     yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
     no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
 
   { key:"icDownloaded", section:"Preliminary Questions", stage:"Securing the IC",
+    showIf: a => a.priorIC === 'yes',
     q:"Was the IC downloaded within 14 days of issuance?",
     help:"The digital IC must be retrieved within the access window.",
     yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
@@ -365,6 +372,8 @@ function buildNarrative(){
   parts.push(a.priorIC==='yes'
     ? "An Inheritance Certificate already exists, so you'll work from an Extract or a Revision rather than a fresh application."
     : "No Inheritance Certificate has been issued yet, so obtaining one from the Syariah Court is the first foundational step.");
+  if(a.priorIC==='no' && a.icApplied==='yes') parts.push("An IC application has already been lodged, so the focus is on clearing the Syariah Court's preliminary review.");
+  else if(a.priorIC==='no' && a.icApplied==='no') parts.push("No IC application has been lodged yet, so applying to the Syariah Court comes first.");
   if(a.icApproved==='no') parts.push("The IC application was returned as incomplete — this needs attention before anything else can progress.");
   if(a.icDownloaded==='no') parts.push("The 14-day download window was missed, so an Extract of the IC will need to be purchased.");
   parts.push(a.smallEstate==='yes'
@@ -389,7 +398,10 @@ function buildSteps(){
     const grantKind = a.grantApplied==='probate' ? 'Grant of Probate' : 'Letters of Administration';
     steps.push(`Check the status of the existing ${grantKind} application before filing anything new, and coordinate with whoever lodged it to avoid a duplicate grant.`);
   }
-  if(a.priorIC==='no') steps.push("Apply to the Syariah Court for a new Inheritance Certificate (gather the death certificate, list of heirs and asset details).");
+  if(a.priorIC==='no'){
+    if(a.icApplied==='yes') steps.push("Follow up the existing Inheritance Certificate application through the Syariah Court's preliminary review.");
+    else steps.push("Apply to the Syariah Court for a new Inheritance Certificate (gather the death certificate, list of heirs and asset details).");
+  }
   else if(a.icDownloaded==='no') steps.push("Apply for an Extract of the existing Inheritance Certificate ($34) to restore your copy.");
   else steps.push("Retrieve / confirm the Inheritance Certificate that records the lawful heirs and shares.");
   if(a.icApproved==='no') steps.push("Respond to the Syariah Court's 'Returned as Incomplete' notice and resubmit the corrected IC application.");
