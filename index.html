@@ -187,6 +187,12 @@ const QUESTIONS = [
     yes:{label:"Yes — there is a Wasiat", out:"Assess the Wasiat; the executor applies for a Grant of Probate (an Inheritance Certificate is still needed first)."},
     no:{label:"No Wasiat", out:"The estate is distributed under full Faraid; apply for Letters of Administration (LOA)."} },
 
+  { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
+    q:"Was the LOA application filed on or after 15 Oct 2024?",
+    help:"The Family Justice Courts Practice Directions changed the required forms.",
+    yes:{label:"Yes — on/after 15 Oct 2024", out:"Use the FJCPD 2024 forms (Forms 162, 163, 167, 177, 166)."},
+    no:{label:"No — before 15 Oct 2024", out:"Use the FJCPD 2015 forms (OS, Forms 255, 54, 226, 53)."} },
+
   { key:"grantApplied", section:"Preliminary Questions", stage:"Existing application",
     q:"Have you or another applied for Letters of Administration or a Grant of Probate?",
     help:"Only one grant can be issued per estate. Check whether an application is already in progress before starting a new one.",
@@ -216,12 +222,6 @@ const QUESTIONS = [
     help:"The digital IC must be retrieved within the access window.",
     yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
     no:{label:"No — window missed", out:"Apply for an Extract of the IC ($34)."} },
-
-  { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
-    q:"Was the LOA application filed on or after 15 Oct 2024?",
-    help:"The Family Justice Courts Practice Directions changed the required forms.",
-    yes:{label:"Yes — on/after 15 Oct 2024", out:"Use the FJCPD 2024 forms (Forms 162, 163, 167, 177, 166)."},
-    no:{label:"No — before 15 Oct 2024", out:"Use the FJCPD 2015 forms (OS, Forms 255, 54, 226, 53)."} },
 
   { key:"caveats", section:"Preliminary Questions", stage:"Disputes",
     q:"Were any caveats or competing applications found?",
