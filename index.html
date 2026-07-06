@@ -196,18 +196,19 @@ const QUESTIONS = [
       {value:"none", label:"No — Neither", out:"A grant application (LOA or Probate) will need to be filed as part of the process."},
     ] },
 
+  { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
+    showIf: a => a.grantApplied === 'loa',
+    q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
+    help:"The <b>IC</b> from the Syariah Court (SYC) lists the lawful heirs and their shares.",
+    yes:{label:"Yes — one exists", out:"Apply for an Extract or a Revision of the IC, as appropriate."},
+    no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
+
   { key:"icApproved", section:"Preliminary Questions", stage:"IC application review",
     showIf: a => a.grantApplied === 'loa',
     q:"Did the IC application pass preliminary SYC approval?",
     help:"The Syariah Court does a completeness check before processing.",
     yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
     no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
-
-  { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
-    q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
-    help:"The <b>IC</b> from the Syariah Court (SYC) lists the lawful heirs and their shares.",
-    yes:{label:"Yes — one exists", out:"Apply for an Extract or a Revision of the IC, as appropriate."},
-    no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
 
   { key:"icDownloaded", section:"Preliminary Questions", stage:"Securing the IC",
     showIf: a => a.priorIC === 'no',
