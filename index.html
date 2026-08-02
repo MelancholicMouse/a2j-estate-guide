@@ -163,6 +163,62 @@
   .start-btn.alt{background:#fff;color:var(--accent-dark);border:2px solid var(--accent);box-shadow:0 8px 20px rgba(31,111,87,.14);margin-top:12px;font-size:14.5px;line-height:1.3}
   .start-btn.alt:hover{background:rgba(31,111,87,.06)}
 
+  /* Wide two-column landing (questionnaire boxes + chatbot) */
+  .shell.intro-mode{max-width:1120px}
+  .card.intro{background:transparent;border:none;box-shadow:none;backdrop-filter:none;padding:0}
+  .intro-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:22px;align-items:stretch}
+  .intro-main{display:flex;flex-direction:column;gap:18px}
+  .intro-lead{
+    background:var(--card);border:1px solid rgba(255,255,255,.5);border-radius:20px;
+    box-shadow:var(--shadow);padding:26px 28px 22px;
+  }
+  .intro-lead .stage-tag{margin-bottom:12px}
+  .option-box{
+    background:var(--card);border:1px solid rgba(255,255,255,.5);border-radius:20px;
+    box-shadow:var(--shadow);padding:24px 26px;display:flex;flex-direction:column;
+  }
+  .option-box h3{margin:0 0 8px;font-size:18px;font-weight:700;color:var(--ink);line-height:1.3}
+  .option-box .obx-tag{
+    display:inline-block;align-self:flex-start;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    font-weight:700;padding:4px 10px;border-radius:99px;margin-bottom:12px;
+  }
+  .option-box.primary .obx-tag{color:var(--accent-dark);background:rgba(31,111,87,.10)}
+  .option-box.secondary .obx-tag{color:#8a6d1f;background:rgba(184,146,63,.14)}
+  .option-box p{margin:0 0 8px;font-size:14px;line-height:1.55;color:var(--muted)}
+  .option-box .start-btn{margin-top:auto}
+
+  /* Chatbot panel */
+  .chat-panel{
+    background:var(--card);border:1px solid rgba(255,255,255,.5);border-radius:20px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;
+    max-height:640px;min-height:520px;
+  }
+  .chat-head{padding:18px 20px 14px;border-bottom:1px solid var(--line)}
+  .chat-head .ai-badge{margin-bottom:8px}
+  .chat-head h3{margin:0;font-size:16px;font-weight:700;color:var(--ink)}
+  .chat-head p{margin:5px 0 0;font-size:12px;line-height:1.45;color:var(--muted)}
+  .chat-log{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+  .chat-msg{max-width:88%;font-size:13.5px;line-height:1.55;padding:11px 14px;border-radius:14px;white-space:normal}
+  .chat-msg.bot{align-self:flex-start;background:rgba(31,111,87,.07);color:var(--ink);border-bottom-left-radius:4px}
+  .chat-msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+  .chat-msg b{font-weight:700}
+  .chat-msg .disc{display:block;margin-top:7px;font-size:11px;color:var(--muted);font-style:italic}
+  .chat-msg.user .disc{color:rgba(255,255,255,.85)}
+  .chat-msg a{color:var(--accent-dark);font-weight:600}
+  .chat-chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 12px}
+  .chat-chip{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:99px;
+    padding:6px 12px;font-size:12px;font-weight:600;color:var(--accent-dark);transition:.15s}
+  .chat-chip:hover{border-color:var(--accent);background:rgba(31,111,87,.06)}
+  .chat-form{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);background:rgba(31,111,87,.02)}
+  .chat-input{flex:1;padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;font-size:14px;font-family:inherit;color:var(--ink);background:#fff}
+  .chat-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,111,87,.12)}
+  .chat-send{border:none;background:var(--accent);color:#fff;border-radius:12px;padding:0 16px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s}
+  .chat-send:hover{background:var(--accent-dark)}
+  @media(max-width:880px){
+    .intro-grid{grid-template-columns:1fr}
+    .chat-panel{max-height:560px}
+  }
+
   /* Form 162 flow */
   .f162-fields{margin-bottom:4px}
   .f162-field{display:block;margin-bottom:14px;text-align:left}
@@ -325,6 +381,7 @@ const QUESTIONS = [
 let idx = 0;
 let answers = {};   /* keyed by question.key, e.g. answers.wasiat === 'yes' */
 const card = document.getElementById('card');
+const shell = document.querySelector('.shell');
 
 /* A question is shown only if it has no showIf, or its showIf(answers) is true.
    This lets later questions depend on earlier answers. */
@@ -332,6 +389,7 @@ const isVisible = item => !item.showIf || item.showIf(answers);
 const visibleQuestions = () => QUESTIONS.filter(isVisible);
 
 function render(){
+  shell.classList.remove('intro-mode');
   // Skip forward over any questions hidden by the current answers.
   while(idx < QUESTIONS.length && !isVisible(QUESTIONS[idx])) idx++;
   if(idx >= QUESTIONS.length){ renderSummary(); return; }
@@ -524,17 +582,175 @@ function renderSummary(){
    once the visitor presses the button. ---- */
 function renderIntro(){
   idx = 0; answers = {};
+  shell.classList.add('intro-mode');
   card.className = 'card fade intro';
   card.innerHTML = `
-    <span class="stage-tag">Access to Justice · Guided pathfinder</span>
-    <h2 class="intro-title">Help administering a loved one's estate</h2>
-    <p class="intro-text">Answer a short series of questions about the estate — the will, any existing court applications, the Inheritance Certificate, and the assets and property — and we'll map out a tailored route with recommended next steps.</p>
-    <p class="intro-text">It takes just a few minutes, and nothing you enter is saved.</p>
-    <button class="start-btn" id="start">Your personalised guide to administering your loved one's estate</button>
-    <button class="start-btn alt" id="start162">Help with filling in Form 162 — Applying for a grant of probate or letters of administration</button>
-    <p class="intro-note">General guidance only — this is not legal advice.</p>`;
+    <div class="intro-grid">
+      <div class="intro-main">
+        <div class="intro-lead">
+          <span class="stage-tag">Access to Justice · Guided pathfinder</span>
+          <h2 class="intro-title">Help administering a loved one's estate</h2>
+          <p class="intro-text">Two guided tools to help you navigate Singapore's Muslim estate administration process. Choose the one you need — it takes just a few minutes, and nothing you enter is saved.</p>
+        </div>
+
+        <div class="option-box primary">
+          <span class="obx-tag">Guided pathfinder</span>
+          <h3>Your personalised guide to administering your loved one's estate</h3>
+          <p>Answer a short series of questions about the will, any existing court applications, the Inheritance Certificate, and the assets and property. We'll map out a tailored route with recommended next steps.</p>
+          <button class="start-btn" id="start">Start the guided pathfinder</button>
+        </div>
+
+        <div class="option-box secondary">
+          <span class="obx-tag">Document filler</span>
+          <h3>Help with filling in Form 162</h3>
+          <p>Applying for a grant of probate or letters of administration. We'll ask the intake questions and fill in the official Form 162 for you to download as a Word document.</p>
+          <button class="start-btn alt" id="start162">Fill in Form 162</button>
+        </div>
+
+        <p class="intro-note">General guidance only — this is not legal advice.</p>
+      </div>
+
+      <aside class="chat-panel" id="chatPanel">
+        <div class="chat-head">
+          <span class="ai-badge"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>Estate Guide Assistant</span>
+          <h3>Ask about the process</h3>
+          <p>I can explain the Inheritance Certificate, Faraid, Form 162, CPF nominations and more. I can't give legal advice or tell you your specific shares.</p>
+        </div>
+        <div class="chat-log" id="chatLog"></div>
+        <div class="chat-chips" id="chatChips"></div>
+        <form class="chat-form" id="chatForm" autocomplete="off">
+          <input class="chat-input" id="chatInput" type="text" placeholder="Type your question…" aria-label="Ask a question">
+          <button class="chat-send" type="submit">Send</button>
+        </form>
+      </aside>
+    </div>`;
   document.getElementById('start').onclick = ()=>{ render(); };
   document.getElementById('start162').onclick = ()=>{ renderF162(); };
+  initChat();
+}
+
+/* =========================================================================
+   GUARDRAILED ASSISTANT (static, no backend / no API key)
+   A scope-locked FAQ assistant that answers only estate-administration
+   questions from vetted content. Every answer carries a "not legal advice"
+   note and points to the Syariah Court, MUIS and legal-aid clinics. It never
+   gives a definitive legal ruling or a personalised Faraid share calculation.
+   To upgrade to a live Claude-powered chatbot, replace chatReply() with a
+   call to a serverless proxy that holds the API key (see README).
+   ========================================================================= */
+const CHAT_DISCLAIMER = 'General guidance only — not legal advice.';
+const CHAT_HELP_LINE = 'For advice on your situation, contact the <b>Syariah Court (SYC)</b>, <b>MUIS</b>, or a <b>legal-aid clinic</b> (e.g. the Law Society Pro Bono Services community legal clinics).';
+
+/* Knowledge base — each entry scored by keyword hits; highest wins. */
+const CHAT_KB = [
+  { id:'ic', kw:['inheritance certificate','ic ','what is ic','faraid certificate','certificate'],
+    a:"An <b>Inheritance Certificate (IC)</b> is issued by the Syariah Court and states who the lawful beneficiaries of a Muslim estate are and each person's share under Faraid. You apply for it online through the Syariah Court's portal after obtaining the death certificate. It's usually needed before institutions (banks, CPF, HDB) will release or transfer the deceased's assets." },
+  { id:'icapply', kw:['apply for','how do i apply','application','get an ic','request certificate','how to apply'],
+    a:"You apply for the Inheritance Certificate on the <b>Syariah Court</b> website. You'll generally need the deceased's death certificate, details of the surviving family members, and the applicant's identification. The Court reviews the application and, once approved, issues the certificate — remember to download it within the validity window given." },
+  { id:'faraid', kw:['faraid','shares','share','how much','entitled','distribution','divide','portion','inherit'],
+    a:"<b>Faraid</b> is the Islamic law of inheritance that determines each beneficiary's fixed share of a Muslim estate. The exact shares depend on who survives the deceased (spouse, children, parents, siblings, etc.) and can be complex. I can't calculate your specific shares — the <b>Inheritance Certificate</b> from the Syariah Court sets out the authoritative shares for your family." },
+  { id:'loa', kw:['letters of administration','loa','administrator','no will','intestate','intestacy'],
+    a:"<b>Letters of Administration (LOA)</b> are granted by the court to appoint someone to administer an estate where there is no will (or no named executor). The administrator gathers the assets, settles debts, and distributes the estate according to the Inheritance Certificate. Form 162 is the originating application used to ask the court for this grant." },
+  { id:'probate', kw:['probate','grant of probate','executor','will names','wasiat executor'],
+    a:"A <b>Grant of Probate</b> is the court's confirmation of an executor named in a valid will, giving them authority to administer the estate. If the deceased left a will (wasiat) naming you as executor, you apply for probate — Form 162 is the originating application for this." },
+  { id:'form162', kw:['form 162','162','fill in form','the form','originating application'],
+    a:"<b>Form 162</b> is the originating application filed in the Family Justice Courts to ask for a grant of probate or letters of administration. The <b>Form 162 filler</b> on this page walks you through the intake questions and produces a filled Word document you can review, complete and file." },
+  { id:'will', kw:['will','wasiat','testament','leave a will'],
+    a:"A <b>wasiat</b> (Islamic will) can direct up to one-third of a Muslim estate to non-Faraid beneficiaries; the remaining estate is distributed according to Faraid. If a valid will names an executor, the route is normally a grant of probate rather than letters of administration." },
+  { id:'cpf', kw:['cpf','nomination','nominee','insurance','nominated'],
+    a:"<b>CPF savings</b> and some <b>insurance payouts</b> with a valid nomination normally pass directly to the named nominees and fall <i>outside</i> the estate — so they aren't distributed via the Inheritance Certificate. Without a nomination, CPF savings are distributed by the Public Trustee. Check each asset's nomination status early, as it affects what's actually in the estate." },
+  { id:'small', kw:['small estate','50,000','50000','fifty thousand','public trustee'],
+    a:"Where the estate (excluding certain assets) is small, parts may be handled by the <b>Public Trustee's Office</b> without a full court grant. The value thresholds and rules change over time, so confirm the current position with the Public Trustee or the Syariah Court." },
+  { id:'property', kw:['property','hdb','house','flat','joint tenancy','tenancy in common','real estate'],
+    a:"How <b>property</b> passes depends on how it's held. Property held as a <b>joint tenancy</b> normally passes to the surviving joint owner by survivorship (outside the estate); a share held as <b>tenancy-in-common</b> forms part of the estate and is distributed under Faraid. <b>HDB flats</b> have additional eligibility rules — check with HDB." },
+  { id:'caveat', kw:['caveat','dispute','disagree','contest','competing','objection'],
+    a:"A <b>caveat</b> is a notice that stops a grant being issued without notifying the person who filed it — often used when there is a dispute. If there are disagreements or competing applications, the matter may need to be resolved before a grant is issued. This is a situation where legal advice is strongly recommended." },
+  { id:'timeline', kw:['how long','timeline','time','duration','deadline','14 days','fast'],
+    a:"Timelines vary with the estate's complexity and whether there are disputes. A few pointers: obtain the death certificate first, then the Inheritance Certificate, and download the IC within the validity window stated when it's issued. Court applications (probate / LOA) take additional time. For current processing times, check the Syariah Court and Family Justice Courts." },
+  { id:'muis', kw:['muis','islamic council','religious council'],
+    a:"<b>MUIS</b> (the Islamic Religious Council of Singapore) oversees Muslim religious matters in Singapore and, together with the <b>Syariah Court</b>, is a key authority for Faraid and estate questions. For the Inheritance Certificate and Faraid shares, the Syariah Court is the body that issues the certificate." },
+  { id:'cost', kw:['cost','fee','fees','how much does it cost','price','charge','pay'],
+    a:"There are court and administrative fees for the Inheritance Certificate and for probate / letters of administration, and lawyers' fees if you engage one. Exact amounts change, so check the current schedule on the Syariah Court and Family Justice Courts websites. Free help may be available through community legal clinics." },
+  { id:'tool', kw:['what is this','what does this','how does this work','this tool','this site','this app','help me'],
+    a:"This site has two tools: a <b>guided pathfinder</b> that asks about the estate and maps your route with next steps, and a <b>Form 162 filler</b> that prepares the court application document. I'm the assistant beside them — ask me to explain any term or step in the process." },
+  { id:'start', kw:['where do i start','first step','begin','what do i do first','starting'],
+    a:"A common order is: (1) obtain the <b>death certificate</b>; (2) apply for the <b>Inheritance Certificate</b> from the Syariah Court; (3) check <b>CPF / insurance nominations</b> and how property is held; (4) apply for <b>probate or letters of administration</b> (Form 162) if a court grant is needed; then gather assets, settle debts and distribute. Use the guided pathfinder to tailor this to your case." }
+];
+
+const CHAT_GREETING = "Assalamu alaikum. I'm here to help you understand Singapore's Muslim estate administration process — the Inheritance Certificate, Faraid, letters of administration, probate and Form 162. Ask me anything, or tap a suggestion below.";
+const CHAT_CHIPS = [
+  { label:'What is an Inheritance Certificate?', q:'What is an Inheritance Certificate?' },
+  { label:'How do I apply for the IC?', q:'How do I apply for the Inheritance Certificate?' },
+  { label:'What is Form 162?', q:'What is Form 162?' },
+  { label:'Where do I start?', q:'Where do I start?' }
+];
+
+/* Requests we must not answer definitively (personalised legal conclusions). */
+function chatWantsRuling(t){
+  return /\b(should i|am i entitled|do i get|how much (do|will) i|what is my share|my shares?|calculate my|entitled to|legally required|is it legal|can i sue|will i win)\b/.test(t);
+}
+function chatIsGreeting(t){ return /^\s*(hi|hello|hey|salam|assalam|salaam|good (morning|afternoon|evening)|thanks|thank you)\b/.test(t); }
+
+function chatReply(raw){
+  const t = (raw||'').toLowerCase().trim();
+  if(!t) return { html:"Please type a question about the estate administration process.", disc:false };
+
+  if(chatIsGreeting(t) && t.split(/\s+/).length<=3)
+    return { html:"Wa alaikum assalam. How can I help with the estate administration process? You can ask about the Inheritance Certificate, Faraid, probate, letters of administration, CPF nominations or Form 162.", disc:false };
+
+  // Score the knowledge base.
+  let best=null, bestScore=0;
+  for(const e of CHAT_KB){
+    let s=0;
+    for(const k of e.kw){ if(t.includes(k.trim())) s += k.trim().length>4?2:1; }
+    if(s>bestScore){ bestScore=s; best=e; }
+  }
+
+  // Personalised legal ruling requested → answer generally, never definitively.
+  if(chatWantsRuling(t)){
+    const ctx = best && bestScore>0 ? ' '+best.a : '';
+    return { html:"I can't give a ruling on your particular situation or calculate your specific shares — that depends on the exact facts and is determined by the <b>Inheritance Certificate</b> and, where needed, the court."+ctx+'<br><br>'+CHAT_HELP_LINE, disc:true };
+  }
+
+  if(best && bestScore>0)
+    return { html: best.a, disc:true };
+
+  // Off-topic or no match → scope-locked, honest fallback.
+  return { html:"I'm not able to help with that — I can only answer questions about Singapore's Muslim estate administration process (the Inheritance Certificate, Faraid, probate, letters of administration, CPF nominations, property and Form 162). Try rephrasing, or "+CHAT_HELP_LINE.charAt(0).toLowerCase()+CHAT_HELP_LINE.slice(1), disc:false };
+}
+
+function chatAppend(role, html, withDisc){
+  const log = document.getElementById('chatLog');
+  if(!log) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg '+role;
+  div.innerHTML = html + (withDisc ? `<span class="disc">${CHAT_DISCLAIMER}</span>` : '');
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
+
+function chatSubmit(text){
+  const clean = (text||'').trim();
+  if(!clean) return;
+  chatAppend('user', escv(clean), false);
+  const r = chatReply(clean);
+  // brief, natural delay
+  setTimeout(()=>chatAppend('bot', r.html, r.disc), 240);
+}
+
+function initChat(){
+  const log = document.getElementById('chatLog');
+  const chips = document.getElementById('chatChips');
+  const form = document.getElementById('chatForm');
+  const input = document.getElementById('chatInput');
+  if(!log || !form) return;
+  log.innerHTML = '';
+  chatAppend('bot', CHAT_GREETING, false);
+  chips.innerHTML = CHAT_CHIPS.map((c,i)=>`<button type="button" class="chat-chip" data-i="${i}">${escv(c.label)}</button>`).join('');
+  chips.querySelectorAll('.chat-chip').forEach(btn=>{
+    btn.onclick = ()=>{ chatSubmit(CHAT_CHIPS[+btn.dataset.i].q); };
+  });
+  form.onsubmit = e=>{ e.preventDefault(); const v=input.value; input.value=''; chatSubmit(v); };
 }
 
 /* =========================================================================
@@ -642,7 +858,7 @@ const F162_STEPS = [
 ];
 
 const f162Visible = () => F162_STEPS.filter(s => !s.showIf || s.showIf(f162));
-function renderF162(){ Object.keys(f162).forEach(k=>delete f162[k]); f162.benes=[{}]; f162Idx=0; renderF162Step(); }
+function renderF162(){ shell.classList.remove('intro-mode'); Object.keys(f162).forEach(k=>delete f162[k]); f162.benes=[{}]; f162Idx=0; renderF162Step(); }
 
 function f162Field(f){
   if(f.showIf && !f.showIf(f162)) return '';
