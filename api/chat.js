@@ -30,6 +30,17 @@ ${KB}
 """`;
 
 module.exports = async (req, res) => {
+  // Diagnostic: a plain GET reports whether the key is visible to the function,
+  // without ever revealing the key itself. Visit /api/chat in a browser to check.
+  if (req.method === 'GET') {
+    res.status(200).json({
+      ok: true,
+      endpoint: 'chat',
+      configured: !!process.env.ANTHROPIC_API_KEY,
+      model: process.env.CHAT_MODEL || 'claude-haiku-4-5',
+    });
+    return;
+  }
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
