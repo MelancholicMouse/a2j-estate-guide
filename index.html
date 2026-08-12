@@ -205,6 +205,11 @@
   .chat-msg .disc{display:block;margin-top:7px;font-size:11px;color:var(--muted);font-style:italic}
   .chat-msg.user .disc{color:rgba(255,255,255,.85)}
   .chat-msg a{color:var(--accent-dark);font-weight:600}
+  .chat-typing{display:flex;gap:5px;align-items:center}
+  .chat-typing span{width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:.4;animation:chatdot 1s infinite ease-in-out}
+  .chat-typing span:nth-child(2){animation-delay:.15s}
+  .chat-typing span:nth-child(3){animation-delay:.3s}
+  @keyframes chatdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:.9;transform:translateY(-3px)}}
   .chat-chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 12px}
   .chat-chip{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:99px;
     padding:6px 12px;font-size:12px;font-weight:600;color:var(--accent-dark);transition:.15s}
@@ -729,13 +734,55 @@ function chatAppend(role, html, withDisc){
   log.scrollTop = log.scrollHeight;
 }
 
-function chatSubmit(text){
+/* Convert the model's plain-text reply into safe HTML (escape, then allow a
+   little **bold** and line breaks). */
+function chatFormat(t){
+  return escv(t)
+    .replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>')
+    .replace(/\n/g,'<br>');
+}
+function chatTypingShow(){
+  const log = document.getElementById('chatLog');
+  if(!log) return null;
+  const d = document.createElement('div');
+  d.className = 'chat-msg bot chat-typing';
+  d.innerHTML = '<span></span><span></span><span></span>';
+  log.appendChild(d); log.scrollTop = log.scrollHeight;
+  return d;
+}
+
+/* Ask the grounded server endpoint first; if it isn't available (no API key
+   configured yet, or the site isn't served by a serverless host) fall back to
+   the static assistant so the chat always works. */
+async function chatSubmit(text){
   const clean = (text||'').trim();
   if(!clean) return;
   chatAppend('user', escv(clean), false);
-  const r = chatReply(clean);
-  // brief, natural delay
-  setTimeout(()=>chatAppend('bot', r.html, r.disc), 240);
+  const typing = chatTypingShow();
+
+  let handled = false;
+  try{
+    const res = await fetch('/api/chat', {
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body: JSON.stringify({ message: clean })
+    });
+    if(res.ok && (res.headers.get('content-type')||'').includes('application/json')){
+      const data = await res.json();
+      if(data && data.reply){
+        if(typing) typing.remove();
+        chatAppend('bot', chatFormat(data.reply), true);
+        handled = true;
+      }
+      // data.configured === false → key not set yet → use static fallback
+    }
+  }catch(e){ /* network error / no backend → static fallback */ }
+
+  if(!handled){
+    if(typing) typing.remove();
+    const r = chatReply(clean);
+    setTimeout(()=>chatAppend('bot', r.html, r.disc), 120);
+  }
 }
 
 function initChat(){
