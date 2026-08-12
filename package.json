@@ -1,17 +1,6 @@
 {
-  "name": "a2j-prototype",
+  "name": "majulaw-a2j-estate-guide",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "sharp": "^0.35.2"
-  }
+  "private": true,
+  "description": "MajuLaw / Access to Justice estate administration guide — static site plus a grounded chat API function (api/chat.js). No build step; api/ is deployed as Vercel serverless functions."
 }
