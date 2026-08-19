@@ -28,9 +28,12 @@
     background-attachment:fixed;
     min-height:100vh;
     display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:40px 18px 64px;
+    flex-direction:column;
+    padding:0;
+  }
+  .page-main{
+    flex:1;width:100%;display:flex;align-items:flex-start;justify-content:center;
+    padding:36px 18px 64px;
   }
   .shell{
     width:100%;
@@ -244,8 +247,8 @@
   /* ---- Maroon top bar (inner screens: pathfinder / summary / form) ---- */
   .maju-bar{
     display:flex;align-items:center;justify-content:space-between;
-    background:var(--m-maroon);border-radius:16px;padding:8px 18px;
-    margin-bottom:24px;box-shadow:var(--shadow);
+    background:var(--m-maroon);border-radius:0;padding:8px 26px;
+    width:100%;box-shadow:0 4px 20px rgba(0,0,0,.4);
   }
   .maju-bar img{height:54px;display:block}
   .maju-bar .login-pill{
@@ -256,7 +259,12 @@
   [hidden]{display:none!important}
 
   /* ---- PathFinder per mockup: Majjoo greeting + grey guest card ---- */
-  .pf-greet{display:flex;align-items:center;max-width:540px;margin:4px 0 30px}
+  .pf-greet{display:flex;align-items:center;max-width:540px;margin:4px 0 30px;position:relative}
+  .pf-greet::before{
+    content:"";position:absolute;inset:-70px -90px -70px -50px;
+    background:radial-gradient(ellipse at 35% 50%,rgba(90,140,190,.22),transparent 68%);
+    pointer-events:none;
+  }
   .pf-greet-owl{width:92px;flex:0 0 92px;margin-right:-16px;position:relative;z-index:2;
     filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
   .pf-greet-bubble{
@@ -390,8 +398,8 @@
   .hero-hotspot.hs-chat{left:2.6%;top:71.5%;width:16.8%;height:9.2%}
   .hero-hotspot.hs-login{left:84%;top:2%;width:13.4%;height:6.8%}
   .maju-partners{display:block;width:100%;border-radius:14px;margin:22px 0 0;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-  .maju-footer{margin-top:18px;background:#0d2a4f;border-radius:16px;padding:22px 20px 24px;text-align:center;color:#eef2f8}
-  .maju-footer p{margin:0 0 14px;font-size:14px}
+  .maju-footer{width:100%;background:#0d3e79;border-radius:0;padding:28px 20px 34px;text-align:center;color:#eef2f8}
+  .maju-footer p{margin:0 0 16px;font-size:15px}
   .maju-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 44px}
   .maju-footer a{color:#dfe6f1;text-decoration:none;font-size:13.5px;display:inline-flex;align-items:center;gap:6px}
   .maju-footer a:hover{color:#fff;text-decoration:underline}
@@ -408,35 +416,39 @@
 </style>
 </head>
 <body>
-  <div class="shell">
-    <!-- MajuLaw hero banner (landing) with real clickable regions -->
-    <header class="maju-hero" id="majuHero">
-      <img src="assets/hero.jpg" alt="MajuLaw — Seek free legal advice for your probate matters today">
-      <a class="hero-hotspot hs-chat" id="heroChat" href="#assistant" aria-label="Chat with Majjoo"></a>
-      <a class="hero-hotspot hs-login" href="#login" aria-label="Log In"></a>
-    </header>
+  <!-- Slim maroon bar, full width (inner screens: pathfinder / summary / forms) -->
+  <header class="maju-bar" id="majuBar" hidden>
+    <img src="assets/majulaw-logo.png" alt="MajuLaw">
+    <a class="login-pill" href="#login">Log In</a>
+  </header>
 
-    <!-- Slim maroon bar (inner screens: pathfinder / summary / forms) -->
-    <header class="maju-bar" id="majuBar" hidden>
-      <img src="assets/majulaw-logo.png" alt="MajuLaw">
-      <a class="login-pill" href="#login">Log In</a>
-    </header>
+  <main class="page-main">
+    <div class="shell">
+      <!-- MajuLaw hero banner (landing) with real clickable regions -->
+      <header class="maju-hero" id="majuHero">
+        <img src="assets/hero.jpg" alt="MajuLaw — Seek free legal advice for your probate matters today">
+        <a class="hero-hotspot hs-chat" id="heroChat" href="#assistant" aria-label="Chat with Majjoo"></a>
+        <a class="hero-hotspot hs-login" href="#login" aria-label="Log In"></a>
+      </header>
 
-    <div class="card" id="card"><!-- injected --></div>
+      <div class="card" id="card"><!-- injected --></div>
 
-    <p class="disclaimer">This prototype provides general guidance only and is not legal advice. IC = Inheritance Certificate · SYC = Syariah Court · LOA = Letters of Administration · CPF = Central Provident Fund · MUIS = Islamic Religious Council of Singapore.</p>
+      <p class="disclaimer" id="pageDisclaimer">This prototype provides general guidance only and is not legal advice. IC = Inheritance Certificate · SYC = Syariah Court · LOA = Letters of Administration · CPF = Central Provident Fund · MUIS = Islamic Religious Council of Singapore.</p>
 
-    <!-- Partner strip + footer (from the front-cover graphic) -->
-    <img class="maju-partners" id="majuPartners" src="assets/partners.png" alt="In partnership with PEGUAM, MUIS, Pro Bono SG and M³">
-    <footer class="maju-footer">
-      <p>&copy; 2026 MajuLaw. All Rights Reserved.</p>
-      <nav>
-        <a href="#report">Report Vulnerability <span class="ext">&#8599;</span></a>
-        <a href="#privacy">Privacy Statement <span class="ext">&#8599;</span></a>
-        <a href="#terms">Terms of Use <span class="ext">&#8599;</span></a>
-      </nav>
-    </footer>
-  </div>
+      <!-- Partner strip (from the front-cover graphic) -->
+      <img class="maju-partners" id="majuPartners" src="assets/partners.png" alt="In partnership with PEGUAM, MUIS, Pro Bono SG and M³">
+    </div>
+  </main>
+
+  <!-- Full-width footer band -->
+  <footer class="maju-footer">
+    <p>&copy; 2026 MajuLaw. All Rights Reserved.</p>
+    <nav>
+      <a href="#report">Report Vulnerability <span class="ext">&#8599;</span></a>
+      <a href="#privacy">Privacy Statement <span class="ext">&#8599;</span></a>
+      <a href="#terms">Terms of Use <span class="ext">&#8599;</span></a>
+    </nav>
+  </footer>
 
 <!-- Libraries for client-side Form 162 (.docx) generation -->
 <script src="assets/vendor/pizzip.min.js"></script>
@@ -447,10 +459,10 @@
    `key`, so the display order here is independent of the summary/step logic. */
 const QUESTIONS = [
   { key:"wasiat", section:"Preliminary Questions", stage:"The Will",
-    q:"Did the deceased leave a Wasiat (will)?",
-    help:"A <b>Wasiat</b> is an Islamic will. Under Faraid it can dispose of up to 1/3 of the estate.",
+    q:"Did the deceased leave a <b>Wasiat</b>?",
+    help:"A <b>Wasiat</b> is an Islamic will. Under Faraid, it can dispose up to 1/3 of the estate.",
     yes:{label:"Yes — there is a Wasiat", out:"Assess the Wasiat; the executor applies for a Grant of Probate (an Inheritance Certificate is still needed first)."},
-    no:{label:"No Wasiat", out:"The estate is distributed under full Faraid; apply for Letters of Administration (LOA)."} },
+    no:{label:"No — there is no Wasiat", out:"The estate is distributed under full Faraid; apply for Letters of Administration (LOA)."} },
 
   { key:"grantApplied", section:"Preliminary Questions", stage:"Existing application",
     q:"Have you or another applied for Letters of Administration or a Grant of Probate?",
@@ -568,9 +580,11 @@ function chrome(mode){
   const hero = document.getElementById('majuHero');
   const bar = document.getElementById('majuBar');
   const partners = document.getElementById('majuPartners');
+  const disclaimer = document.getElementById('pageDisclaimer');
   if(hero) hero.hidden = inner;
   if(bar) bar.hidden = !inner;
   if(partners) partners.hidden = inner;
+  if(disclaimer) disclaimer.hidden = inner;
 }
 
 /* Mockup shows the Yes/No description as an italic restatement,
