@@ -241,6 +241,78 @@
   .chat-dl .dlc{width:22px;height:22px;border-radius:50%;background:var(--m-maroon);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
   .chat-privacy{margin:8px 16px 14px;font-size:10.5px;line-height:1.5;color:#9aa6b8;text-align:center}
 
+  /* ---- Maroon top bar (inner screens: pathfinder / summary / form) ---- */
+  .maju-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--m-maroon);border-radius:16px;padding:8px 18px;
+    margin-bottom:24px;box-shadow:var(--shadow);
+  }
+  .maju-bar img{height:54px;display:block}
+  .maju-bar .login-pill{
+    background:#12406b;color:#fff;font-size:14px;font-weight:600;text-decoration:none;
+    padding:9px 28px;border-radius:99px;border:1px solid rgba(255,255,255,.25);
+  }
+  .maju-bar .login-pill:hover{background:#0a2f57}
+  [hidden]{display:none!important}
+
+  /* ---- PathFinder per mockup: Majjoo greeting + grey guest card ---- */
+  .pf-greet{display:flex;align-items:center;max-width:540px;margin:4px 0 30px}
+  .pf-greet-owl{width:92px;flex:0 0 92px;margin-right:-16px;position:relative;z-index:2;
+    filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+  .pf-greet-bubble{
+    background:linear-gradient(90deg,var(--m-grad-a),var(--m-grad-b));color:#fff;
+    border-radius:22px;border-bottom-left-radius:6px;padding:18px 26px 16px;
+    font-size:15px;line-height:1.5;text-align:center;box-shadow:var(--shadow);
+  }
+  .try-btn{
+    display:inline-block;margin-top:12px;background:#103255;color:#fff;
+    border:1px solid rgba(255,255,255,.3);border-radius:99px;padding:10px 24px;
+    font-size:14px;font-weight:600;cursor:pointer;transition:.15s;
+  }
+  .try-btn:hover{background:#0a2440}
+  .pf-greet-meta{text-align:right;font-size:12px;color:#c3cfe0;margin-top:6px}
+
+  .pf-wrap{position:relative;max-width:680px;margin:0 auto}
+  .pf-card{background:#8b94a5;border-radius:26px;padding:26px 34px 18px;box-shadow:var(--shadow)}
+  .pf-title{font-family:Georgia,'Times New Roman',serif;color:#0c3e7b;text-align:center;
+    font-size:25px;font-weight:700;margin:0}
+  .pf-sub{text-align:center;font-style:italic;color:#123c6b;font-size:12.5px;margin:3px 0 16px}
+  .pf-progress{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+  .pf-track{flex:1;height:8px;border-radius:99px;background:#c6c5ca;overflow:hidden}
+  .pf-fill{height:100%;border-radius:99px;background:#0c3e7b;transition:width .45s cubic-bezier(.4,0,.2,1)}
+  .pf-count{font-size:11.5px;color:#0c3e7b;font-weight:600;font-variant-numeric:tabular-nums}
+  .pf-stage{
+    display:inline-block;background:var(--m-maroon);color:#fff;font-weight:700;font-size:14px;
+    letter-spacing:.03em;text-transform:uppercase;padding:9px 17px;border-radius:10px;margin:0 0 16px;
+  }
+  .pf-q{color:#5a0d0d;font-size:18px;font-weight:600;margin:0 0 4px;line-height:1.4}
+  .pf-help{color:#5a0d0d;font-style:italic;font-size:13px;line-height:1.5;margin:0 0 20px}
+  .pf-help b{font-weight:700}
+  .pf-ans{display:flex;flex-direction:column;gap:15px}
+  .pf-opt{
+    background:var(--m-cream);border:2.5px solid transparent;border-radius:18px;
+    padding:12px 20px;text-align:left;cursor:pointer;transition:.15s;font-family:inherit;
+  }
+  .pf-opt:hover{border-color:var(--m-maroon)}
+  .pf-opt .t{display:block;color:#16406f;font-weight:700;font-size:16px}
+  .pf-opt .d{display:block;color:#414d63;font-style:italic;font-size:12.5px;margin-top:1px}
+  .pf-back{
+    display:block;margin:16px auto 0;background:none;border:none;color:#eef2f8;
+    font-size:14px;cursor:pointer;padding:6px 10px;
+  }
+  .pf-back::before{content:"\27F5\00A0\00A0"}
+  .pf-back:hover{text-decoration:underline}
+  .pf-back:disabled{opacity:.35;cursor:default;text-decoration:none}
+  .pf-ava{
+    position:absolute;right:-20px;bottom:-4px;width:66px;height:66px;border-radius:50%;
+    border:3px solid #fff;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35);object-fit:cover;
+  }
+  .pf-guest-label{margin:10px 0 0 26px;font-size:13.5px;color:#c3cfe0}
+  @media(max-width:640px){
+    .pf-card{padding:22px 20px 16px}
+    .pf-ava{right:-6px}
+  }
+
   /* ---- Summary as a Majjoo chat (roadmap card per mockup) ---- */
   .summary-chat{display:flex;flex-direction:column;gap:16px}
   .roadmap-wrap{position:relative;max-width:640px}
@@ -337,11 +409,17 @@
 </head>
 <body>
   <div class="shell">
-    <!-- MajuLaw hero banner (from the front-cover graphic) with real clickable regions -->
-    <header class="maju-hero">
+    <!-- MajuLaw hero banner (landing) with real clickable regions -->
+    <header class="maju-hero" id="majuHero">
       <img src="assets/hero.jpg" alt="MajuLaw — Seek free legal advice for your probate matters today">
       <a class="hero-hotspot hs-chat" id="heroChat" href="#assistant" aria-label="Chat with Majjoo"></a>
       <a class="hero-hotspot hs-login" href="#login" aria-label="Log In"></a>
+    </header>
+
+    <!-- Slim maroon bar (inner screens: pathfinder / summary / forms) -->
+    <header class="maju-bar" id="majuBar" hidden>
+      <img src="assets/majulaw-logo.png" alt="MajuLaw">
+      <a class="login-pill" href="#login">Log In</a>
     </header>
 
     <div class="card" id="card"><!-- injected --></div>
@@ -349,7 +427,7 @@
     <p class="disclaimer">This prototype provides general guidance only and is not legal advice. IC = Inheritance Certificate · SYC = Syariah Court · LOA = Letters of Administration · CPF = Central Provident Fund · MUIS = Islamic Religious Council of Singapore.</p>
 
     <!-- Partner strip + footer (from the front-cover graphic) -->
-    <img class="maju-partners" src="assets/partners.png" alt="In partnership with PEGUAM, MUIS, Pro Bono SG and M³">
+    <img class="maju-partners" id="majuPartners" src="assets/partners.png" alt="In partnership with PEGUAM, MUIS, Pro Bono SG and M³">
     <footer class="maju-footer">
       <p>&copy; 2026 MajuLaw. All Rights Reserved.</p>
       <nav>
@@ -483,8 +561,29 @@ const shell = document.querySelector('.shell');
 const isVisible = item => !item.showIf || item.showIf(answers);
 const visibleQuestions = () => QUESTIONS.filter(isVisible);
 
+/* Toggle the page chrome: hero + partner strip on the landing, slim maroon
+   bar on inner screens (pathfinder / summary / forms). */
+function chrome(mode){
+  const inner = mode==='inner';
+  const hero = document.getElementById('majuHero');
+  const bar = document.getElementById('majuBar');
+  const partners = document.getElementById('majuPartners');
+  if(hero) hero.hidden = inner;
+  if(bar) bar.hidden = !inner;
+  if(partners) partners.hidden = inner;
+}
+
+/* Mockup shows the Yes/No description as an italic restatement,
+   e.g. "Yes — there is a Wasiat" → "Yes, there is a Wasiat." */
+function pfDesc(label){
+  let d = label.replace(/^(Yes|No)\s*—\s*/i, (m,w)=>w+', ');
+  if(!/[.!?]$/.test(d)) d += '.';
+  return d;
+}
+
 function render(){
   shell.classList.remove('intro-mode');
+  chrome('inner');
   // Skip forward over any questions hidden by the current answers.
   while(idx < QUESTIONS.length && !isVisible(QUESTIONS[idx])) idx++;
   if(idx >= QUESTIONS.length){ renderSummary(); return; }
@@ -492,45 +591,48 @@ function render(){
   const visibles = visibleQuestions();
   const overallPos = visibles.indexOf(item) + 1;
   const total = visibles.length;
-  const pct = Math.round(((overallPos-1)/total)*100);
-  const sectionVisibles = visibles.filter(x => x.section === item.section);
-  const posInSection = sectionVisibles.indexOf(item) + 1;
+  const pct = Math.round((overallPos/total)*100);
   const isFirst = visibles.indexOf(item) === 0;
 
   let answersHtml;
   if(item.options){
     answersHtml = item.options.map(o =>
-      `<button class="ans opt" data-v="${o.value}"><span>${o.label}</span></button>`).join('');
+      `<button class="pf-opt" data-v="${o.value}"><span class="t">${o.label}</span></button>`).join('');
   } else {
     answersHtml = `
-      <button class="ans yes" data-v="yes">
-        <span class="tag">YES</span>
-        <span>${item.yes.label}</span>
-      </button>
-      <button class="ans no" data-v="no">
-        <span class="tag">NO</span>
-        <span>${item.no.label}</span>
-      </button>`;
+      <button class="pf-opt" data-v="yes"><span class="t">Yes</span><span class="d">${pfDesc(item.yes.label)}</span></button>
+      <button class="pf-opt" data-v="no"><span class="t">No</span><span class="d">${pfDesc(item.no.label)}</span></button>`;
   }
 
-  card.className = 'card fade';
+  card.className = 'card intro fade';
   card.innerHTML = `
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <div class="progress-label">${overallPos} / ${total}</div>
+    <div class="pf-greet">
+      <img class="pf-greet-owl" src="assets/majjoo-owl.png" alt="Majjoo">
+      <div>
+        <div class="pf-greet-bubble">Hello, I am Majjoo. Before we begin, let&rsquo;s get to know your situation.<br>
+          <button type="button" class="try-btn" id="pfRestart">Try our PathFinder</button>
+        </div>
+        <div class="pf-greet-meta">Majjoo</div>
+      </div>
     </div>
-    <div class="section-head">${item.section}</div>
-    <span class="stage-tag">${item.stage}</span>
-    <h2 class="question">${item.q}</h2>
-    <p class="helper">${item.help}</p>
-    <div class="answers${item.options ? ' stack' : ''}">
-      ${answersHtml}
-    </div>
-    <div class="nav">
-      <button class="back-btn" id="back" ${isFirst?'disabled':''}>&larr; Back</button>
-      <span class="dots">${item.section} · ${posInSection} of ${sectionVisibles.length}</span>
+    <div class="pf-wrap">
+      <div class="pf-card">
+        <h2 class="pf-title">PathFinder</h2>
+        <p class="pf-sub">answer each question and we will map your route</p>
+        <div class="pf-progress">
+          <div class="pf-track"><div class="pf-fill" style="width:${pct}%"></div></div>
+          <span class="pf-count">${overallPos}/${total}</span>
+        </div>
+        <span class="pf-stage">Step ${overallPos}: ${item.stage}</span>
+        <h3 class="pf-q">${item.q}</h3>
+        <p class="pf-help">${item.help}</p>
+        <div class="pf-ans">${answersHtml}</div>
+        <button class="pf-back" id="back" ${isFirst?'disabled':''}>Back</button>
+      </div>
+      <img class="pf-ava" src="assets/guest.png" alt="">
+      <div class="pf-guest-label">Guest</div>
     </div>`;
-  card.querySelectorAll('.ans').forEach(b=>{
+  card.querySelectorAll('.pf-opt').forEach(b=>{
     b.onclick = ()=>{ answers[item.key] = b.dataset.v; idx++; render(); };
   });
   const back = document.getElementById('back');
@@ -539,6 +641,7 @@ function render(){
     while(p >= 0 && !isVisible(QUESTIONS[p])) p--;
     if(p >= 0){ idx = p; render(); }
   };
+  document.getElementById('pfRestart').onclick = ()=>{ idx = 0; answers = {}; render(); };
 }
 
 /* ---- "AI" summary composed from the answers ---- */
@@ -656,6 +759,7 @@ function linkifyNarrative(text){
 
 function renderSummary(){
   shell.classList.remove('intro-mode');
+  chrome('inner');
   card.className = 'card intro fade';
   let lastSection = null;
   const shown = QUESTIONS.filter(isVisible);
@@ -738,6 +842,7 @@ function renderSummary(){
    once the visitor presses the button. ---- */
 function renderIntro(){
   idx = 0; answers = {};
+  chrome('landing');
   shell.classList.add('intro-mode');
   card.className = 'card fade intro';
   card.innerHTML = `
@@ -1084,7 +1189,7 @@ const F162_STEPS = [
 ];
 
 const f162Visible = () => F162_STEPS.filter(s => !s.showIf || s.showIf(f162));
-function renderF162(){ shell.classList.remove('intro-mode'); Object.keys(f162).forEach(k=>delete f162[k]); f162.benes=[{}]; f162Idx=0; renderF162Step(); }
+function renderF162(){ shell.classList.remove('intro-mode'); chrome('inner'); Object.keys(f162).forEach(k=>delete f162[k]); f162.benes=[{}]; f162Idx=0; renderF162Step(); }
 
 function f162Field(f){
   if(f.showIf && !f.showIf(f162)) return '';
