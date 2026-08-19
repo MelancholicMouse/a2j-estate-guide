@@ -247,6 +247,23 @@
     text-align:center;color:rgba(255,255,255,.78);font-size:12px;line-height:1.5;
     margin-top:22px;text-shadow:0 1px 8px rgba(0,0,0,.5);max-width:560px;margin-left:auto;margin-right:auto;
   }
+
+  /* ---- MajuLaw hero banner + brand chrome (from the front-cover graphic) ---- */
+  .maju-hero{position:relative;line-height:0;margin-bottom:22px;border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+  .maju-hero img{width:100%;height:auto;display:block}
+  /* Transparent clickable regions sized as % of the 1120x704 hero so they scale */
+  .hero-hotspot{position:absolute;display:block;cursor:pointer;border-radius:40px;-webkit-tap-highlight-color:transparent}
+  .hero-hotspot:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .hero-hotspot.hs-chat{left:2.6%;top:71.5%;width:16.8%;height:9.2%}
+  .hero-hotspot.hs-login{left:84%;top:2%;width:13.4%;height:6.8%}
+  .maju-partners{display:block;width:100%;border-radius:14px;margin:22px 0 0;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .maju-footer{margin-top:18px;background:#0d2a4f;border-radius:16px;padding:22px 20px 24px;text-align:center;color:#eef2f8}
+  .maju-footer p{margin:0 0 14px;font-size:14px}
+  .maju-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 44px}
+  .maju-footer a{color:#dfe6f1;text-decoration:none;font-size:13.5px;display:inline-flex;align-items:center;gap:6px}
+  .maju-footer a:hover{color:#fff;text-decoration:underline}
+  .maju-footer a .ext{font-size:12px;opacity:.8}
+
   .fade{animation:fade .4s ease}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   @media(max-width:560px){
@@ -259,15 +276,27 @@
 </head>
 <body>
   <div class="shell">
-    <div class="brand">
-      <div class="kicker">Access to Justice · Prototype</div>
-      <h1>Muslim Estate Administration Guide</h1>
-      <p>A step-by-step pathfinder for families managing a loved one's estate under Singapore's Faraid &amp; Inheritance Certificate process. Answer each question — we'll map your route.</p>
-    </div>
+    <!-- MajuLaw hero banner (from the front-cover graphic) with real clickable regions -->
+    <header class="maju-hero">
+      <img src="assets/hero.jpg" alt="MajuLaw — Seek free legal advice for your probate matters today">
+      <a class="hero-hotspot hs-chat" id="heroChat" href="#assistant" aria-label="Chat with Majjoo"></a>
+      <a class="hero-hotspot hs-login" href="#login" aria-label="Log In"></a>
+    </header>
 
     <div class="card" id="card"><!-- injected --></div>
 
     <p class="disclaimer">This prototype provides general guidance only and is not legal advice. IC = Inheritance Certificate · SYC = Syariah Court · LOA = Letters of Administration · CPF = Central Provident Fund · MUIS = Islamic Religious Council of Singapore.</p>
+
+    <!-- Partner strip + footer (from the front-cover graphic) -->
+    <img class="maju-partners" src="assets/partners.png" alt="In partnership with PEGUAM, MUIS, Pro Bono SG and M³">
+    <footer class="maju-footer">
+      <p>&copy; 2026 MajuLaw. All Rights Reserved.</p>
+      <nav>
+        <a href="#report">Report Vulnerability <span class="ext">&#8599;</span></a>
+        <a href="#privacy">Privacy Statement <span class="ext">&#8599;</span></a>
+        <a href="#terms">Terms of Use <span class="ext">&#8599;</span></a>
+      </nav>
+    </footer>
   </div>
 
 <!-- Libraries for client-side Form 162 (.docx) generation -->
@@ -1009,6 +1038,21 @@ async function generateForm162(){
     status.textContent='Downloaded ✓ — check your downloads folder.';
   }catch(e){ status.textContent='Sorry, generation failed: '+e.message; console.error(e); }
 }
+
+/* Hero "Chat with Majjoo" → return to the landing and focus the assistant. */
+(function(){
+  const hc = document.getElementById('heroChat');
+  if(hc) hc.onclick = (e)=>{
+    e.preventDefault();
+    renderIntro();
+    setTimeout(()=>{
+      const panel = document.getElementById('chatPanel');
+      const input = document.getElementById('chatInput');
+      if(panel) panel.scrollIntoView({behavior:'smooth', block:'center'});
+      if(input) input.focus({preventScroll:true});
+    }, 80);
+  };
+})();
 
 renderIntro();
 </script>
