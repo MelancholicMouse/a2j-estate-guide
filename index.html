@@ -400,7 +400,19 @@
   .hero-hotspot{position:absolute;display:block;cursor:pointer;border-radius:40px;-webkit-tap-highlight-color:transparent}
   .hero-hotspot:focus-visible{outline:3px solid #fff;outline-offset:3px}
   .hero-hotspot.hs-chat{left:2.6%;top:71.5%;width:16.8%;height:9.2%}
-  .hero-hotspot.hs-login{left:84%;top:2%;width:13.4%;height:6.8%}
+  /* Solid maroon bar covering the baked-in (fading) bar at the top of the photo */
+  .hero-topbar{
+    position:absolute;top:0;left:0;right:0;height:10.8%;
+    background:var(--m-maroon,#4e0000);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px;line-height:normal;
+  }
+  .hero-topbar img{height:78%;width:auto;display:block}
+  .hero-topbar .login-pill{
+    background:#12406b;color:#fff;font-size:13px;font-weight:600;text-decoration:none;
+    padding:7px 22px;border-radius:99px;border:1px solid rgba(255,255,255,.25);
+  }
+  .hero-topbar .login-pill:hover{background:#0a2f57}
   .maju-partners{display:block;width:100%;border-radius:14px;margin:22px 0 0;box-shadow:0 10px 30px rgba(0,0,0,.25)}
   .maju-footer{width:100%;background:#0d3e79;border-radius:0;padding:28px 20px 34px;text-align:center;color:#eef2f8}
   .maju-footer p{margin:0 0 16px;font-size:15px}
@@ -431,8 +443,11 @@
       <!-- MajuLaw hero banner (landing) with real clickable regions -->
       <header class="maju-hero" id="majuHero">
         <img src="assets/hero.jpg" alt="MajuLaw — Seek free legal advice for your probate matters today">
+        <div class="hero-topbar">
+          <img src="assets/majulaw-logo.png" alt="MajuLaw">
+          <a class="login-pill" href="#login">Log In</a>
+        </div>
         <a class="hero-hotspot hs-chat" id="heroChat" href="#assistant" aria-label="Chat with Majjoo"></a>
-        <a class="hero-hotspot hs-login" href="#login" aria-label="Log In"></a>
       </header>
 
       <div class="card" id="card"><!-- injected --></div>
