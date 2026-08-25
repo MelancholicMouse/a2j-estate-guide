@@ -3,9 +3,10 @@
 > **Purpose of this file.** This is the *only* source of information the site's
 > assistant is permitted to answer from. It contains vetted, public-facing
 > guidance on administering a Muslim estate in Singapore (Faraid, the
-> Inheritance Certificate, the Public Trustee, and Letters of Administration).
-> It is drawn from the MajuLaw research file with all internal project material
-> removed (timeline, meeting notes, staff names, budget and vendor quotes).
+> Inheritance Certificate, the Public Trustee, Letters of Administration, and
+> support resources). It is drawn from the MajuLaw research file with all
+> internal project material removed (executive summary, timeline, budget, and
+> vendor quotes).
 >
 > **Not legal advice.** Everything here is general information. It is not a
 > substitute for advice from the Syariah Court, MUIS, the Family Justice Courts,
@@ -13,7 +14,8 @@
 >
 > **Review before use.** Confirm every figure, fee, timeframe, and legal
 > statement is current and accurate before this file is used to answer real
-> users. The assistant will repeat whatever is written here.
+> users. The assistant will repeat whatever is written here. (Fees and tables
+> below were marked "last updated 23 August 2026" in the source.)
 
 ---
 
@@ -77,7 +79,7 @@ To apply for any inheritance-related certificate, the applicant must belong to
    - *Note:* payment must be made at least 1 day before the 60-day validity
      expires. Certificates issued after 23 July 2025 have no download time limit.
 
-**Fees:** SGD $34.00 (payable via PayNow, eNETS, or credit card).
+**Fees:** SGD $34.00 (payable via PayNow, eNETS, or credit card). *(last updated 23 August 2026)*
 
 ### 1.3 Extract of an Inheritance Certificate
 
@@ -107,7 +109,7 @@ original certificate dies **before the final distribution** of the estate.
   approved, download, affirm the SD before a Commissioner for Oaths, and upload
   it. After SD verification and payment, the revised certificate is issued as a
   PDF (payment at least 1 day before the 60-day validity expires).
-- **Fees:** SGD $34.00 per page (payable via PayNow, eNETS, or credit card).
+- **Fees:** SGD $34.00 per page (payable via PayNow, eNETS, or credit card). *(last updated 23 August 2026)*
 
 ---
 
@@ -120,17 +122,24 @@ integrates Shari'ah requirements with civil probate law:
    burial expenses; commercial debts owed to creditors; and outstanding religious
    liabilities such as unpaid Zakat, Kafarah (expiation payments), or oath
    penalties.
-2. **Register and obtain the official Death Certificate** through the National
-   Environment Agency (NEA), the hospital, or the Ministry of Home Affairs (MHA).
+2. **Obtain the Death Certificate** — the official Death Certificate is certified
+   by a doctor and automatically registered with ICA. Family members of the
+   deceased can then log on to the **My Legacy** website to retrieve a digital
+   copy of the certificate.
 3. **Apply to the Syariah Court** for an official Inheritance Certificate, which
    identifies all legal Faraid heirs and specifies their exact fractional shares.
+   To estimate the shares heirs will receive, you may use the **Online Trial
+   Inheritance Calculator** on the Syariah Court website
+   (https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator).
 4. **Conduct a full search and inventory** of all estate assets across
    institutions including HDB, banks, insurance companies, the Public Trustee's
    Office (IPTO), and investment entities.
-5. **Appoint a probate lawyer** to petition the Family Justice Courts for formal
-   legal authority — a Grant of Probate if a valid Wasiat exists, or a Grant of
-   Letters of Administration if the deceased died intestate — executing any
-   necessary Renunciation documents or Deeds of Undertaking.
+5. **Apply for the court grant** — a probate lawyer petitions the Family Justice
+   Courts for formal legal authority: a Grant of Probate if a valid Wasiat
+   exists, or a Grant of Letters of Administration if the deceased died
+   intestate, executing any necessary Renunciation documents or Deeds of
+   Undertaking. This process may be undertaken by the next-of-kin themselves if
+   they are self-represented.
 6. **Liquidate assets into cash** — the administrator or executor presents the
    court order and Inheritance Certificate to financial institutions and property
    agents.
@@ -155,15 +164,22 @@ integrates Shari'ah requirements with civil probate law:
   inherit as a Faraid beneficiary.
 - **Children born out of wedlock** — children born outside a valid Islamic
   marriage do not inherit from their biological father under Faraid, but retain
-  full inheritance rights from their mother and her side of the family.
+  full inheritance rights from their mother and her side of the family. (See MCCY:
+  https://www.mccy.gov.sg/about-us/news-and-resources/muslim-child-born-out-of-wedlock-as-a-faraid-beneficiary-/)
 - **Equal distribution via mutual consent** — while Faraid is the default legal
   framework, heirs may mutually agree to divide the estate equally or alter share
   ratios, provided all affected heirs are above 18 years of age and give informed
   consent via a Deed of Family Undertaking.
 - **Un-nominated CPF monies** — if no CPF nomination is made, savings are
   transferred to the Public Trustee's Office (PTO / IPTO). Legal heirs must apply
-  online at www.ipto.gov.sg or present documentation to the Public Trustee for
-  disbursement in accordance with the Syariah Court Inheritance Certificate.
+  online (https://eservices.mlaw.gov.sg/ipto/forms/pto/pto-home.form) or present
+  documentation to the Public Trustee for disbursement in accordance with the
+  Syariah Court Inheritance Certificate.
+- **Deceased left no Faraid heirs** — if the deceased leaves no beneficiary,
+  non-Muslim family members, despite not being entitled, can nonetheless appeal to
+  MUIS to consider granting them a share of the estate on compassionate grounds.
+  (Muslim Family Law in Singapore, SAL Academy Publishing, 2022 Ed, [8.59].) You
+  may want to seek your own legal advice on this.
 
 ---
 
@@ -185,7 +201,7 @@ Letters of Administration (where there is no will). Where the estate is worth mo
 than $50,000, the PTO cannot administer it and the family or next-of-kin must
 formally apply to the Singapore Courts for a legal grant.
 
-*Reference: Section 3, Public Trustee Act 1915.*
+*Reference: Section 3, Public Trustee Act 1915 — https://www.mlaw.gov.sg/about-us/what-we-do/public-trustee-office/*
 
 ### 3.2 Passing away without a will
 
@@ -197,46 +213,121 @@ monies), the Public Trustee may administer it. Common first steps:
 2. Gather information on assets and liabilities.
 3. Determine the value of the estate.
 4. If it qualifies (typically under $50,000), submit an application to the Public
-   Trustee using Singpass, with supporting documents (birth certificates,
-   marriage certificates, identity documents, etc.).
+   Trustee using Singpass
+   (https://pto.mlaw.gov.sg/deceased-cpf-estate-monies/information-for-next-of-kin-estate-monies/),
+   with supporting documents (birth certificates, marriage certificates, identity
+   documents, etc.).
 5. The Public Trustee identifies the beneficiaries and distributes the estate
    according to law.
 
 **Muslim:** if the deceased was Muslim and died without a will, the estate is
 distributed according to Muslim inheritance law (Faraid). The Public Trustee does
-not decide the beneficiaries itself (Administration of Muslim Law Act (AMLA),
-s 112). Common first steps:
+not decide the beneficiaries itself (AMLA s 112). Common first steps:
 
 1. Obtain the death certificate.
-2. Apply to the Syariah Court for an Inheritance Certificate, which identifies the
-   legal beneficiaries and their respective shares.
+2. Apply to the Syariah Court for an Inheritance Certificate
+   (https://syariahcourt.gov.sg/Inheritance/Process/Application-for-Inheritance-Certificate),
+   which identifies the legal beneficiaries and their respective shares.
 3. Submit the Inheritance Certificate and supporting documents to the Public
    Trustee (where PTO administration applies).
 4. The Public Trustee distributes the estate according to the shares stated in the
    Inheritance Certificate.
 
-### 3.3 Letters of Administration vs. the Public Trustee
+### 3.3 Supporting documents for Muslim estates (Public Trustee)
 
-**Letters of Administration**
+*(See Annex A: https://pto.mlaw.gov.sg/files/Information_Page/AnnexA_Muslims_Oct20.pdf)*
+
+**General compulsory documents**
+
+- **Birth and death certificates** — of the person who passed away.
+- **Parents' death certificates** — required only if any parent of the deceased has already passed away.
+- **Identification documents** — identity cards (NRIC), passports, social security cards (US citizens), or election cards (Indian citizens) for everyone applying for or receiving a share.
+- **Bank account details** — a copy of the front page of the bank passbook or a bank statement, if you want the money transferred directly to a bank account.
+- **Form 15 (Indemnity Form)** (https://pto.mlaw.gov.sg/files/Forms_Page/form15.pdf) — if the money is transferred to a third party's bank account, both the recipient and the account owner must sign to take legal and financial responsibility.
+- **Certificate of Inheritance** — issued by the Syariah Court, required if the deceased permanently lived in Singapore (officially names the rightful heirs and their exact shares).
+- **Official Declaration of Heirs** — a formal statement from a relevant government/legal authority listing those legally entitled to inherit, required if the deceased did not permanently live in Singapore.
+
+**Additional compulsory documents (if the deceased was previously married)**
+
+- **Certificate of divorce** — if the deceased was previously divorced.
+- **Spouse's death certificate** — if the deceased was a widow or widower.
+
+**Other documents** — depending on your relationship to the deceased, additional
+documents to prove that relationship may be required (see Table 3 in Annex A).
+
+### 3.4 Letters of Administration vs. the Public Trustee
+
+**Letters of Administration** (https://www.judiciary.gov.sg/family/apply-for-letters-of-administration)
 
 - A court order issued by the Family Justice Courts.
 - Required where there is no valid will and PTO administration is unavailable.
 - The administrator obtains authority to collect and distribute assets.
 
-**Public Trustee**
+**Public Trustee** (https://www.mlaw.gov.sg/about-us/what-we-do/public-trustee-office/)
 
 - A government agency.
 - Suitable only for qualifying estates.
 - Distributes the estate according to the applicable law.
 - Generally simpler and less costly for eligible estates.
 
-### 3.4 How the Public Trustee distributes an estate
+### 3.5 How the Public Trustee distributes an estate
 
 - **Non-Muslim:** according to the Intestate Succession Act. For example — spouse
   only: spouse receives the estate; spouse and children: share according to the
   Act; children only: share equally.
 - **Muslim:** according to the Inheritance Certificate issued by the Syariah Court
   under Faraid principles.
+
+### 3.6 Disqualifying factors for PTO administration
+
+If any of the following exist, you must apply to the Family Justice Courts for
+Letters of Administration **even if the estate value is $50,000 or below**:
+
+- **Legal proceedings:** a court application for Letters of Administration or
+  Grant of Probate has already been filed, or there are pending lawsuits involving
+  the deceased.
+- **Disputes:** conflicting claims to the estate or disputes among beneficiaries.
+- **Debts:** the estate has outstanding debts or liabilities.
+- **Business interests:** the deceased had shares/interests in unlisted companies
+  (local or foreign), or was a partner, sole proprietor, or had an interest in a
+  firm or other business.
+- **Property:** the deceased was the sole lessee (owner) of an HDB flat and a
+  child is eligible to inherit all or part of the flat.
+- **Specific assets:** insurance policies with nominated beneficiaries (under
+  s 73 of the Conveyancing and Law of Property Act, or ss 49L and 49M of the
+  Insurance Act); trust bank accounts opened with a child; or commercial vehicles
+  such as taxis.
+
+### 3.7 Why apply for PTO administration?
+
+- The process is simpler — no court filing required.
+- It is more affordable than applying for Letters of Administration in court.
+- Distribution is generally faster: **PTO administration takes roughly 1–6 months**,
+  while an FJC application takes roughly **3–6 months** for non-contentious matters.
+
+### 3.8 Public Trustee administration fees
+
+*These fees are taken from the estate money, include GST, and cannot be waived. (last updated 23 August 2026)*
+
+**Administration of the estate** (minimum fee $15):
+
+| Value of estate | Administration fee |
+|---|---|
+| For the first $5,000 | 6.50% |
+| For the next $2,000 | 6.00% |
+| For the next $3,000 | 4.25% |
+| For the next $10,000 | 2.75% |
+| For the next $30,000 | 2.25% |
+
+**Administration of un-nominated CPF money** (minimum fee $15):
+
+| Amount of CPF money | Administration fee |
+|---|---|
+| For the first $1,000 | 2.40% |
+| For the next $9,000 | 1.50% |
+| For the next $240,000 | 0.75% |
+| For the next $250,000 | 0.45% |
+| For amounts in excess of $500,000 | 0.30% |
 
 ---
 
@@ -338,6 +429,23 @@ documents):
 - Stage 5: Notice of Appeal (**Form 165**, Family Justice Court Practice
   Directions 2015, Appendix A).
 
+### 4.4 Filing fees for an LOA application
+
+*(last updated 23 August 2026)*
+
+| Document | Filing fee |
+|---|---|
+| Pre-filing search | $20 (no existing cases) / $50 (existing cases) |
+| Originating Application for Probate (Form 162) | $210–$240 (depending on whether you need only an electronic Grant or a printed Grant with embossed court seal) |
+| Schedule of Assets (Form 177) | $15 |
+| Renunciation of other beneficiaries (Form 166) | $25 |
+| Supporting Affidavit (Form 163) | $15 |
+| Administration Oath (Form 167) | $20 |
+| Certified true copy of a death certificate | $15 |
+| Other supporting documents (e.g. certified true copy of the inheritance or divorce certificate) | $15 |
+| Schedule of Assets — Supplementary Affidavit | $25 |
+| Certified true copies of the grant | $50 |
+
 ---
 
 ## 5. The law governing Letters of Administration
@@ -394,7 +502,7 @@ certificate.
 | No effective insurance nomination | **Included** | No statutory nominee/trust exclusion merely from holding a policy. If payable to personal representatives/estate, the administrator collects and applies Faraid distribution only after estate debts are cleared. | Insurance Act ss 134 onward |
 | Registered joint-tenancy land | **Excluded** | The deceased's interest is extinguished at death by survivorship; the survivor becomes sole owner by operation of law. No Faraid distribution of the extinguished interest. | *Shafeeg*; MUIS 2019 joint-tenancy fatwa |
 | Tenancy-in-common land | **Included** | The deceased retains an undivided beneficial share; the administrator administers that share and distributes the net value under AMLA s 112. | *Shafeeg*; MUIS 2019 fatwa |
-| Joint bank account | **Unclear** | No categorical Singapore Muslim-estate rule found; case law is silent. *Shafeeg*'s land holding does not automatically apply to joint accounts. | *Shafeeg* |
+| Joint bank account | **Unclear** | The current state of the law does not give an absolute position on this — you are advised to seek your own legal advice. *Shafeeg*'s land holding does not automatically apply to joint accounts. | *Shafeeg* |
 | Property held by the deceased as bare trustee | **Excluded** | The deceased lacked beneficial interest; the successor trustee/limited administrator deals only with legal title; trust beneficiaries remain beneficial owners. | PAA s 23; *Mahidon* |
 | Wakaf | **Excluded** | Special AMLA statutory administration and vesting; MUIS administers and the property vests in MUIS. | AMLA ss 58–59; *Syed Abbas* |
 | Valid completed inter vivos hibah/gift | **Excluded** | Beneficial ownership left the deceased during life; the donee owns. The civil court determines validity under Muslim and general law. | *Mohamed Ismail*; *Haja Maideen* |
@@ -494,7 +602,71 @@ estates are expressly excluded (IFPA s 1(2)).
 
 ---
 
-## 7. Glossary
+## 7. Social and support resources
+
+### Counselling and psychological support
+
+- **Counselling** (https://supportgowhere.life.gov.sg/services/iO9WdkX4/counselling) —
+  counselling and psychotherapy for individuals, couples, and families; useful for
+  grief, emotional distress, family adjustment, or relationship issues after a
+  bereavement. Open to all; fees apply for all providers except the SAMH Insight
+  Centre (staff advise on fees).
+- **Family Service Centre (FSC)** (https://supportgowhere.life.gov.sg/services/SVC-FSCF/family-service-centre-fsc) —
+  support for vulnerable individuals and families with social and emotional
+  issues, connecting them to appropriate community resources. No additional
+  eligibility criteria; nominal charges may apply.
+- **Asatizah Solace Care** (https://www.pergas.org.sg/what-we-do/asatizah-solace-care/) —
+  a safe, confidential platform for emotional and spiritual support, conducted
+  virtually by certified asatizah (physical sessions considered case-by-case).
+  Open to any individual or family facing challenges. Free.
+
+### Financial assistance
+
+- **MUIS Zakat Financial Assistance** (https://supportgowhere.life.gov.sg/schemes/MUIS-FAS/muis-zakat-financial-assistance) —
+  monthly financial assistance and other support for eligible low-income Muslim
+  households, including burial expenses on the death of a Zakat beneficiary and
+  their immediate family. Applicant must be a Muslim Singapore Citizen or PR;
+  principal criterion is a gross per-capita household income of $500 or below
+  (final eligibility after an assessment interview with a Social Development
+  Officer at a Social Development Mosque). Free.
+- **ComCare Assistance** (https://supportgowhere.life.gov.sg/schemes/COMCARE-SMTA/comcare-assistance) —
+  targeted financial support for lower-income individuals and families across
+  three tracks: Interim Assistance (immediate short-term relief);
+  Short-to-Medium-Term Assistance (monthly cash allowance, help with household
+  bills, medical assistance, employment aid, referrals); and Long-Term Assistance
+  (ongoing monthly cash assistance, roughly $760–$2,230 based on household size,
+  plus medical and subsidised social support). Applicant must be a Singapore
+  Citizen (or a PR with at least one immediate family member in the household who
+  is a Citizen); usually for households with monthly income per capita of $800 and
+  below, though Social Service Offices exercise flexibility. Free.
+
+### Other legal support directory
+
+- **Application for a deceased's un-nominated CPF monies** (https://supportgowhere.life.gov.sg/schemes/nywYq9hc/application-deceaseds-unnominated-cpf-monies) —
+  handles administration and distribution of a deceased member's un-nominated CPF
+  monies via the Public Trustee's Office, according to applicable intestacy laws.
+  Minor beneficiaries' funds can be held in trust until they reach 21. For the
+  next-of-kin of a deceased CPF member. A tiered administration fee (minimum $15)
+  is deducted from the CPF savings before distribution and cannot be waived.
+- **Settling outstanding tax matters and bills for a deceased person** (https://supportgowhere.life.gov.sg/schemes/P3m8eAvW/settling-outstanding-tax-matters-bills-deceased-person) —
+  lets executors/administrators file the deceased's personal income tax (to date
+  of death), file estate/trust income tax (for income after death), and settle
+  outstanding taxes and bills from the estate before distributing the remainder.
+  For executors/administrators legally responsible for the deceased's taxes and
+  liabilities.
+- **Change in HDB flat ownership after a flat owner's demise** (https://supportgowhere.life.gov.sg/schemes/NGzAFA4b/change-hdb-flat-ownership-flat-owners-demise) —
+  lets you retain an HDB flat after an owner's death. Joint tenancy: take over the
+  interest by lodging a Notice of Death with the Singapore Land Authority (SLA).
+  Sole owner or tenancy-in-common: register your right to administer the estate
+  (via Letters of Administration or a Grant of Probate) to effect an ownership
+  change to eligible beneficiaries. To retain the flat you must be a Singapore
+  Citizen or PR, at least 21, and satisfy HDB's eligibility rules. Fees apply
+  (registration/conveyancing/stamp fees depending on the route; private solicitors
+  incur their own fees).
+
+---
+
+## 8. Glossary
 
 - **IC / IHC** — Inheritance Certificate (issued by the Syariah Court).
 - **SYC** — Syariah Court.
@@ -509,3 +681,6 @@ estates are expressly excluded (IFPA s 1(2)).
 - **PTO / IPTO** — Public Trustee's Office.
 - **NOK** — Next-of-Kin.
 - **SD** — Statutory Declaration.
+- **ICA** — Immigration & Checkpoints Authority.
+- **HDB** — Housing & Development Board.
+- **SLA** — Singapore Land Authority.
