@@ -4,9 +4,9 @@
 > assistant is permitted to answer from. It contains vetted, public-facing
 > guidance on administering a Muslim estate in Singapore (Faraid, the
 > Inheritance Certificate, the Public Trustee, Letters of Administration, and
-> support resources). It is drawn from the MajuLaw research file with all
-> internal project material removed (executive summary, timeline, budget, and
-> vendor quotes).
+> support resources). It is drawn from the MajuLaw research file (v3) with all
+> internal project material removed (executive summary, timeline, budget, vendor
+> quotes, exhibition team credits, and internal research notes).
 >
 > **Not legal advice.** Everything here is general information. It is not a
 > substitute for advice from the Syariah Court, MUIS, the Family Justice Courts,
@@ -122,24 +122,25 @@ integrates Shari'ah requirements with civil probate law:
    burial expenses; commercial debts owed to creditors; and outstanding religious
    liabilities such as unpaid Zakat, Kafarah (expiation payments), or oath
    penalties.
-2. **Obtain the Death Certificate** — the official Death Certificate is certified
-   by a doctor and automatically registered with ICA. Family members of the
-   deceased can then log on to the **My Legacy** website to retrieve a digital
-   copy of the certificate.
-3. **Apply to the Syariah Court** for an official Inheritance Certificate, which
-   identifies all legal Faraid heirs and specifies their exact fractional shares.
-   To estimate the shares heirs will receive, you may use the **Online Trial
-   Inheritance Calculator** on the Syariah Court website
+2. **Obtain the Death Certificate** — after the death is certified by a doctor,
+   it is automatically registered with the Immigration & Checkpoints Authority
+   (ICA). The next-of-kin then downloads the digital death certificate from
+   **MyLegacy@LifeSG**. The death certificate is used for post-death matters,
+   including applying for a burial or cremation permit through the National
+   Environment Agency (NEA).
+3. **Apply to the Syariah Court** — once the death certificate has been obtained,
+   apply for an official Inheritance Certificate (IC), which identifies all legal
+   Faraid heirs and specifies their exact fractional shares. To estimate the
+   shares heirs will receive, you may use the **Online Trial Inheritance
+   Calculator** on the Syariah Court website
    (https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator).
 4. **Conduct a full search and inventory** of all estate assets across
    institutions including HDB, banks, insurance companies, the Public Trustee's
    Office (IPTO), and investment entities.
-5. **Apply for the court grant** — a probate lawyer petitions the Family Justice
-   Courts for formal legal authority: a Grant of Probate if a valid Wasiat
-   exists, or a Grant of Letters of Administration if the deceased died
-   intestate, executing any necessary Renunciation documents or Deeds of
-   Undertaking. This process may be undertaken by the next-of-kin themselves if
-   they are self-represented.
+5. **Apply for the court grant** — if a valid Wasiat exists, the applicant may
+   go to the Family Justice Courts to apply for a **Grant of Probate**. If the
+   deceased passed away without a Wasiat, the applicant should apply for a
+   **Grant of Letters of Administration**.
 6. **Liquidate assets into cash** — the administrator or executor presents the
    court order and Inheritance Certificate to financial institutions and property
    agents.
@@ -666,7 +667,43 @@ estates are expressly excluded (IFPA s 1(2)).
 
 ---
 
-## 8. Glossary
+## 8. About MajuLaw
+
+MajuLaw is an Access to Justice community project — an online triaging system
+designed to serve as a public gateway for routine administrative guidance on
+estate succession. It was developed for the Access to Justice Community Co-Lab
+Showcase ("Bridging the Gap") at the launch of Law Awareness Weeks @ CDC 2026.
+
+**Who it is for.** Muslim individuals in the "sandwiched" income group,
+particularly those facing challenges in navigating estate succession procedures.
+
+**The problem it addresses.** Many Muslim families in the sandwiched income
+group face acute challenges in navigating estate succession. They may not
+qualify for legal aid, yet are unable to afford private lawyers, leaving them
+unsure where to start, what steps to take, or where to turn for help. Some
+attempt to self-represent out of fear of extensive legal fees. Existing legal
+information is highly decentralised and deeply technical, which increases errors
+and causes painful delays for grieving individuals. Singapore is projected to
+become a super-aged society by 2030, with one in four citizens aged 65 and above
+(Department of Statistics).
+
+**What MajuLaw offers.**
+
+1. *Probate triage* — a self-service portal that guides users through basic
+   inheritance processes, helping them map out assets, understand their legal
+   rights, and receive next-step guidance, with a directory of helpful resources
+   and referral links to social and support services in Singapore.
+2. *Legal support referral* — for more complex cases requiring human
+   intervention, the platform identifies the complex issues and redirects users
+   to legal clinics specialising in Syariah law, equipping them with a
+   pre-triaged agenda before their appointment.
+
+The initial rollout focuses on Syariah probate, with the longer-term goal of
+scaling into civil probate matters.
+
+---
+
+## 9. Glossary
 
 - **IC / IHC** — Inheritance Certificate (issued by the Syariah Court).
 - **SYC** — Syariah Court.
