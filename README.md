@@ -41,7 +41,9 @@ The landing page includes an assistant panel. It runs in two modes:
 - **Grounded (live):** the serverless function `api/chat.js` sends questions to a
   Claude model with a system prompt that embeds the vetted knowledge base
   (`assets/knowledge-base.md`, bundled via `api/knowledge.js`) and instructs it
-  to answer **only** from that material. Enable it by setting environment
+  to answer **only** from that material. The front-end sends the recent
+  conversation (`{ messages: [...] }`, last 20 turns) so the model remembers
+  what the visitor has already said. Enable it by setting environment
   variables on the serverless host (e.g. Vercel → Project → Settings →
   Environment Variables):
   - `ANTHROPIC_API_KEY` — required. Your Anthropic API key.
