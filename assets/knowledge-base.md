@@ -51,7 +51,11 @@ To apply for any inheritance-related certificate, the applicant must belong to
   required. Non-Faraid beneficiaries must remove their name from the Annex to the
   Statutory Declaration before submitting.
 - **Beneficiary details:** full names and NRIC/ID numbers of all lawful potential
-  beneficiaries.
+  beneficiaries. Applicants must not guess whether a relative (for example a
+  parent of the deceased) is alive: reasonable effort to confirm this is
+  expected, and where a person who would otherwise be a beneficiary is not
+  listed, documentary proof (such as a death certificate) or an affirmed
+  Statutory Declaration is required.
 - **Discrepancy explanation:** documents explaining any inconsistencies (e.g.
   spelling differences in names). Without documentary proof, an affirmed
   Statutory Declaration confirming the information is required.
@@ -113,15 +117,38 @@ original certificate dies **before the final distribution** of the estate.
 
 ---
 
-## 2. Faraid — administering a Muslim estate (eight-step framework)
+## 2. Administering a Muslim estate — the practical sequence
 
-Administering a Muslim estate in Singapore follows an eight-step framework that
-integrates Shari'ah requirements with civil probate law:
+The steps below describe the usual practical sequence for administering a
+Muslim estate in Singapore. They are a practical guide, not a legal framework:
+the legal rules are the statutes and authorities set out in sections 5 and 6.
 
-1. **Settle immediate post-demise claims** in strict legal sequence: funeral and
-   burial expenses; commercial debts owed to creditors; and outstanding religious
-   liabilities such as unpaid Zakat, Kafarah (expiation payments), or oath
-   penalties.
+**Which route applies?**
+
+- Was the deceased Muslim? If so, Faraid governs who inherits and in what
+  shares, and an Inheritance Certificate from the Syariah Court is needed.
+- Did the deceased leave a valid Wasiat (Islamic will)? If **yes**, the
+  executor applies to the Family Justice Courts for a **Grant of Probate**. If
+  **no**, the next-of-kin applies for a **Grant of Letters of Administration**.
+  (Section 4 sets out the court procedure for Letters of Administration; the
+  detailed procedure for a Grant of Probate is not covered in this material.)
+- Is the estate (excluding CPF and nominated insurance) **$50,000 or below**,
+  with none of the disqualifying factors in section 3.6? If so, the **Public
+  Trustee** may administer it instead of a court application.
+
+**Timing of debts and distribution.** Applications for the Inheritance
+Certificate and for Letters of Administration or Probate can be filed before
+the deceased's debts are settled. What must wait is the **distribution** of the
+estate: funeral and administration expenses, debts and other liabilities are
+paid from the estate first, any valid Wasiat is given effect, and only the net
+estate is then distributed under Faraid.
+
+1. **Identify and settle the estate's liabilities (before any distribution):**
+   funeral and burial expenses; debts owed to creditors; and outstanding
+   religious liabilities such as unpaid Zakat, Kafarah (expiation payments), or
+   oath penalties. These are paid from the estate before the net estate is
+   distributed — they do not have to be cleared before applying for the
+   Inheritance Certificate or a court grant.
 2. **Obtain the Death Certificate** — after the death is certified by a doctor,
    it is automatically registered with the Immigration & Checkpoints Authority
    (ICA). The next-of-kin then downloads the digital death certificate from
@@ -135,8 +162,10 @@ integrates Shari'ah requirements with civil probate law:
    Calculator** on the Syariah Court website
    (https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator).
 4. **Conduct a full search and inventory** of all estate assets across
-   institutions including HDB, banks, insurance companies, the Public Trustee's
-   Office (IPTO), and investment entities.
+   institutions including HDB, banks, insurance companies, the CPF Board (for
+   CPF savings), and investment entities. (The Public Trustee's Office is only
+   involved where it administers a qualifying estate of $50,000 or below, or
+   distributes un-nominated CPF monies — see section 3.)
 5. **Apply for the court grant** — if a valid Wasiat exists, the applicant may
    go to the Family Justice Courts to apply for a **Grant of Probate**. If the
    deceased passed away without a Wasiat, the applicant should apply for a
@@ -160,9 +189,13 @@ integrates Shari'ah requirements with civil probate law:
   automatically as Faraid heirs from a deceased Muslim. However, a Muslim revert
   can prepare a Wasiat to bequeath up to 1/3 of their net estate to non-Muslim
   family members.
-- **Civil marriage with a non-Muslim spouse** — a non-Muslim spouse married in a
-  civil ceremony is not recognised as a lawful spouse under Islamic law and cannot
-  inherit as a Faraid beneficiary.
+- **Non-Muslim spouse** — a non-Muslim spouse cannot inherit as a Faraid
+  beneficiary. A non-Muslim spouse married in a civil ceremony is not recognised
+  as a lawful spouse under Islamic law. Where the marriage was solemnised under
+  Islamic law, a spouse who is not Muslim still does not inherit under Faraid
+  unless they embraced Islam after the marriage. A Muslim can provide for a
+  non-Muslim spouse by Wasiat (up to 1/3 of the net estate). Confirm the
+  position for a particular marriage with the Syariah Court or MUIS.
 - **Children born out of wedlock** — children born outside a valid Islamic
   marriage do not inherit from their biological father under Faraid, but retain
   full inheritance rights from their mother and her side of the family. (See MCCY:
@@ -471,16 +504,27 @@ be a beneficiary under Faraid.
 
 ### 5.2 Must an Inheritance Certificate be obtained before LOA is issued?
 
-No substantive Singapore statute expressly makes the certificate a condition
-precedent to the FJC's power to grant LOA. PAA s 18 grants the power; AMLA s 113
-requires a Mazhab statement; AMLA s 115 permissively authorises a certificate of
-"opinion".
+Yes, in practice. For a Muslim estate the Inheritance Certificate is a required
+supporting document for the LOA application at the FJC, so it must be obtained
+from the Syariah Court **before** filing. It is the authoritative evidence used
+to identify the heirs, assess competing rights to administration, and direct
+Faraid distribution.
 
-In practice, the certificate is ordinarily the authoritative evidence needed to
-identify heirs, assess competing rights to administration, and direct Faraid
-distribution. It is **not conclusive** of facts, title, or estate composition, and
-can be disregarded or replaced when based on wrong facts. Nevertheless, it is one
-of the required supporting documents for an LOA application at the FJC.
+**What the certificate does and does not decide.** The certificate identifies the
+beneficiaries and their Faraid shares based on the family facts supplied to the
+Syariah Court. It does **not** decide what assets form part of the estate, and it
+is not conclusive of facts or title — if it was based on wrong or incomplete
+family facts it can be corrected or replaced. Which assets belong to the estate
+is established separately (title records, bank and insurance records, nomination
+status) and, where disputed, by the civil courts.
+
+**Disputes about who the heirs are.** The Syariah Court certifies heirs and
+shares on the family facts presented to it; it does not hear evidence or make
+findings on disputed facts (AMLA s 115). Where relatives disagree on facts that
+determine who is an heir (for example whether a marriage or parentage is
+recognised), the factual dispute must be resolved by the Family Justice Courts
+first, after which the Syariah Court can certify the heirs and shares on the
+established facts. Legal advice is strongly recommended in such cases.
 
 ### 5.3 What does the LOA cover?
 
@@ -534,8 +578,8 @@ governing trust (GIA ss 15–18).
 
 Available safeguards include:
 
-- Refusing a grant to an infant or a person lacking capacity, and appointing a
-  guardian/trustee instead (PAA ss 21–22).
+- Refusing a grant to a person lacking mental capacity (or an infant), and
+  appointing a guardian/trustee instead (PAA s 22).
 - An administration bond under PAA s 29 — security for the "due administration of
   the estate". It is typically given by the administrator with two sureties who
   co-sign and financially back the administrator's performance. The bond's value
@@ -667,7 +711,21 @@ estates are expressly excluded (IFPA s 1(2)).
 
 ---
 
-## 8. About MajuLaw
+## 8. If you are in crisis
+
+Bereavement and estate matters can be overwhelming. If you are having thoughts
+of suicide or self-harm, or feel you cannot cope, please reach out now:
+
+- **National Mindline 1771** (24 hours) — or WhatsApp **6669 1771**
+- **Samaritans of Singapore 1767** — or WhatsApp CareText **9151 1767**
+- **Emergency ambulance 995**
+
+Counselling, Family Service Centres and Asatizah Solace Care (section 7) can
+also help with grief and emotional distress.
+
+---
+
+## 9. About MajuLaw
 
 MajuLaw is an Access to Justice community project — an online triaging system
 designed to serve as a public gateway for routine administrative guidance on
@@ -703,7 +761,7 @@ scaling into civil probate matters.
 
 ---
 
-## 9. Glossary
+## 10. Glossary
 
 - **IC / IHC** — Inheritance Certificate (issued by the Syariah Court).
 - **SYC** — Syariah Court.
@@ -721,3 +779,7 @@ scaling into civil probate matters.
 - **ICA** — Immigration & Checkpoints Authority.
 - **HDB** — Housing & Development Board.
 - **SLA** — Singapore Land Authority.
+- **Survivorship** — when property is held as joint tenants and one owner dies, their interest passes automatically to the surviving joint owner(s) by operation of law, outside the estate.
+- **Joint tenancy / tenancy-in-common** — two ways of co-owning property; a joint tenancy passes by survivorship, while a tenancy-in-common share forms part of the deceased's estate.
+- **Intestate** — dying without a valid will (Wasiat).
+- **Grant of Probate** — the court grant given to the executor named in a valid Wasiat; **Grant of Letters of Administration** — the court grant given to an administrator where there is no Wasiat.
