@@ -392,7 +392,7 @@
   .roadmap{
     background:linear-gradient(90deg,var(--m-grad-a),var(--m-grad-b));
     border-radius:22px;border-bottom-left-radius:8px;
-    padding:26px 28px 30px;color:#fff;box-shadow:var(--shadow);
+    padding:26px 28px 30px 58px;color:#fff;box-shadow:var(--shadow);
   }
   .roadmap h2{margin:0 0 14px;font-size:19px;font-weight:700;color:#fff}
   .roadmap .typing{color:#fff;font-size:14.5px;line-height:1.7;text-align:justify}
@@ -422,7 +422,7 @@
   .roadmap .retake::before{content:"▶  ";font-size:11px}
   .roadmap .retake:hover{text-decoration:underline}
   .roadmap .more-info{margin:22px 0 0 66px;font-size:13.5px;line-height:1.55;color:#fff}
-  .roadmap-owl{position:absolute;left:-26px;bottom:-14px;width:92px;pointer-events:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+  .roadmap-owl{position:absolute;left:-38px;bottom:-16px;width:82px;pointer-events:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
   .roadmap-meta{display:flex;justify-content:flex-end;max-width:640px;margin-top:8px;font-size:12px;color:#c3cfe0}
   .summary-inputwrap{max-width:640px;margin-top:6px}
   @media(max-width:880px){
@@ -707,7 +707,7 @@ function render(){
   card.className = 'card intro fade';
   card.innerHTML = `
     <div class="pf-greet">
-      <img class="pf-greet-owl" src="assets/majjoo-owl.png" alt="Majoo">
+      <img class="pf-greet-owl" src="assets/majoo-owl.png" alt="Majoo">
       <div>
         <div class="pf-greet-bubble">Hello, I am Majoo. Before we begin, let&rsquo;s get to know your situation.<br>
           <button type="button" class="try-btn" id="pfRestart">Try our PathFinder</button>
@@ -727,7 +727,7 @@ function render(){
         <h3 class="pf-q">${item.q}</h3>
         <p class="pf-help">${item.help}</p>
         <div class="pf-ans">${answersHtml}</div>
-        <button class="pf-back" id="back">${isFirst?'&larr; Back to main page':'Back'}</button>
+        <button class="pf-back" id="back">${isFirst?'Back to main page':'Back'}</button>
       </div>
       <img class="pf-ava" src="assets/guest.png" alt="">
       <div class="pf-guest-label">Guest</div>
@@ -899,7 +899,7 @@ function renderSummary(){
               <p class="more-info">Need more information? Just click any highlighted keywords above or on the recommended next steps!</p>
             </div>
           </div>
-          <img class="roadmap-owl" src="assets/majjoo-owl.png" alt="">
+          <img class="roadmap-owl" src="assets/majoo-owl.png" alt="">
         </div>
         <div class="roadmap-meta">Majoo</div>
       </div>
@@ -983,7 +983,7 @@ function renderIntro(){
 
       <aside class="chat-panel" id="chatPanel">
         <div class="chat-head">
-          <h3><img src="assets/majjoo-owl.png" alt="">Chat with Majoo<button type="button" class="chat-expand" id="chatExpand" aria-label="Open chat in full window" title="Full window">&#x2922;</button></h3>
+          <h3><img src="assets/majoo-owl-face.png" alt="">Chat with Majoo<button type="button" class="chat-expand" id="chatExpand" aria-label="Open chat in full window" title="Full window">&#x2922;</button></h3>
           <p>I can explain the Inheritance Certificate, Faraid, Form 162, CPF nominations and more. I can't give legal advice or tell you your specific shares.</p>
         </div>
         <div class="chat-log" id="chatLog"></div>
@@ -1177,7 +1177,7 @@ function chatAppend(role, html, withDisc){
   meta.className = 'chat-meta';
   meta.innerHTML = role==='user'
     ? '<span>Guest</span><img class="chat-ava" src="assets/guest.png" alt="">'
-    : '<img class="chat-ava owl" src="assets/majjoo-owl.png" alt=""><span>Majoo</span>';
+    : '<img class="chat-ava owl" src="assets/majoo-owl-face.png" alt=""><span>Majoo</span>';
   row.appendChild(div);
   row.appendChild(meta);
   log.appendChild(row);
