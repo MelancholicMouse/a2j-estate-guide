@@ -263,6 +263,52 @@
   .chat-dl-row{display:flex;align-items:center;gap:6px;margin:4px 0 2px;flex-wrap:wrap}
   .chat-dl-lbl{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--m-maroon);opacity:.85}
   .chat-privacy{margin:8px 16px 14px;font-size:10.5px;line-height:1.5;color:#9aa6b8;text-align:center}
+  .chat-ai-note{margin:4px 4px 6px;font-size:11px;line-height:1.4;color:#6a6f7d;text-align:center}
+
+  /* ---- Estate administration roadmap (landing box + full-screen view) ---- */
+  .roadmap-box .rm-mini{list-style:none;margin:0 0 4px;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:rm}
+  .roadmap-box .rm-mini li{
+    counter-increment:rm;background:var(--m-cream);color:#16406f;border-radius:99px;
+    padding:6px 12px 6px 8px;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;
+  }
+  .roadmap-box .rm-mini li::before{
+    content:counter(rm);width:20px;height:20px;border-radius:50%;background:var(--m-maroon);color:#fff;
+    font-size:11px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 20px;
+  }
+  .rm-modal{position:fixed;inset:0;z-index:1100;background:linear-gradient(160deg,#0d2a4f,#081c37);overflow-y:auto;padding:22px 18px 40px}
+  body.rm-lock{overflow:hidden}
+  .rm-inner{max-width:960px;margin:0 auto;color:#eef2f8}
+  .rm-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+  .rm-top h2{margin:0;font-family:Georgia,'Times New Roman',serif;font-size:26px;color:#fff}
+  .rm-close{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:10px;
+    padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+  .rm-close:hover{background:rgba(255,255,255,.22)}
+  .rm-intro{margin:0 0 18px;font-size:14.5px;line-height:1.55;color:#c3cfe0}
+  .rm-routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:22px}
+  .rm-route{background:#8b94a5;border-radius:18px;padding:16px 18px;color:#1c2230;box-shadow:var(--shadow)}
+  .rm-route h4{margin:0 0 6px;font-size:14px;color:#16406f}
+  .rm-route p{margin:0;font-size:13px;line-height:1.5;color:#2a2f3a}
+  .rm-route .arm{display:block;margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--m-cream);font-size:12.5px}
+  .rm-route .arm b{color:var(--m-maroon)}
+  .rm-timing{background:rgba(184,146,63,.16);border-left:4px solid var(--gold);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.55;margin:0 0 22px;color:#f4ebec}
+  .rm-flow{list-style:none;margin:0;padding:0;counter-reset:rmf;position:relative}
+  .rm-flow li{position:relative;padding:0 0 18px 58px;counter-increment:rmf}
+  .rm-flow li::before{
+    content:counter(rmf);position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;
+    background:linear-gradient(135deg,var(--m-grad-a),var(--m-grad-b));color:#fff;font-weight:700;font-size:16px;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.35);z-index:1;
+  }
+  .rm-flow li::after{content:"";position:absolute;left:19px;top:40px;bottom:0;width:2px;background:rgba(255,255,255,.25)}
+  .rm-flow li:last-child::after{display:none}
+  .rm-step{background:rgba(255,255,255,.95);border-radius:16px;padding:14px 18px;color:#1c2230;box-shadow:var(--shadow)}
+  .rm-step h4{margin:0 0 4px;font-size:15.5px;color:#0c3e7b}
+  .rm-step p{margin:0;font-size:13.5px;line-height:1.55;color:#3a4150}
+  .rm-step .rm-branch{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-top:10px}
+  .rm-step .rm-branch span{background:var(--m-cream);border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.45}
+  .rm-step .rm-branch b{color:var(--m-maroon)}
+  .rm-foot{margin:18px 0 0;font-size:12.5px;color:#9aa6b8;text-align:center;line-height:1.5}
+  .rm-foot a{color:#fff}
+  @media(max-width:560px){.rm-modal{padding:14px 12px 30px}.rm-flow li{padding-left:50px}.rm-flow li::before{width:34px;height:34px;font-size:14px}.rm-flow li::after{left:16px;top:34px}}
 
   /* ---- Maroon top bar (inner screens: pathfinder / summary / form) ---- */
   .maju-bar{
@@ -270,12 +316,11 @@
     background:var(--m-maroon);border-radius:0;padding:8px 26px;
     width:100%;box-shadow:0 4px 20px rgba(0,0,0,.4);
   }
-  .maju-bar img{height:54px;display:block}
-  .maju-bar .login-pill{
-    background:#12406b;color:#fff;font-size:14px;font-weight:600;text-decoration:none;
-    padding:9px 28px;border-radius:99px;border:1px solid rgba(255,255,255,.25);
-  }
-  .maju-bar .login-pill:hover{background:#0a2f57}
+  .maju-bar img{height:46px;width:auto;display:block}
+  /* The logo (top-left, both bars) is a link back to the main page */
+  .brand-link{display:inline-block;line-height:0;border-radius:8px}
+  .brand-link:hover{opacity:.9}
+  .brand-link:focus-visible{outline:2px solid #fff;outline-offset:4px}
   [hidden]{display:none!important}
 
   /* ---- PathFinder per mockup: Majoo greeting + grey guest card ---- */
@@ -408,14 +453,23 @@
     text-align:center;color:rgba(255,255,255,.78);font-size:12px;line-height:1.5;
     margin-top:22px;text-shadow:0 1px 8px rgba(0,0,0,.5);max-width:560px;margin-left:auto;margin-right:auto;
   }
+  .disclaimer a{color:#fff;font-weight:600;text-decoration:underline}
+  .maju-credit{
+    text-align:center;color:rgba(255,255,255,.85);font-size:13.5px;line-height:1.5;
+    margin:22px auto 0;max-width:640px;text-shadow:0 1px 8px rgba(0,0,0,.5);font-style:italic;
+  }
 
   /* ---- MajuLaw hero banner + brand chrome (from the front-cover graphic) ---- */
   .maju-hero{position:relative;line-height:0;margin-bottom:22px;border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
   .maju-hero img{width:100%;height:auto;display:block}
-  /* Transparent clickable regions sized as % of the 1120x704 hero so they scale */
-  .hero-hotspot{position:absolute;display:block;cursor:pointer;border-radius:40px;-webkit-tap-highlight-color:transparent}
+  /* Real "Chat with Majoo" button, sized as % of the 1120x699 hero so it scales.
+     It sits over (and fully covers) the button baked into the photo. */
+  .hero-hotspot{position:absolute;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:99px;-webkit-tap-highlight-color:transparent;
+    background:#16406f;color:#fff;text-decoration:none;font-weight:600;line-height:1;white-space:nowrap;
+    box-shadow:0 4px 14px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);transition:.15s}
+  .hero-hotspot:hover{background:#0a2f57}
   .hero-hotspot:focus-visible{outline:3px solid #fff;outline-offset:3px}
-  .hero-hotspot.hs-chat{left:2.6%;top:71.5%;width:16.8%;height:9.2%}
+  .hero-hotspot.hs-chat{left:2.6%;top:71.6%;min-width:17%;height:9%;padding:0 1.1em;font-size:clamp(9px,1.3vw,15px)}
   /* Solid maroon bar covering the baked-in (fading) bar at the top of the photo */
   .hero-topbar{
     position:absolute;top:0;left:0;right:0;height:10.8%;
@@ -423,13 +477,9 @@
     display:flex;align-items:center;justify-content:space-between;
     padding:0 20px;line-height:normal;
   }
-  .hero-topbar img{height:78%;width:auto;display:block}
-  .hero-topbar .login-pill{
-    background:#12406b;color:#fff;font-size:13px;font-weight:600;text-decoration:none;
-    padding:7px 22px;border-radius:99px;border:1px solid rgba(255,255,255,.25);
-  }
-  .hero-topbar .login-pill:hover{background:#0a2f57}
-  .maju-partners{display:block;width:100%;border-radius:14px;margin:22px 0 0;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  /* Width-based so it scales with the hero (percentage heights don't resolve here) */
+  .hero-topbar .brand-link{width:15.6%;min-width:96px;max-width:190px}
+  .hero-topbar img{width:100%;height:auto;display:block}
   .maju-footer{width:100%;background:#0d3e79;border-radius:0;padding:28px 20px 34px;text-align:center;color:#eef2f8}
   .maju-footer p{margin:0 0 16px;font-size:15px}
   .maju-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 44px}
@@ -450,8 +500,7 @@
 <body>
   <!-- Slim maroon bar, full width (inner screens: pathfinder / summary / forms) -->
   <header class="maju-bar" id="majuBar" hidden>
-    <img src="assets/majulaw-logo.png" alt="MajuLaw">
-    <a class="login-pill" href="#login">Log In</a>
+    <a class="brand-link" href="#" data-home title="Back to the main page"><img src="assets/majulaw-logo-white.png" alt="MajuLaw — back to the main page"></a>
   </header>
 
   <main class="page-main">
@@ -460,20 +509,22 @@
       <header class="maju-hero" id="majuHero">
         <img src="assets/hero.jpg" alt="MajuLaw — Seek free legal advice for your probate matters today">
         <div class="hero-topbar">
-          <img src="assets/majulaw-logo.png" alt="MajuLaw">
-          <a class="login-pill" href="#login">Log In</a>
+          <a class="brand-link" href="#" data-home title="Back to the main page"><img src="assets/majulaw-logo-white.png" alt="MajuLaw — back to the main page"></a>
         </div>
-        <a class="hero-hotspot hs-chat" id="heroChat" href="#assistant" aria-label="Chat with Majoo"></a>
+        <a class="hero-hotspot hs-chat" id="heroChat" href="#assistant">Chat with Majoo</a>
       </header>
 
       <div class="card" id="card"><!-- injected --></div>
 
-      <p class="disclaimer" id="pageDisclaimer">This prototype provides general guidance only and is not legal advice. IC = Inheritance Certificate · SYC = Syariah Court · LOA = Letters of Administration · CPF = Central Provident Fund · MUIS = Islamic Religious Council of Singapore.</p>
+      <p class="disclaimer" id="pageDisclaimer">Majoo does not give legal advice or calculate specific shares. For an estimate of share distribution under Faraid, please use the Syariah Court&rsquo;s <a href="https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator" target="_blank" rel="noopener">Online Trial Inheritance Calculator</a>.</p>
 
-      <!-- Partner strip (from the front-cover graphic) -->
-      <img class="maju-partners" id="majuPartners" src="assets/partners.png" alt="In partnership with PEGUAM, MUIS, Pro Bono SG and M³">
+      <!-- Project credit line (landing only) -->
+      <p class="maju-credit" id="majuPartners">A project by SUSS Law students for the LAW@CDC Access to Justice Co-Lab.</p>
     </div>
   </main>
+
+  <!-- Full-screen estate administration roadmap (opened from the landing page) -->
+  <div class="rm-modal" id="rmModal" hidden role="dialog" aria-modal="true" aria-labelledby="rmTitle"></div>
 
   <!-- Full-width footer band -->
   <footer class="maju-footer">
@@ -676,7 +727,7 @@ function render(){
         <h3 class="pf-q">${item.q}</h3>
         <p class="pf-help">${item.help}</p>
         <div class="pf-ans">${answersHtml}</div>
-        <button class="pf-back" id="back" ${isFirst?'disabled':''}>Back</button>
+        <button class="pf-back" id="back">${isFirst?'&larr; Back to main page':'Back'}</button>
       </div>
       <img class="pf-ava" src="assets/guest.png" alt="">
       <div class="pf-guest-label">Guest</div>
@@ -689,6 +740,7 @@ function render(){
     let p = idx - 1;
     while(p >= 0 && !isVisible(QUESTIONS[p])) p--;
     if(p >= 0){ idx = p; render(); }
+    else renderIntro();   // first question: Back returns to the main page
   };
   document.getElementById('pfRestart').onclick = ()=>{ idx = 0; answers = {}; render(); };
 }
@@ -855,9 +907,10 @@ function renderSummary(){
       <div class="summary-inputwrap">
         <div class="chat-inputbox">
           <form class="chat-form" id="chatForm" autocomplete="off">
-            <textarea class="chat-input" id="chatInput" rows="1" placeholder="Let Majoo know of your queries... (Enter to send, Shift+Enter for a new line)" aria-label="Ask Majoo a question"></textarea>
+            <textarea class="chat-input" id="chatInput" rows="1" placeholder="Let Majoo know of your queries..." title="Enter to send, Shift+Enter for a new line" aria-label="Ask Majoo a question"></textarea>
             <button class="chat-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.4 21.6L23 12 2.4 2.4 2.4 10l14 2-14 2z"/></svg></button>
           </form>
+          <p class="chat-ai-note">Majoo is an AI-powered chatbot and can make mistakes.</p>
           <div class="chat-dl-row"><span class="chat-dl-lbl"><span class="dlc">&#8595;</span>Download chat:</span><button type="button" class="chat-dl" onclick="chatDownload('txt')">Text</button><button type="button" class="chat-dl" onclick="chatDownload('doc')">Word</button><button type="button" class="chat-dl" onclick="chatDownload('pdf')">PDF</button></div>
         </div>
         <p class="chat-privacy">Please note that your chat history will not be saved, and we do not retain any information you provide during this session. Once you leave this site, all conversation data will be permanently deleted and will no longer be accessible.</p>
@@ -917,6 +970,14 @@ function renderIntro(){
           <button class="start-btn alt" id="start162">Fill in Form 162</button>
         </div>
 
+        <div class="option-box roadmap-box">
+          <span class="obx-tag">Roadmap</span>
+          <h3>The estate administration roadmap</h3>
+          <p>The usual sequence for administering a Muslim estate in Singapore, from the death certificate to the final distribution.</p>
+          <ol class="rm-mini">${ROADMAP_STEPS.map(s=>`<li>${s.short}</li>`).join('')}</ol>
+          <button class="start-btn alt" id="openRoadmap">Open the roadmap in full screen</button>
+        </div>
+
         <p class="intro-note">General guidance only — this is not legal advice.</p>
       </div>
 
@@ -929,9 +990,10 @@ function renderIntro(){
         <div class="chat-chips" id="chatChips"></div>
         <div class="chat-inputbox">
           <form class="chat-form" id="chatForm" autocomplete="off">
-            <textarea class="chat-input" id="chatInput" rows="1" placeholder="Let Majoo know of your queries... (Enter to send, Shift+Enter for a new line)" aria-label="Ask Majoo a question"></textarea>
+            <textarea class="chat-input" id="chatInput" rows="1" placeholder="Let Majoo know of your queries..." title="Enter to send, Shift+Enter for a new line" aria-label="Ask Majoo a question"></textarea>
             <button class="chat-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.4 21.6L23 12 2.4 2.4 2.4 10l14 2-14 2z"/></svg></button>
           </form>
+          <p class="chat-ai-note">Majoo is an AI-powered chatbot and can make mistakes.</p>
           <div class="chat-dl-row"><span class="chat-dl-lbl"><span class="dlc">&#8595;</span>Download chat:</span><button type="button" class="chat-dl" onclick="chatDownload('txt')">Text</button><button type="button" class="chat-dl" onclick="chatDownload('doc')">Word</button><button type="button" class="chat-dl" onclick="chatDownload('pdf')">PDF</button></div>
         </div>
         <p class="chat-privacy">Please note that your chat history will not be saved, and we do not retain any information you provide during this session. Once you leave this site, all conversation data will be permanently deleted and will no longer be accessible.</p>
@@ -939,8 +1001,79 @@ function renderIntro(){
     </div>`;
   document.getElementById('start').onclick = ()=>{ render(); };
   document.getElementById('start162').onclick = ()=>{ renderF162(); };
+  document.getElementById('openRoadmap').onclick = openRoadmap;
   initChat();
 }
+
+/* =========================================================================
+   ESTATE ADMINISTRATION ROADMAP
+   The usual practical sequence (mirrors section 2 of the knowledge base so
+   the roadmap and the chatbot never disagree). Shown as a compact list on the
+   landing page and as a full-screen view on request.
+   ========================================================================= */
+const ROADMAP_STEPS = [
+  { short:'Identify liabilities', title:'Identify and settle the estate’s liabilities',
+    text:'Funeral and burial expenses, debts owed to creditors, and outstanding religious liabilities such as unpaid Zakat, Kafarah (expiation payments) or oath penalties. These are paid from the estate before the net estate is distributed — they do not have to be cleared before applying for the Inheritance Certificate or a court grant.' },
+  { short:'Death certificate', title:'Obtain the Death Certificate',
+    text:'Once the death is certified by a doctor it is registered automatically with the Immigration & Checkpoints Authority (ICA). The next-of-kin downloads the digital death certificate from MyLegacy@LifeSG. It is needed for post-death matters, including the burial or cremation permit from the National Environment Agency (NEA).' },
+  { short:'Inheritance Certificate', title:'Apply to the Syariah Court for the Inheritance Certificate',
+    text:'The Inheritance Certificate (IC) identifies all the legal Faraid heirs and their exact fractional shares. For an estimate of the shares, use the Syariah Court’s Online Trial Inheritance Calculator.' },
+  { short:'Asset inventory', title:'Search for and list all estate assets',
+    text:'Check every institution: HDB, banks, insurance companies, the CPF Board (for CPF savings) and investment entities. The Public Trustee’s Office is only involved where it administers a qualifying estate of $50,000 or below, or distributes un-nominated CPF monies.' },
+  { short:'Court grant', title:'Apply for the court grant',
+    text:'The application is made at the Family Justice Courts. Which grant you apply for depends on whether the deceased left a Wasiat (Islamic will):',
+    branch:[ ['Wasiat: yes', 'the executor applies for a <b>Grant of Probate</b>.'], ['Wasiat: no', 'the next-of-kin applies for a <b>Grant of Letters of Administration</b>.'] ] },
+  { short:'Liquidate assets', title:'Liquidate the assets into cash',
+    text:'The administrator or executor presents the court order and the Inheritance Certificate to the financial institutions and property agents.' },
+  { short:'Distribute', title:'Distribute the net estate in sequence',
+    text:'Faraid shares to the heirs as set out in the Inheritance Certificate; Wasiat bequests (up to one-third, to non-heirs); Nuzriah obligations; and any unallocated surplus remitted to Baitulmal.' },
+  { short:'Appeals', title:'Appeals, if there is a dispute',
+    text:'If disputes arise over Baitulmal remittances, beneficiaries may submit a formal appeal to MUIS and the Syariah Court.' },
+];
+
+function roadmapHtml(){
+  const steps = ROADMAP_STEPS.map(s=>`<li><div class="rm-step"><h4>${s.title}</h4><p>${s.text}</p>${
+    s.branch ? `<div class="rm-branch">${s.branch.map(b=>`<span><b>${b[0]}</b> &mdash; ${b[1]}</span>`).join('')}</div>` : ''
+  }</div></li>`).join('');
+  return `
+    <div class="rm-inner">
+      <div class="rm-top">
+        <h2 id="rmTitle">The estate administration roadmap</h2>
+        <button type="button" class="rm-close" id="rmClose" aria-label="Close the roadmap">&#x2715; Close</button>
+      </div>
+      <p class="rm-intro">The usual practical sequence for administering a Muslim estate in Singapore. It is a practical guide, not a legal framework, and every family’s route is slightly different — use the PathFinder for a route tailored to your answers.</p>
+      <div class="rm-routes">
+        <div class="rm-route"><h4>Was the deceased Muslim?</h4><p>If so, Faraid (Islamic inheritance law) governs who inherits and in what shares, and an Inheritance Certificate from the Syariah Court is needed.</p></div>
+        <div class="rm-route"><h4>Was there a Wasiat (Islamic will)?</h4><span class="arm"><b>Yes</b> &mdash; the executor applies for a Grant of Probate.</span><span class="arm"><b>No</b> &mdash; the next-of-kin applies for Letters of Administration.</span></div>
+        <div class="rm-route"><h4>Is the estate $50,000 or below?</h4><p>Excluding CPF and nominated insurance, and with none of the disqualifying factors, the Public Trustee may administer the estate instead of a court application.</p></div>
+      </div>
+      <p class="rm-timing"><b>Timing.</b> Applications for the Inheritance Certificate and for Letters of Administration or Probate can be filed before the deceased’s debts are settled. What must wait is the <b>distribution</b>: expenses, debts and other liabilities are paid first, any valid Wasiat is given effect, and only the net estate is then distributed under Faraid.</p>
+      <ol class="rm-flow">${steps}</ol>
+      <p class="rm-foot">General guidance only — this is not legal advice. Press Esc or use Close to return to the main page.</p>
+    </div>`;
+}
+
+function openRoadmap(){
+  const m = document.getElementById('rmModal');
+  if(!m) return;
+  m.innerHTML = roadmapHtml();
+  m.hidden = false;
+  m.scrollTop = 0;
+  document.body.classList.add('rm-lock');
+  const close = document.getElementById('rmClose');
+  close.onclick = closeRoadmap;
+  close.focus();
+}
+function closeRoadmap(){
+  const m = document.getElementById('rmModal');
+  if(!m || m.hidden) return;
+  m.hidden = true;
+  m.innerHTML = '';
+  document.body.classList.remove('rm-lock');
+  const btn = document.getElementById('openRoadmap');
+  if(btn) btn.focus();
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeRoadmap(); });
 
 /* =========================================================================
    GUARDRAILED ASSISTANT (static, no backend / no API key)
@@ -1353,7 +1486,7 @@ function renderF162Step(){
     ${step.intro?`<p class="helper">${step.intro}</p>`:''}
     <div class="f162-fields">${body}</div>
     <div class="nav">
-      <button class="back-btn" id="fback" ${f162Idx===0?'disabled':''}>&larr; Back</button>
+      <button class="back-btn" id="fback">${f162Idx===0?'&larr; Back to main page':'&larr; Back'}</button>
       <button class="f162-next" id="fnext">${f162Idx===steps.length-1?'Review &rarr;':'Next &rarr;'}</button>
     </div>`;
   card.querySelectorAll('.f162-radios').forEach(g=>g.querySelectorAll('.f162-opt').forEach(b=>{
@@ -1362,7 +1495,8 @@ function renderF162Step(){
   card.querySelectorAll('.f162-in[data-rerender]').forEach(el=>el.onchange=()=>{ saveF162Inputs(); renderF162Step(); });
   const add=document.getElementById('f162add'); if(add&&step.repeat) add.onclick=()=>{ saveF162Inputs(); f162[step.repeat.key].push({}); renderF162Step(); };
   card.querySelectorAll('.f162-rm').forEach(b=>b.onclick=()=>{ saveF162Inputs(); f162[step.repeat.key].splice(+b.dataset.rm,1); renderF162Step(); });
-  const back=document.getElementById('fback'); if(back&&f162Idx>0) back.onclick=()=>{ saveF162Inputs(); f162Idx--; renderF162Step(); };
+  // Back steps through the form; on the first page it returns to the main page.
+  const back=document.getElementById('fback'); if(back) back.onclick=()=>{ if(f162Idx>0){ saveF162Inputs(); f162Idx--; renderF162Step(); } else renderIntro(); };
   const next=document.getElementById('fnext'); if(next) next.onclick=()=>{ saveF162Inputs(); f162Idx++; renderF162Step(); };
 }
 function renderF162Review(){
@@ -1417,6 +1551,11 @@ async function generateForm162(){
     status.textContent='Downloaded ✓ — check your downloads folder.';
   }catch(e){ status.textContent='Sorry, generation failed: '+e.message; console.error(e); }
 }
+
+/* Logo (top-left of the hero and of the inner-page bar) → back to the main page. */
+document.querySelectorAll('[data-home]').forEach(a=>{
+  a.onclick = (e)=>{ e.preventDefault(); closeRoadmap(); renderIntro(); window.scrollTo({top:0, behavior:'smooth'}); };
+});
 
 /* Hero "Chat with Majoo" → return to the landing and focus the assistant. */
 (function(){
