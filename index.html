@@ -217,7 +217,6 @@
   .chat-row.bot{align-items:flex-start}
   .chat-meta{display:flex;align-items:center;gap:7px;margin-top:6px;font-size:11.5px;color:#c3cfe0}
   .chat-ava{width:26px;height:26px;border-radius:50%;object-fit:cover;background:#fff}
-  .chat-ava.owl{background:transparent;object-fit:contain;width:30px;height:34px;border-radius:0}
   .chat-msg{max-width:88%;min-width:0;font-size:13.5px;line-height:1.55;padding:12px 15px;border-radius:18px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
   .chat-msg p{margin:0 0 8px}
   .chat-msg p:last-child{margin-bottom:0}
@@ -1173,13 +1172,14 @@ function chatAppend(role, html, withDisc){
   const div = document.createElement('div');
   div.className = 'chat-msg '+role;
   div.innerHTML = html + (withDisc ? `<span class="disc">${CHAT_DISCLAIMER}</span>` : '');
-  const meta = document.createElement('div');
-  meta.className = 'chat-meta';
-  meta.innerHTML = role==='user'
-    ? '<span>Guest</span><img class="chat-ava" src="assets/guest.png" alt="">'
-    : '<img class="chat-ava owl" src="assets/majoo-owl.png" alt=""><span>Majoo</span>';
   row.appendChild(div);
-  row.appendChild(meta);
+  // Only the visitor's messages carry a name row; Majoo's owl sits in the panel header.
+  if(role==='user'){
+    const meta = document.createElement('div');
+    meta.className = 'chat-meta';
+    meta.innerHTML = '<span>Guest</span><img class="chat-ava" src="assets/guest.png" alt="">';
+    row.appendChild(meta);
+  }
   log.appendChild(row);
   log.scrollTop = log.scrollHeight;
 }
