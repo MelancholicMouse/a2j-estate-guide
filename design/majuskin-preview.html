@@ -11,7 +11,8 @@
      MAJUSKIN — landing page, built from the supplied mockup.
      Artwork is cropped from the mockup (assets/skin/); text, buttons and
      the footer are real HTML so they stay sharp and editable.
-     Graphics only for now — buttons link to the chat preview page.
+     Graphics only for now — "Ask Majoo" opens the floating chat panel;
+     "First Advice" opens the PathFinder page.
      ===================================================================== */
   :root{
     --navy:#1b2741; --navy-2:#243553; --gold:#cbae73; --maroon:#722a2c; --maroon-deep:#4a1f1c;
@@ -93,37 +94,19 @@
   .bubble .btn:hover{background:var(--navy-2)}
   .who{font-weight:700;font-size:12.5px;color:#4a4e5a;margin-top:8px;opacity:.85;align-self:flex-end}
   .mj-row.guest .who{align-self:flex-end}
-  .pf{width:100%;background:var(--cream);border-radius:16px;padding:16px 18px 14px;box-shadow:0 12px 30px rgba(0,0,0,.28)}
-  .pf h2{margin:0;text-align:center;font-size:24px;font-weight:800;color:var(--navy)}
-  .pf .sub{text-align:center;font-size:11.5px;color:#5f6673;margin:0 0 12px}
-  .prog{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-  .track{flex:1;height:8px;border-radius:99px;background:#dcd5cc}
-  .fill{width:11%;height:100%;border-radius:99px;background:#7a1b1f}
-  .prog span{font-size:11.5px;color:#5f6673}
-  .step{display:inline-block;background:#7a1b1f;color:#fff;font-weight:700;font-size:11.5px;padding:5px 12px;border-radius:99px;margin-bottom:12px}
-  .pf h3{margin:0 0 4px;font-size:17px;font-weight:800;color:var(--navy)}
-  .pf .help{margin:0 0 12px;font-size:13.5px;color:#5a5e6a;line-height:1.35}
-  .opt{display:flex;align-items:center;justify-content:space-between;background:#fbf8f3;border:1px solid #e0d8cd;border-radius:10px;padding:9px 14px;margin-bottom:9px;text-decoration:none;color:var(--ink);transition:.15s}
-  .opt:hover,.opt.active{border:2px solid #7a1b1f;padding:8px 13px}
-  .opt b{display:block;font-size:15px;color:var(--navy)}
-  .opt small{display:block;font-size:11.5px;color:#5f6673}
-  .opt i{font-style:normal;font-size:20px;color:#333;font-weight:300}
-  .opt.active b{color:#7a1b1f}
-  .pf .back{display:block;text-align:center;margin-top:8px;font-size:13px;color:#3b3f48;text-decoration:none}
+  .mj-chips{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 10px 34px}
+  .mj-chips span{background:var(--cream);color:#1b2741;border:1px solid rgba(27,39,65,.15);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+  .mj-chips span:hover{background:#fff}
+  .gbubble{background:var(--cream);color:#1c2230;border-radius:22px;border-bottom-right-radius:0;padding:14px 18px;font-size:14.5px;line-height:1.4;box-shadow:0 8px 22px rgba(0,0,0,.18);max-width:88%}
+  .mj-ai{margin:6px 4px 0;text-align:center;font-size:11.5px;color:#2d3140;font-weight:600}
   .mj-ask{background:#c8c2be;padding:12px 14px 10px}
   .mj-box{position:relative;background:var(--cream);border-radius:16px;min-height:74px;padding:14px 66px 14px 16px;box-shadow:0 6px 18px rgba(0,0,0,.12)}
   .mj-box span{font-weight:600;font-size:14px;color:#2d3140}
   .mj-send{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 5px 12px rgba(0,0,0,.3)}
   .mj-send svg{width:22px;height:22px}
-  .mj-note{margin:8px 4px 0;text-align:center;font-size:10.5px;color:#3b3f48;line-height:1.35}
-  /* Launcher bubble shown once the widget has been closed */
-  .mj-launch{position:fixed;right:24px;bottom:24px;z-index:99;display:none;align-items:center;gap:10px;background:var(--navy);color:#fff;border:1px solid rgba(255,255,255,.2);
-    border-radius:999px;padding:8px 20px 8px 8px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.4);font-family:inherit}
-  .mj-launch img{width:42px;height:42px;border-radius:50%}
-  .mj-launch.show{display:inline-flex}
+  .mj-note{margin:4px 4px 0;text-align:center;font-size:10.5px;color:#3b3f48;line-height:1.35}
   @media(max-width:560px){
     .mj{right:0;bottom:0;width:100vw;max-width:none;height:100vh;height:100dvh;border-radius:0}
-    .mj-launch{right:14px;bottom:14px}
   }
 
   /* Footer */
@@ -160,14 +143,14 @@
     <div class="how-desktop">
       <img src="../assets/skin/how-it-works.jpg" alt="How does it work? Visit us at www.majulaw.sg; First Advice — Majoo starts you off with a short quiz; Chat with Majoo; Chat with us — Majoo will connect you with our staff.">
       <a class="hs p1" href="#top" aria-label="Visit us at www.majulaw.sg"></a>
-      <a class="hs p2" href="#majoo" data-open-chat data-pf aria-label="First Advice — try the PathFinder"></a>
+      <a class="hs p2" href="majuskin-pathfinder.html" aria-label="First Advice — start the guided PathFinder"></a>
       <a class="hs p3" href="#majoo" data-open-chat aria-label="Chat with Majoo"></a>
       <a class="hs p4" href="#contact" aria-label="Chat with us — Majoo will connect you with our staff"></a>
     </div>
     <div class="how-mobile">
       <h2>How does it work?</h2>
       <a href="#top"><img src="../assets/skin/panel1.jpg" alt="Visit us at www.majulaw.sg"></a>
-      <a href="#majoo" data-open-chat data-pf><img src="../assets/skin/panel2.jpg" alt="First Advice — Majoo will start you off with a short quiz to find out more about your situation, and give you a simple advice customised to your case."></a>
+      <a href="majuskin-pathfinder.html"><img src="../assets/skin/panel2.jpg" alt="First Advice — Majoo will start you off with a short quiz to find out more about your situation, and give you a simple advice customised to your case."></a>
       <a href="#majoo" data-open-chat><img src="../assets/skin/panel3.jpg" alt="Chat with Majoo — if the first advice did not answer your question, ask him directly with our Majoo chat. Save the chat at any point of time."></a>
       <a href="#contact"><img src="../assets/skin/panel4.jpg" alt="Chat with us — even the wisest owl needs some help. Majoo will connect you with our staff."></a>
     </div>
@@ -203,45 +186,42 @@
       <div class="mj-row">
         <div class="bubble">
           <img class="ava" src="../assets/skin/majoo-avatar.png" alt="">
-          Hello, I am Majoo! Before we begin, let&rsquo;s get to know your situation.<br>
-          <button type="button" class="btn" id="mjTryPf">Try our Pathfinder</button>
+          Assalamu alaikum. I&rsquo;m Majoo. I can explain the Inheritance Certificate, Faraid, Form 162, CPF nominations and more. Ask me anything, or tap a suggestion below.
         </div>
         <div class="who">Majoo</div>
       </div>
-      <div class="mj-row guest" id="mjPf" hidden>
-        <div class="pf">
-          <h2>PathFinder</h2>
-          <p class="sub">Answer each question and we will map your route.</p>
-          <div class="prog"><div class="track"><div class="fill"></div></div><span>1/11</span></div>
-          <span class="step">STEP 1: THE WILL</span>
-          <h3>Did the deceased leave a Wasiat?</h3>
-          <p class="help">A Wasiat is an Islamic will. Under Faraid, it can dispose up to 1/3 of the estate.</p>
-          <a class="opt" href="#"><span><b>Yes</b><small>Yes, there is a Wasiat.</small></span><i>&#8250;</i></a>
-          <a class="opt active" href="#"><span><b>No</b><small>No, there is no Wasiat.</small></span><i>&#8250;</i></a>
-          <a class="back" href="#">&#10229;&nbsp; Back</a>
-        </div>
+      <div class="mj-chips">
+        <span>What is an Inheritance Certificate?</span><span>How do I apply for the IC?</span><span>What is Form 162?</span><span>Where do I start?</span>
+      </div>
+      <div class="mj-row guest">
+        <div class="gbubble">My father passed away last month. He had no will. Where do I start?</div>
         <div class="who">Guest</div>
+      </div>
+      <div class="mj-row">
+        <div class="bubble">
+          <img class="ava" src="../assets/skin/majoo-avatar.png" alt="">
+          I&rsquo;m sorry for your loss. With no Wasiat (Islamic will), the next-of-kin applies for <b>Letters of Administration</b>. Before that you will need the death certificate and an <b>Inheritance Certificate</b> from the Syariah Court, which sets out the heirs and their shares.<br><br>May I ask roughly what the estate is worth, excluding CPF and any nominated insurance?
+        </div>
+        <div class="who">Majoo</div>
       </div>
     </div>
     <div class="mj-ask">
       <div class="mj-box"><span>Ask me something</span>
         <a class="mj-send" href="#" aria-label="Send"><svg viewBox="0 0 24 24" fill="#fff"><path d="M2.4 21.6L23 12 2.4 2.4 2.4 10l14 2-14 2z"/></svg></a>
       </div>
+      <p class="mj-ai">Majoo is an AI-powered chatbot and can make mistakes.</p>
       <p class="mj-note">Please note that your chat history will not be saved once you leave this page, and we will not retain any information you provide during this session unless such permission is provided.</p>
     </div>
   </div>
-  <button type="button" class="mj-launch" id="mjLaunch"><img src="../assets/skin/majoo-avatar.png" alt="">Ask Majoo</button>
 
 <script>
   // Preview-only wiring: open / close the floating Majoo panel.
   (function(){
-    const w=document.getElementById('mjWidget'), launch=document.getElementById('mjLaunch'), pf=document.getElementById('mjPf');
-    const open=(showPf)=>{ w.hidden=false; launch.classList.remove('show'); if(showPf) pf.hidden=false; document.getElementById('mjLog').scrollTop=0; };
-    const close=()=>{ w.hidden=true; launch.classList.add('show'); };
-    document.querySelectorAll('[data-open-chat]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); open(a.hasAttribute('data-pf')); }));
+    const w=document.getElementById('mjWidget');
+    const open=()=>{ w.hidden=false; document.getElementById('mjLog').scrollTop=0; };
+    const close=()=>{ w.hidden=true; };
+    document.querySelectorAll('[data-open-chat]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); open(); }));
     document.getElementById('mjClose').onclick=close;
-    launch.onclick=()=>open(false);
-    document.getElementById('mjTryPf').onclick=()=>{ pf.hidden=false; pf.scrollIntoView({behavior:'smooth',block:'nearest'}); };
     document.addEventListener('keydown',e=>{ if(e.key==='Escape' && !w.hidden) close(); });
   })();
 </script>
