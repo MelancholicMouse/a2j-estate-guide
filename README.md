@@ -51,6 +51,13 @@ Majoo, the chat panel (bottom-right, opened from "Ask Majoo" or the "Chat with M
   - `ANTHROPIC_API_KEY` — required. Your Anthropic API key.
   - `CHAT_MODEL` — optional. Defaults to `claude-haiku-4-5` (most cost-effective);
     set to `claude-sonnet-5` or `claude-opus-5` for higher quality.
+- **Email me this chat:** the Email button in the chat panel sends the
+  transcript to the address the visitor types, through `api/email.js` and
+  [Resend](https://resend.com). It stays hidden-but-harmless until configured:
+  - `RESEND_API_KEY` — required to switch emailing on.
+  - `EMAIL_FROM` — optional sender, e.g. `Majoo at MajuLaw <majoo@majulaw.sg>`
+    (the domain must be verified in Resend; use `onboarding@resend.dev` to test).
+  Visit `/api/email` in a browser to check whether the key is visible.
 - **Static fallback:** if no key is configured (or the site is served by a
   static-only host), the panel falls back to a scope-locked scripted assistant so
   the chat always works. Nothing breaks before the key is added.
