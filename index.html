@@ -220,6 +220,14 @@
   .mj-dl-row{display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:0 16px 8px;font-size:12.5px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.35)}
   .mj-dl-row button{background:var(--cream);color:var(--navy);border:none;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;cursor:pointer}
   .mj-dl-row button:hover{background:#fff}
+  .mj-dl-row button.em{background:var(--navy);color:#fff}
+  .mj-email{display:flex;align-items:center;gap:6px;padding:0 16px 8px}
+  .mj-email input{flex:1;min-width:0;border:1.5px solid rgba(27,39,65,.25);border-radius:999px;padding:7px 12px;font-family:inherit;font-size:13px;background:var(--cream);color:var(--ink)}
+  .mj-email input:focus{outline:none;border-color:var(--navy)}
+  .mj-email button{background:var(--maroon);color:#fff;border:none;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+  .mj-email button:disabled{opacity:.6;cursor:default}
+  .mj-email-status{padding:0 16px 8px;font-size:12px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.35);text-align:right}
+  .mj-email-status.err{color:#ffd7d7}
   .mj-log{flex:1;overflow-y:auto;padding:8px 16px 14px;display:flex;flex-direction:column;gap:6px;min-height:0}
   .mj-row{display:flex;flex-direction:column;align-items:flex-start;margin-left:34px}
   .mj-row.guest{align-items:flex-end;margin:6px 0 0 0}
@@ -363,7 +371,12 @@
       <button type="button" class="mj-dl" id="mjDl" title="Download the chat"><i>&#8595;</i>Download Chat</button>
       <button type="button" class="mj-close" id="mjClose" aria-label="Close chat">&#x2715;</button>
     </div>
-    <div class="mj-dl-row" id="mjDlRow" hidden>Save as: <button type="button" onclick="chatDownload('txt')">Text</button><button type="button" onclick="chatDownload('doc')">Word</button><button type="button" onclick="chatDownload('pdf')">PDF</button></div>
+    <div class="mj-dl-row" id="mjDlRow" hidden>Save as: <button type="button" onclick="chatDownload('txt')">Text</button><button type="button" onclick="chatDownload('doc')">Word</button><button type="button" onclick="chatDownload('pdf')">PDF</button><button type="button" class="em" id="mjEmailBtn">Email</button></div>
+    <form class="mj-email" id="mjEmail" hidden autocomplete="on">
+      <input type="email" id="mjEmailTo" placeholder="Your email address" aria-label="Your email address" required>
+      <button type="submit" id="mjEmailSend">Send advice</button>
+    </form>
+    <div class="mj-email-status" id="mjEmailStatus" hidden></div>
     <div class="mj-log" id="chatLog"></div>
     <div class="mj-chips" id="chatChips"></div>
     <div class="mj-ask">
@@ -372,7 +385,7 @@
         <button class="mj-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="#fff"><path d="M2.4 21.6L23 12 2.4 2.4 2.4 10l14 2-14 2z"/></svg></button>
       </form>
       <p class="mj-ai">Majoo is an AI-powered chatbot and can make mistakes.</p>
-      <p class="mj-note">Please note that your chat history will not be saved once you leave this page, and we will not retain any information you provide during this session.</p>
+      <p class="mj-note">Please note that your chat history will not be saved once you leave this page, and we will not retain any information you provide during this session. If you choose to email the conversation to yourself, it is sent once to the address you enter and the address is not stored.</p>
     </div>
   </div>
 
@@ -990,6 +1003,27 @@ function chatDownload(kind){
 }
 function chatDownloadTxt(){ chatDownload('txt'); }
 
+/* Email the transcript to the visitor via /api/email (Resend). The address is
+   used once and not stored. Silently unavailable until the key is configured. */
+async function chatEmail(to){
+  const status = document.getElementById('mjEmailStatus');
+  const btn = document.getElementById('mjEmailSend');
+  const show = (msg, err) => { status.hidden = false; status.textContent = msg; status.classList.toggle('err', !!err); };
+  const rows = chatTranscript().map(r => ({ role: r.who==='Guest' ? 'user' : 'assistant', text: r.text }));
+  if(!rows.some(r => r.role==='user')){ show('Ask Majoo something first, then email the conversation.', true); return; }
+  btn.disabled = true; show('Sending…');
+  try{
+    const res = await fetch('/api/email', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ to, messages: rows }) });
+    const data = res.headers.get('content-type')?.includes('application/json') ? await res.json() : {};
+    if(data.sent){ show('Sent to ' + to + '. Check your inbox (and spam folder).'); document.getElementById('mjEmailTo').value=''; }
+    else if(data.configured === false) show('Email is not switched on yet — please use Download instead.', true);
+    else if(data.error==='invalid_email') show('That email address does not look right.', true);
+    else if(data.error==='rate_limited') show('Too many emails just now — please try again in a few minutes.', true);
+    else show('Sorry, the email could not be sent. Please use Download instead.', true);
+  }catch(e){ show('Sorry, the email could not be sent. Please use Download instead.', true); }
+  btn.disabled = false;
+}
+
 /* Render the model's (light) markdown reply as safe HTML: escape everything
    first, then support headings, bullet / numbered lists, bold, italics, inline
    code, links and paragraphs. */
@@ -1089,7 +1123,10 @@ function initChat(){
   });
   wireChatInput(form, input);
   const dl = document.getElementById('mjDl'), dlRow = document.getElementById('mjDlRow');
-  dl.onclick = ()=>{ dlRow.hidden = !dlRow.hidden; };
+  dl.onclick = ()=>{ dlRow.hidden = !dlRow.hidden; if(dlRow.hidden){ emailForm.hidden = true; emailStatus.hidden = true; } };
+  const emailForm = document.getElementById('mjEmail'), emailStatus = document.getElementById('mjEmailStatus');
+  document.getElementById('mjEmailBtn').onclick = ()=>{ emailForm.hidden = !emailForm.hidden; if(!emailForm.hidden) document.getElementById('mjEmailTo').focus(); };
+  emailForm.onsubmit = e=>{ e.preventDefault(); chatEmail(document.getElementById('mjEmailTo').value.trim()); };
   document.getElementById('mjClose').onclick = closeChat;
   document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !document.getElementById('mjWidget').hidden) closeChat(); });
 }
