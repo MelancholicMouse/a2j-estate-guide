@@ -3,537 +3,378 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estate Administration Guide — Access to Justice Prototype</title>
+<title>MajuLaw — Muslim estate administration guide</title>
+<meta name="description" content="Free, plain-language help with Singapore's Muslim estate administration process: a guided PathFinder, a Form 162 filler, the estate roadmap and Majoo, the chatbot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* =====================================================================
+     MajuLaw — site styles (the "majuskin" design)
+     Landing: navy privacy strip, gold header, hero illustration, four cards.
+     Inner screens (PathFinder / summary / Form 162): gradient stage with
+     Majoo's bubble and a cream card. Roadmap: dark textured page.
+     Majoo Chat: floating panel pinned bottom-right, full-screen on phones.
+     ===================================================================== */
   :root{
-    --ink:#1c2230;
-    --muted:#5a6276;
-    --line:rgba(20,28,46,.10);
-    --card:rgba(255,255,255,.92);
-    --accent:#1f6f57;       /* somber green from the photo */
-    --accent-dark:#16513f;
-    --yes:#1f6f57;
-    --no:#8a5a3c;
-    --gold:#b8923f;
-    --shadow:0 24px 60px rgba(15,23,42,.28);
+    --navy:#1b2741; --navy-2:#243553; --gold:#cbae73; --gold-deep:#b8923f; --maroon:#7a1b1f; --maroon-deep:#721419;
+    --brown:#3f1e18; --cream:#f6efe6; --sand:#efe4d2; --grey:#c9c2bd; --ink:#1c2230; --muted:#5f6673;
+    --font:"Figtree","Avenir Next","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-    color:var(--ink);
-    /* Solid dark-blue background (matches the MajuLaw navy) */
-    background:linear-gradient(160deg,#0d2a4f,#081c37);
-    background-attachment:fixed;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    padding:0;
-  }
-  .page-main{
-    flex:1;width:100%;display:flex;align-items:flex-start;justify-content:center;
-    padding:36px 18px 64px;
-  }
-  .shell{
-    width:100%;
-    max-width:760px;
-  }
-  .brand{
-    text-align:center;
-    color:#fff;
-    margin-bottom:22px;
-    text-shadow:0 2px 18px rgba(0,0,0,.55);
-  }
-  .brand .kicker{
-    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-    opacity:.85;margin-bottom:8px;
-  }
-  .brand h1{margin:0;font-size:30px;font-weight:700;letter-spacing:-.01em}
-  .brand p{margin:8px auto 0;max-width:520px;font-size:14.5px;opacity:.9;line-height:1.5}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--font);color:var(--ink);background:var(--navy);line-height:1.45;min-height:100vh;display:flex;flex-direction:column}
+  main{flex:1}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  button{font-family:inherit}
+  [hidden]{display:none!important}
+  .fade{animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-  .card{
-    background:var(--card);
-    backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,.5);
-    border-radius:20px;
-    box-shadow:var(--shadow);
-    padding:30px 32px 28px;
-  }
+  /* Privacy strip + top bar */
+  .privacy{background:var(--navy);color:#e7e3dc;text-align:center;font-size:14.5px;padding:6px 16px;line-height:1.35}
+  .privacy a{color:#fff;text-decoration:underline;text-underline-offset:3px;margin-left:6px}
+  .top{background:var(--gold);padding:12px 48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .top .home img{height:48px;width:auto}
+  .top .home:focus-visible{outline:2px solid var(--navy);outline-offset:4px;border-radius:6px}
+  .back-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:17px;white-space:nowrap}
+  .back-link:hover{text-decoration:underline}
+  body.is-landing .top{justify-content:center;padding:12px 16px 6px}
+  body.is-landing .back-link{display:none}
 
-  /* Progress */
-  .progress-wrap{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-  .progress-track{flex:1;height:7px;border-radius:99px;background:rgba(20,28,46,.10);overflow:hidden}
-  .progress-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .45s cubic-bezier(.4,0,.2,1)}
-  .progress-label{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+  /* ---- Landing ---- */
+  .gold{background:var(--gold)}
+  .hero{max-width:1178px;margin:0 auto;padding:6px 18px 0}
+  .hero img{width:100%;height:auto;border-radius:4px}
+  .ask-wrap{display:flex;justify-content:center;padding:12px 16px 20px}
+  .ask{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;background:var(--navy);color:#fff;border-radius:999px;padding:8px 44px 9px;min-width:268px;
+    box-shadow:0 6px 16px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);transition:.15s;cursor:pointer}
+  .ask:hover{background:var(--navy-2);transform:translateY(-1px)}
+  .ask b{font-size:22px;font-weight:700;line-height:1.05}
+  .ask small{font-size:14px;opacity:.85;margin-top:1px}
+  .how-desktop{position:relative;line-height:0}
+  .how-desktop img.bg{width:100%;height:auto}
+  .cards{position:absolute;left:24.3%;top:7.5%;width:69.5%;height:82.5%;display:flex;align-items:stretch;justify-content:space-between;gap:1%}
+  .card{display:block;flex:0 0 auto;height:100%;border:none;background:none;padding:0;border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:.15s;filter:drop-shadow(0 16px 30px rgba(0,0,0,.35))}
+  .card img{height:100%;width:auto;display:block;border-radius:8px}
+  .card:hover,.card:focus-visible{transform:translateY(-6px);filter:drop-shadow(0 24px 40px rgba(0,0,0,.45));outline:none}
+  .how-mobile{display:none;position:relative;background:linear-gradient(#4a1f1c,#3b1815 60%,#2f1512);padding:34px 18px 40px;overflow:hidden}
+  .how-mobile::before{content:"";position:absolute;left:0;right:0;top:0;height:300px;background:url("assets/skin/maroon-texture.jpg") top center/cover;
+    -webkit-mask-image:linear-gradient(#000 45%,transparent);mask-image:linear-gradient(#000 45%,transparent);pointer-events:none}
+  .how-mobile > *{position:relative}
+  .how-mobile h2{margin:0 0 18px;text-align:center;color:var(--gold);font-size:34px;font-weight:700;line-height:1.1}
+  .how-mobile .card{display:block;max-width:340px;height:auto;margin:0 auto 16px;border-radius:8px;overflow:hidden;filter:none;box-shadow:0 14px 34px rgba(0,0,0,.4)}
+  .how-mobile .card img{width:100%;height:auto}
+  @media(max-width:820px){.how-desktop{display:none}.how-mobile{display:block}}
 
-  .section-head{
-    display:flex;align-items:center;gap:12px;
-    font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
-    color:var(--gold);margin-bottom:14px;
-  }
-  .section-head::after{
-    content:"";flex:1;height:1px;
-    background:linear-gradient(90deg,rgba(184,146,63,.45),transparent);
-  }
-  .stage-tag{
-    display:inline-block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--accent-dark);background:rgba(31,111,87,.10);
-    padding:5px 11px;border-radius:99px;font-weight:600;margin-bottom:16px;
-  }
-  .question{font-size:23px;line-height:1.35;font-weight:650;margin:0 0 8px}
-  .helper{font-size:14px;color:var(--muted);line-height:1.55;margin:0 0 24px}
-  .helper b{color:var(--ink)}
+  /* ---- Stage (PathFinder / summary / Form 162) ---- */
+  .stage{position:relative;min-height:70vh;padding:30px 48px 40px;
+    background:
+      radial-gradient(ellipse 60% 55% at 0% 0%, rgba(222,210,197,.95) 0%, rgba(222,210,197,0) 70%),
+      radial-gradient(ellipse 55% 60% at 0% 100%, rgba(41,56,84,1) 0%, rgba(41,56,84,0) 70%),
+      radial-gradient(ellipse 55% 55% at 100% 0%, rgba(111,27,30,1) 0%, rgba(111,27,30,0) 70%),
+      radial-gradient(ellipse 60% 60% at 100% 100%, rgba(212,178,124,1) 0%, rgba(212,178,124,0) 70%),
+      linear-gradient(135deg,#8f8c92 0%,#8b7172 45%,#a67a5f 100%)}
+  .convo{max-width:1230px;margin:0 auto;position:relative}
+  .majoo-row{display:flex;flex-direction:column;align-items:flex-start;max-width:520px;margin-left:120px}
+  .bubble{position:relative;background:var(--grey);border-radius:30px;border-bottom-left-radius:0;padding:24px 40px 24px 50px;color:#3b3f48;font-size:16.5px;line-height:1.4;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+  .bubble .ava{position:absolute;left:-40px;bottom:-4px;width:80px;height:80px;border-radius:50%;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+  .bubble .btn{display:inline-block;margin:14px 0 0 6px;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:19px;padding:11px 28px;border-radius:14px;box-shadow:0 6px 14px rgba(0,0,0,.35);border:none;cursor:pointer}
+  .bubble .btn:hover{background:var(--navy-2)}
+  .who{align-self:flex-end;font-weight:700;font-size:15px;color:#4a4e5a;margin-top:12px;opacity:.85}
+  .guest-row{display:flex;flex-direction:column;align-items:flex-end;margin:22px 0 0 auto;max-width:640px}
+  .pf{width:100%;background:var(--cream);border-radius:20px;padding:24px 40px 22px;box-shadow:0 14px 34px rgba(0,0,0,.28)}
+  .pf h2{margin:0;text-align:center;font-size:34px;font-weight:800;color:var(--navy);letter-spacing:-.01em}
+  .pf .sub{text-align:center;font-size:12.5px;color:var(--muted);margin:0 0 16px}
+  .prog{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .track{flex:1;height:9px;border-radius:99px;background:#dcd5cc;overflow:hidden}
+  .fill{height:100%;border-radius:99px;background:var(--maroon);transition:width .45s cubic-bezier(.4,0,.2,1)}
+  .prog span{font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .step{display:inline-block;background:var(--maroon);color:#fff;font-weight:700;font-size:13px;letter-spacing:.02em;padding:6px 14px;border-radius:99px;margin-bottom:16px;text-transform:uppercase}
+  .pf h3{margin:0 0 6px;font-size:22px;font-weight:800;color:var(--navy);line-height:1.3}
+  .pf .help{margin:0 0 16px;font-size:16px;color:#5a5e6a;line-height:1.35}
+  .pf .help b{color:var(--ink)}
+  .opt{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;background:#fbf8f3;border:1px solid #e0d8cd;border-radius:10px;padding:12px 18px;margin-bottom:12px;text-align:left;color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,.05);transition:.15s;cursor:pointer;font-family:inherit}
+  .opt:hover,.opt:focus-visible{border:2px solid var(--maroon);padding:11px 17px;outline:none}
+  .opt b{display:block;font-size:17px;color:var(--navy)}
+  .opt small{display:block;font-size:12.5px;color:var(--muted);line-height:1.35}
+  .opt i{font-style:normal;font-size:22px;color:#333;font-weight:300}
+  .opt:hover b{color:var(--maroon)}
+  .back{display:inline-block;background:none;border:none;text-align:center;margin-top:8px;font-size:14px;color:#3b3f48;text-decoration:none;cursor:pointer;padding:6px 4px}
+  .back:hover{text-decoration:underline}
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:12px}
+  .next{background:var(--navy);color:#fff;border:none;border-radius:12px;padding:11px 22px;font-size:15px;font-weight:700;cursor:pointer}
+  .next:hover{background:var(--navy-2)}
+  .btn-primary{display:inline-block;background:var(--maroon);color:#fff;border:none;border-radius:999px;padding:12px 24px;font-size:15.5px;font-weight:700;cursor:pointer;text-decoration:none;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+  .btn-primary:hover{filter:brightness(1.1)}
+  .btn-secondary{display:inline-block;background:var(--navy);color:#fff;border:none;border-radius:999px;padding:12px 24px;font-size:15.5px;font-weight:700;cursor:pointer;text-decoration:none;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+  .btn-secondary:hover{background:var(--navy-2)}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .status{font-size:13.5px;color:var(--muted);margin:10px 0 0;min-height:1.2em}
 
-  .answers{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .answers.stack{grid-template-columns:1fr}
-  .ans{
-    cursor:pointer;border:1.5px solid var(--line);background:#fff;
-    border-radius:14px;padding:18px 16px;text-align:left;
-    transition:.16s;font-size:15px;font-weight:600;color:var(--ink);
-    display:flex;flex-direction:column;gap:5px;
-  }
-  .ans:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 10px 24px rgba(31,111,87,.16)}
-  .ans .tag{font-size:12px;font-weight:700;letter-spacing:.08em}
-  .ans.yes .tag{color:var(--yes)}
-  .ans.no .tag{color:var(--no)}
-  .ans .out{font-size:12.5px;font-weight:400;color:var(--muted);line-height:1.45}
-
-  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
-  .back-btn{
-    background:none;border:none;color:var(--muted);font-size:13.5px;cursor:pointer;
-    padding:8px 4px;font-weight:500;
-  }
-  .back-btn:hover{color:var(--ink)}
-  .back-btn:disabled{opacity:.3;cursor:default}
-  .dots{font-size:12px;color:var(--muted)}
-
-  /* Summary */
-  .summary-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-  .ai-badge{
-    display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;
-    letter-spacing:.1em;text-transform:uppercase;color:#fff;
-    background:linear-gradient(90deg,var(--accent),var(--gold));
-    padding:6px 12px;border-radius:99px;
-  }
-  .ai-badge .spark{width:13px;height:13px}
-  .summary h2{margin:14px 0 4px;font-size:24px}
-  .typing{font-size:15px;line-height:1.65;color:var(--ink);white-space:pre-wrap}
-  .section-title{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-dark);font-weight:700;margin:26px 0 12px}
-  .steps{list-style:none;margin:0;padding:0;counter-reset:step}
-  .steps li{
-    position:relative;padding:14px 16px 14px 52px;margin-bottom:10px;
-    background:#fff;border:1px solid var(--line);border-radius:13px;font-size:14.5px;line-height:1.5;
-  }
-  .steps li::before{
-    counter-increment:step;content:counter(step);
-    position:absolute;left:14px;top:13px;width:26px;height:26px;border-radius:50%;
-    background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;
-    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
-  }
-  .recap{margin:24px 0 0;border-top:1px solid var(--line);padding-top:18px}
-  .recap summary{cursor:pointer;font-size:13.5px;color:var(--muted);font-weight:600}
-  .recap table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
-  .recap td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  /* Summary card */
+  .narr{font-size:16px;line-height:1.65;color:var(--ink);white-space:pre-wrap;margin:0 0 6px}
+  .kw{background:none;border:none;padding:0;font:inherit;color:var(--maroon);font-weight:700;text-decoration:underline;cursor:pointer;white-space:nowrap}
+  .kw::after{content:" ✦";font-size:11px;vertical-align:super}
+  .section-title{font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--maroon);font-weight:800;margin:22px 0 10px}
+  .steps{list-style:none;margin:0;padding:0;counter-reset:st}
+  .steps li{position:relative;padding:12px 14px 12px 50px;margin-bottom:10px;background:#fff;border:1px solid #e0d8cd;border-radius:12px;font-size:14.5px;line-height:1.5;cursor:pointer;transition:.15s}
+  .steps li:hover{border-color:var(--maroon);box-shadow:0 6px 16px rgba(0,0,0,.08)}
+  .steps li::before{counter-increment:st;content:counter(st);position:absolute;left:12px;top:11px;width:26px;height:26px;border-radius:50%;background:var(--gold);color:#3a2a10;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .recap{margin:18px 0 0;border-top:1px solid #e0d8cd;padding-top:14px}
+  .recap summary{cursor:pointer;font-size:14px;color:var(--muted);font-weight:700}
+  .recap table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+  .recap td{padding:8px 6px;border-bottom:1px solid #e8e1d6;vertical-align:top}
   .recap td:first-child{color:var(--muted);width:62%}
   .recap td:last-child{font-weight:700;text-align:right;white-space:nowrap}
-  .recap td.recap-section{
-    font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
-    color:var(--accent-dark);padding-top:16px;
-  }
-  .pill-yes{color:var(--yes)}
-  .pill-no{color:var(--no)}
+  .recap td.recap-section{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--maroon);padding-top:14px}
+  .pill-yes{color:#1f6f57}.pill-no{color:#8a5a3c}
+  .more-info{font-size:13px;color:var(--muted);margin:14px 0 0;font-style:italic}
 
-  .restart{
-    margin-top:24px;width:100%;padding:14px;border:none;border-radius:13px;cursor:pointer;
-    background:var(--ink);color:#fff;font-size:14.5px;font-weight:600;transition:.16s;
-  }
-  .restart:hover{background:#000}
-
-  /* Landing / main page — PathFinder card styling (grey-blue, maroon, cream) */
-  .intro-title{
-    font-family:Georgia,'Times New Roman',serif;font-size:25px;line-height:1.25;
-    font-weight:700;margin:14px 0 10px;color:#0c3e7b;
-  }
-  .intro-text{font-size:14px;line-height:1.6;color:#5a0d0d;font-style:italic;margin:0 0 8px}
-  .start-btn{
-    margin-top:10px;width:100%;padding:15px 16px;border:2.5px solid transparent;border-radius:18px;cursor:pointer;
-    background:var(--m-cream);color:#16406f;
-    font-size:15.5px;font-weight:700;transition:.16s;font-family:inherit;
-  }
-  .start-btn:hover{border-color:var(--m-maroon)}
-  .intro-note{text-align:center;font-size:12.5px;color:#c3cfe0;margin:18px 0 0}
-  .start-btn.alt{background:var(--m-cream);color:#16406f;border:2.5px solid transparent;margin-top:12px;font-size:14.5px;line-height:1.3}
-  .start-btn.alt:hover{border-color:var(--m-maroon)}
-
-  /* Wide two-column landing (questionnaire boxes + chatbot) */
-  .shell.intro-mode{max-width:1120px}
-  .card.intro{background:transparent;border:none;box-shadow:none;backdrop-filter:none;padding:0}
-  .intro-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:22px;align-items:stretch}
-  .intro-main{display:flex;flex-direction:column;gap:18px}
-  .intro-lead{
-    background:#8b94a5;border:none;border-radius:26px;
-    box-shadow:var(--shadow);padding:26px 30px 22px;
-  }
-  .intro-lead .stage-tag{
-    margin-bottom:12px;background:var(--m-maroon);color:#fff;
-    font-size:12px;letter-spacing:.05em;padding:8px 16px;border-radius:10px;
-  }
-  .option-box{
-    background:#8b94a5;border:none;border-radius:26px;
-    box-shadow:var(--shadow);padding:24px 30px;display:flex;flex-direction:column;
-  }
-  .option-box h3{margin:0 0 6px;font-size:17.5px;font-weight:700;color:#16406f;line-height:1.35}
-  .option-box .obx-tag{
-    display:inline-block;align-self:flex-start;font-size:12px;letter-spacing:.05em;text-transform:uppercase;
-    font-weight:700;padding:8px 16px;border-radius:10px;margin-bottom:14px;
-    background:var(--m-maroon);color:#fff;
-  }
-  .option-box p{margin:0 0 10px;font-size:13px;line-height:1.55;color:#5a0d0d;font-style:italic}
-  .option-box .start-btn{margin-top:auto}
-
-  /* Chatbot panel — MajuLaw mockup style (navy transcript, Majoo gradient cards) */
-  :root{
-    --m-navy:#04264c;
-    --m-maroon:#4e0000;
-    --m-grad-a:#3289a4;
-    --m-grad-b:#064187;
-    --m-cream:#f4ebec;
-    --m-guest:#bac1d1;
-    --m-num:#16406f;
-  }
-  .chat-panel{
-    background:var(--m-navy);border:1px solid rgba(255,255,255,.12);border-radius:20px;
-    box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;
-    max-height:640px;min-height:520px;
-  }
-  .chat-head{padding:16px 20px 12px;border-bottom:1px solid rgba(255,255,255,.12)}
-  .chat-head h3{margin:0;font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:9px}
-  .chat-head h3 img{width:34px;height:36px;object-fit:contain}
-  .chat-head p{margin:6px 0 0;font-size:12px;line-height:1.45;color:#c3cfe0}
-  .chat-log{flex:1;min-width:0;overflow-y:auto;padding:16px 16px;display:flex;flex-direction:column;gap:14px}
-  .chat-row{display:flex;flex-direction:column}
-  .chat-row.user{align-items:flex-end}
-  .chat-row.bot{align-items:flex-start}
-  .chat-meta{display:flex;align-items:center;gap:7px;margin-top:6px;font-size:11.5px;color:#c3cfe0}
-  .chat-ava{width:26px;height:26px;border-radius:50%;object-fit:cover;background:#fff}
-  .chat-msg{max-width:88%;min-width:0;font-size:13.5px;line-height:1.55;padding:12px 15px;border-radius:18px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
-  .chat-msg p{margin:0 0 8px}
-  .chat-msg p:last-child{margin-bottom:0}
-  .chat-msg h4{margin:10px 0 6px;font-size:14px;font-weight:700}
-  .chat-msg h4:first-child{margin-top:0}
-  .chat-msg ul,.chat-msg ol{margin:4px 0 8px;padding-left:20px}
-  .chat-msg li{margin:3px 0}
-  .chat-msg code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:rgba(0,0,0,.18);padding:1px 5px;border-radius:5px}
-  .chat-msg p.q{border-left:3px solid rgba(255,255,255,.5);padding-left:10px;opacity:.9}
-  /* Full-window chat (toggled from the panel header) */
-  .chat-expand{margin-left:auto;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:15px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px}
-  .chat-expand:hover{background:rgba(255,255,255,.22)}
-  .chat-panel.chat-full{position:fixed;inset:12px;z-index:1000;max-height:none;min-height:0;border-radius:16px}
-  body.chat-lock{overflow:hidden}
-  @media(max-width:640px){.chat-panel.chat-full{inset:0;border-radius:0}}
-  .chat-msg.bot{align-self:flex-start;background:linear-gradient(90deg,var(--m-grad-a),var(--m-grad-b));color:#fff;border-bottom-left-radius:5px}
-  .chat-msg.user{align-self:flex-end;background:var(--m-guest);color:#1c2230;border-bottom-right-radius:5px}
-  .chat-msg b{font-weight:700}
-  .chat-msg .disc{display:block;margin-top:7px;font-size:11px;color:rgba(255,255,255,.75);font-style:italic}
-  .chat-msg.user .disc{color:#4a5468}
-  .chat-msg.bot a{color:#fff;font-weight:600;text-decoration:underline}
-  .chat-typing{display:flex;gap:5px;align-items:center}
-  .chat-typing span{width:7px;height:7px;border-radius:50%;background:#fff;opacity:.4;animation:chatdot 1s infinite ease-in-out}
-  .chat-typing span:nth-child(2){animation-delay:.15s}
-  .chat-typing span:nth-child(3){animation-delay:.3s}
-  @keyframes chatdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:.9;transform:translateY(-3px)}}
-  .chat-chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 12px}
-  .chat-chip{cursor:pointer;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);border-radius:99px;
-    padding:6px 12px;font-size:12px;font-weight:600;color:#e8eef7;transition:.15s}
-  .chat-chip:hover{border-color:#fff;background:rgba(255,255,255,.16)}
-  .chat-inputbox{margin:10px 14px 6px;background:var(--m-cream);border-radius:22px;padding:10px 12px 8px}
-  .chat-form{display:flex;gap:8px;align-items:center}
-  .chat-input{flex:1;padding:10px 8px;border:none;border-radius:12px;font-size:14px;font-family:inherit;color:#1c2230;background:transparent;resize:none;min-height:24px;max-height:140px;line-height:1.4;overflow-y:auto}
-  .chat-input::placeholder{color:#6a6f7d}
-  .chat-input:focus{outline:none}
-  .chat-send{border:none;background:var(--m-num);color:#fff;border-radius:50%;width:40px;height:40px;flex:0 0 40px;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center}
-  .chat-send:hover{background:#0a2f57}
-  .chat-send svg{width:18px;height:18px}
-  .chat-dl{display:inline-flex;align-items:center;gap:7px;margin:4px 0 2px;background:none;border:none;cursor:pointer;
-    font-size:12px;font-weight:600;color:var(--m-maroon);opacity:.85;padding:2px 4px}
-  .chat-dl:hover{opacity:1;text-decoration:underline}
-  .dlc{width:22px;height:22px;border-radius:50%;background:var(--m-maroon);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
-  .chat-dl-row{display:flex;align-items:center;gap:6px;margin:4px 0 2px;flex-wrap:wrap}
-  .chat-dl-lbl{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--m-maroon);opacity:.85}
-  .chat-privacy{margin:8px 16px 14px;font-size:10.5px;line-height:1.5;color:#9aa6b8;text-align:center}
-  .chat-ai-note{margin:4px 4px 6px;font-size:11px;line-height:1.4;color:#6a6f7d;text-align:center}
-
-  /* ---- Estate administration roadmap (landing box + full-screen view) ---- */
-  .roadmap-box .rm-mini{list-style:none;margin:0 0 4px;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:rm}
-  .roadmap-box .rm-mini li{
-    counter-increment:rm;background:var(--m-cream);color:#16406f;border-radius:99px;
-    padding:6px 12px 6px 8px;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;
-  }
-  .roadmap-box .rm-mini li::before{
-    content:counter(rm);width:20px;height:20px;border-radius:50%;background:var(--m-maroon);color:#fff;
-    font-size:11px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 20px;
-  }
-  .rm-modal{position:fixed;inset:0;z-index:1100;background:linear-gradient(160deg,#0d2a4f,#081c37);overflow-y:auto;padding:22px 18px 40px}
-  body.rm-lock{overflow:hidden}
-  .rm-inner{max-width:960px;margin:0 auto;color:#eef2f8}
-  .rm-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
-  .rm-top h2{margin:0;font-family:Georgia,'Times New Roman',serif;font-size:26px;color:#fff}
-  .rm-close{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:10px;
-    padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
-  .rm-close:hover{background:rgba(255,255,255,.22)}
-  .rm-intro{margin:0 0 18px;font-size:14.5px;line-height:1.55;color:#c3cfe0}
-  .rm-routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:22px}
-  .rm-route{background:#8b94a5;border-radius:18px;padding:16px 18px;color:#1c2230;box-shadow:var(--shadow)}
-  .rm-route h4{margin:0 0 6px;font-size:14px;color:#16406f}
-  .rm-route p{margin:0;font-size:13px;line-height:1.5;color:#2a2f3a}
-  .rm-route .arm{display:block;margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--m-cream);font-size:12.5px}
-  .rm-route .arm b{color:var(--m-maroon)}
-  .rm-timing{background:rgba(184,146,63,.16);border-left:4px solid var(--gold);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.55;margin:0 0 22px;color:#f4ebec}
-  .rm-flow{list-style:none;margin:0;padding:0;counter-reset:rmf;position:relative}
-  .rm-flow li{position:relative;padding:0 0 18px 58px;counter-increment:rmf}
-  .rm-flow li::before{
-    content:counter(rmf);position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;
-    background:linear-gradient(135deg,var(--m-grad-a),var(--m-grad-b));color:#fff;font-weight:700;font-size:16px;
-    display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.35);z-index:1;
-  }
-  .rm-flow li::after{content:"";position:absolute;left:19px;top:40px;bottom:0;width:2px;background:rgba(255,255,255,.25)}
-  .rm-flow li:last-child::after{display:none}
-  .rm-step{background:rgba(255,255,255,.95);border-radius:16px;padding:14px 18px;color:#1c2230;box-shadow:var(--shadow)}
-  .rm-step h4{margin:0 0 4px;font-size:15.5px;color:#0c3e7b}
-  .rm-step p{margin:0;font-size:13.5px;line-height:1.55;color:#3a4150}
-  .rm-step .rm-branch{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-top:10px}
-  .rm-step .rm-branch span{background:var(--m-cream);border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.45}
-  .rm-step .rm-branch b{color:var(--m-maroon)}
-  .rm-foot{margin:18px 0 0;font-size:12.5px;color:#9aa6b8;text-align:center;line-height:1.5}
-  .rm-foot a{color:#fff}
-  @media(max-width:560px){.rm-modal{padding:14px 12px 30px}.rm-flow li{padding-left:50px}.rm-flow li::before{width:34px;height:34px;font-size:14px}.rm-flow li::after{left:16px;top:34px}}
-
-  /* ---- Maroon top bar (inner screens: pathfinder / summary / form) ---- */
-  .maju-bar{
-    display:flex;align-items:center;justify-content:space-between;
-    background:var(--m-maroon);border-radius:0;padding:8px 26px;
-    width:100%;box-shadow:0 4px 20px rgba(0,0,0,.4);
-  }
-  .maju-bar img{height:46px;width:auto;display:block}
-  /* The logo (top-left, both bars) is a link back to the main page */
-  .brand-link{display:inline-block;line-height:0;border-radius:8px}
-  .brand-link:hover{opacity:.9}
-  .brand-link:focus-visible{outline:2px solid #fff;outline-offset:4px}
-  [hidden]{display:none!important}
-
-  /* ---- PathFinder per mockup: Majoo greeting + grey guest card ---- */
-  .pf-greet{display:flex;align-items:center;max-width:540px;margin:4px 0 30px;position:relative}
-  .pf-greet::before{
-    content:"";position:absolute;inset:-70px -90px -70px -50px;
-    background:radial-gradient(ellipse at 35% 50%,rgba(90,140,190,.22),transparent 68%);
-    pointer-events:none;
-  }
-  .pf-greet-owl{width:92px;flex:0 0 92px;margin-right:-16px;position:relative;z-index:2;
-    filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
-  .pf-greet-bubble{
-    background:linear-gradient(90deg,var(--m-grad-a),var(--m-grad-b));color:#fff;
-    border-radius:22px;border-bottom-left-radius:6px;padding:18px 26px 16px;
-    font-size:15px;line-height:1.5;text-align:center;box-shadow:var(--shadow);
-  }
-  .try-btn{
-    display:inline-block;margin-top:12px;background:#103255;color:#fff;
-    border:1px solid rgba(255,255,255,.3);border-radius:99px;padding:10px 24px;
-    font-size:14px;font-weight:600;cursor:pointer;transition:.15s;
-  }
-  .try-btn:hover{background:#0a2440}
-  .pf-greet-meta{text-align:right;font-size:12px;color:#c3cfe0;margin-top:6px}
-
-  .pf-wrap{position:relative;max-width:680px;margin:0 auto}
-  .pf-card{background:#8b94a5;border-radius:26px;padding:26px 34px 18px;box-shadow:var(--shadow)}
-  .pf-title{font-family:Georgia,'Times New Roman',serif;color:#0c3e7b;text-align:center;
-    font-size:25px;font-weight:700;margin:0}
-  .pf-sub{text-align:center;font-style:italic;color:#123c6b;font-size:12.5px;margin:3px 0 16px}
-  .pf-progress{display:flex;align-items:center;gap:10px;margin-bottom:20px}
-  .pf-track{flex:1;height:8px;border-radius:99px;background:#c6c5ca;overflow:hidden}
-  .pf-fill{height:100%;border-radius:99px;background:#0c3e7b;transition:width .45s cubic-bezier(.4,0,.2,1)}
-  .pf-count{font-size:11.5px;color:#0c3e7b;font-weight:600;font-variant-numeric:tabular-nums}
-  .pf-stage{
-    display:inline-block;background:var(--m-maroon);color:#fff;font-weight:700;font-size:14px;
-    letter-spacing:.03em;text-transform:uppercase;padding:9px 17px;border-radius:10px;margin:0 0 16px;
-  }
-  .pf-q{color:#5a0d0d;font-size:18px;font-weight:600;margin:0 0 4px;line-height:1.4}
-  .pf-help{color:#5a0d0d;font-style:italic;font-size:13px;line-height:1.5;margin:0 0 20px}
-  .pf-help b{font-weight:700}
-  .pf-ans{display:flex;flex-direction:column;gap:15px}
-  .pf-opt{
-    background:var(--m-cream);border:2.5px solid transparent;border-radius:18px;
-    padding:12px 20px;text-align:left;cursor:pointer;transition:.15s;font-family:inherit;
-  }
-  .pf-opt:hover{border-color:var(--m-maroon)}
-  .pf-opt .t{display:block;color:#16406f;font-weight:700;font-size:16px}
-  .pf-opt .d{display:block;color:#414d63;font-style:italic;font-size:12.5px;margin-top:1px}
-  .pf-back{
-    display:block;margin:16px auto 0;background:none;border:none;color:#eef2f8;
-    font-size:14px;cursor:pointer;padding:6px 10px;
-  }
-  .pf-back::before{content:"\27F5\00A0\00A0"}
-  .pf-back:hover{text-decoration:underline}
-  .pf-back:disabled{opacity:.35;cursor:default;text-decoration:none}
-  .pf-ava{
-    position:absolute;right:-20px;bottom:-4px;width:66px;height:66px;border-radius:50%;
-    border:3px solid #fff;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35);object-fit:cover;
-  }
-  .pf-guest-label{margin:10px 0 0 26px;font-size:13.5px;color:#c3cfe0}
-  @media(max-width:640px){
-    .pf-card{padding:22px 20px 16px}
-    .pf-ava{right:-6px}
-  }
-
-  /* ---- Summary as a Majoo chat (roadmap card per mockup) ---- */
-  .summary-chat{display:flex;flex-direction:column;gap:16px}
-  .roadmap-wrap{position:relative;max-width:640px}
-  .roadmap{
-    background:linear-gradient(90deg,var(--m-grad-a),var(--m-grad-b));
-    border-radius:22px;border-bottom-left-radius:8px;
-    padding:26px 28px 30px 58px;color:#fff;box-shadow:var(--shadow);
-  }
-  .roadmap h2{margin:0 0 14px;font-size:19px;font-weight:700;color:#fff}
-  .roadmap .typing{color:#fff;font-size:14.5px;line-height:1.7;text-align:justify}
-  .kw{background:none;border:none;padding:0;font:inherit;color:#fff;font-weight:700;text-decoration:underline;cursor:pointer;white-space:nowrap}
-  .kw::after{content:" ✦";font-size:11px;vertical-align:super}
-  .kw:hover{opacity:.85}
-  .roadmap .section-title{color:#fff;font-size:14px;text-transform:none;letter-spacing:0;font-weight:700;margin:24px 0 12px}
-  .roadmap .steps li{
-    background:var(--m-cream);border:none;border-radius:16px;color:var(--m-num);
-    font-size:13.5px;font-weight:600;line-height:1.45;cursor:pointer;
-    padding:15px 44px 15px 56px;transition:.15s;
-  }
-  .roadmap .steps li:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.25)}
-  .roadmap .steps li::before{background:var(--m-num);width:28px;height:28px;left:14px;top:calc(50% - 14px)}
-  .roadmap .steps li::after{
-    content:"↗";position:absolute;right:15px;top:calc(50% - 11px);
-    font-size:17px;font-weight:800;color:var(--m-num);
-  }
-  .roadmap .recap{border-top:none;padding-top:4px;margin-top:16px}
-  .roadmap .recap summary{color:#fff;font-size:14px;font-weight:700;cursor:pointer}
-  .roadmap .recap td{border-bottom:1px solid rgba(255,255,255,.25);color:#e8eef7}
-  .roadmap .recap td:first-child{color:#c9d7ea}
-  .roadmap .recap td.recap-section{color:#fff}
-  .roadmap .pill-yes{color:#9fe8c8}
-  .roadmap .pill-no{color:#f5c9a8}
-  .roadmap .retake{display:block;background:none;border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;padding:10px 0 0;text-align:left}
-  .roadmap .retake::before{content:"▶  ";font-size:11px}
-  .roadmap .retake:hover{text-decoration:underline}
-  .roadmap .more-info{margin:22px 0 0 66px;font-size:13.5px;line-height:1.55;color:#fff}
-  .roadmap-owl{position:absolute;left:-38px;bottom:-16px;width:82px;pointer-events:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
-  .roadmap-meta{display:flex;justify-content:flex-end;max-width:640px;margin-top:8px;font-size:12px;color:#c3cfe0}
-  .summary-inputwrap{max-width:640px;margin-top:6px}
-  @media(max-width:880px){
-    .intro-grid{grid-template-columns:1fr}
-    .chat-panel{max-height:560px}
-  }
-
-  /* Form 162 flow */
-  .f162-fields{margin-bottom:4px}
-  .f162-field{display:block;margin-bottom:14px;text-align:left}
-  .f162-lbl-txt{display:block;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:6px}
-  .f162-in{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;font-size:15px;font-family:inherit;color:var(--ink);background:#fff}
-  .f162-in:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,111,87,.12)}
-  textarea.f162-in{resize:vertical}
+  /* Form 162 fields */
+  .f162-field{display:block;margin-bottom:12px}
+  .f162-lbl-txt{display:block;font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:6px}
+  .f162-in{width:100%;border:1.5px solid #dcd3c6;background:#fff;border-radius:10px;padding:10px 12px;font-size:14.5px;font-family:inherit;color:var(--ink)}
+  .f162-in:focus{outline:none;border-color:var(--navy)}
   .f162-radios{display:flex;flex-wrap:wrap;gap:8px}
-  .f162-opt{cursor:pointer;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:9px 13px;font-size:13.5px;font-weight:600;color:var(--ink);transition:.15s}
-  .f162-opt:hover{border-color:var(--accent)}
-  .f162-opt.active{background:var(--accent);border-color:var(--accent);color:#fff}
-  .f162-group{border:1px solid var(--line);border-radius:13px;padding:14px;margin-bottom:12px;background:rgba(31,111,87,.03)}
-  .f162-group-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-dark);margin-bottom:10px}
-  .f162-rm{background:none;border:none;color:var(--no);font-size:12px;cursor:pointer;font-weight:600}
-  .f162-add{background:none;border:1.5px dashed var(--accent);color:var(--accent-dark);border-radius:11px;padding:10px;width:100%;cursor:pointer;font-size:13.5px;font-weight:600;margin-bottom:6px}
-  .f162-note{font-size:13px;color:var(--accent-dark);background:rgba(184,146,63,.10);border-left:3px solid var(--gold);padding:10px 12px;border-radius:8px;margin:0 0 14px}
-  .f162-next{background:var(--accent);color:#fff;border:none;border-radius:11px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer}
-  .f162-next:hover{background:var(--accent-dark)}
+  .f162-opt{cursor:pointer;border:1.5px solid #dcd3c6;background:#fff;border-radius:10px;padding:9px 13px;font-size:13.5px;font-weight:600;color:var(--ink);transition:.15s;text-align:left}
+  .f162-opt:hover{border-color:var(--maroon)}
+  .f162-opt.active{background:var(--maroon);border-color:var(--maroon);color:#fff}
+  .f162-group{border:1px solid #dcd3c6;border-radius:13px;padding:14px;margin-bottom:12px;background:#fbf8f3}
+  .f162-group-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--maroon);margin-bottom:10px}
+  .f162-rm{background:none;border:none;color:#8a5a3c;font-size:12px;cursor:pointer;font-weight:700}
+  .f162-add{background:none;border:1.5px dashed var(--navy);color:var(--navy);border-radius:11px;padding:10px;width:100%;cursor:pointer;font-size:13.5px;font-weight:700;margin-bottom:6px}
+  .f162-note{font-size:13px;color:#5a3a10;background:rgba(203,174,115,.25);border-left:3px solid var(--gold-deep);padding:10px 12px;border-radius:8px;margin:0 0 14px}
+  .dots{font-size:12px;color:var(--muted)}
 
-  .disclaimer{
-    text-align:center;color:rgba(255,255,255,.78);font-size:12px;line-height:1.5;
-    margin-top:22px;text-shadow:0 1px 8px rgba(0,0,0,.5);max-width:560px;margin-left:auto;margin-right:auto;
-  }
-  .disclaimer a{color:#fff;font-weight:600;text-decoration:underline}
-  .maju-credit{
-    text-align:center;color:rgba(255,255,255,.85);font-size:13.5px;line-height:1.5;
-    margin:22px auto 0;max-width:640px;text-shadow:0 1px 8px rgba(0,0,0,.5);font-style:italic;
-  }
+  /* ---- Roadmap page ---- */
+  .page{background:linear-gradient(180deg,#4a1f1c 0%,#3b1815 55%,#2f1512 100%);padding:48px 24px 64px}
+  .wrap{max-width:980px;margin:0 auto}
+  .head{display:flex;align-items:center;gap:26px;margin-bottom:26px}
+  .head img{width:190px;flex:0 0 190px}
+  .head h1{margin:0 0 8px;color:var(--gold);font-size:40px;font-weight:800;line-height:1.05}
+  .head p{margin:0;color:#e7dccf;font-size:17px;max-width:620px}
+  .pill{display:inline-block;background:var(--maroon);color:#fff;font-weight:700;font-size:14px;padding:6px 16px;border-radius:999px;margin-bottom:12px}
+  .routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:0 0 20px}
+  .route{background:var(--cream);border-radius:18px;padding:18px 20px;box-shadow:0 14px 34px rgba(0,0,0,.3)}
+  .route h4{margin:0 0 6px;font-size:16px;color:var(--navy)}
+  .route p{margin:0;font-size:14px;color:#3a4150}
+  .route .arm{display:block;margin-top:8px;padding:8px 12px;border-radius:10px;background:var(--sand);font-size:13.5px}
+  .route .arm b{color:var(--maroon)}
+  .timing{background:rgba(203,174,115,.16);border-left:4px solid var(--gold);border-radius:12px;padding:14px 18px;color:#f1e7da;font-size:15px;margin:0 0 26px}
+  .timing b{color:#fff}
+  .flow{list-style:none;margin:0;padding:0;counter-reset:s;position:relative}
+  .flow li{position:relative;padding:0 0 18px 66px;counter-increment:s}
+  .flow li::before{content:counter(s);position:absolute;left:0;top:0;width:46px;height:46px;border-radius:50%;background:var(--gold);color:#3a2a10;font-weight:800;font-size:19px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(0,0,0,.35);z-index:1}
+  .flow li::after{content:"";position:absolute;left:22px;top:46px;bottom:0;width:2px;background:rgba(203,174,115,.35)}
+  .flow li:last-child::after{display:none}
+  .rstep{background:var(--cream);border-radius:18px;padding:16px 20px;box-shadow:0 14px 34px rgba(0,0,0,.28)}
+  .rstep h3{margin:0 0 6px;font-size:18px;color:var(--navy);font-weight:800}
+  .rstep p{margin:0;font-size:15px;color:#3a4150}
+  .branch{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
+  .branch span{background:var(--sand);border-radius:12px;padding:10px 12px;font-size:14px}
+  .branch b{color:var(--maroon)}
+  .rfoot{margin:22px 0 0;text-align:center;color:#cbb9a8;font-size:13.5px}
+  .rfoot a{color:#fff}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
 
-  /* ---- MajuLaw hero banner + brand chrome (from the front-cover graphic) ---- */
-  .maju-hero{position:relative;line-height:0;margin-bottom:22px;border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
-  .maju-hero img{width:100%;height:auto;display:block}
-  /* Real "Chat with Majoo" button at the bottom-left of the hero, about 1cm in
-     from the edges; sized as % of the 1120x699 photo so it scales with it. */
-  .hero-hotspot{position:absolute;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:99px;-webkit-tap-highlight-color:transparent;
-    background:#16406f;color:#fff;text-decoration:none;font-weight:600;line-height:1;white-space:nowrap;
-    box-shadow:0 4px 14px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);transition:.15s}
-  .hero-hotspot:hover{background:#0a2f57}
-  .hero-hotspot:focus-visible{outline:3px solid #fff;outline-offset:3px}
-  .hero-hotspot.hs-chat{left:3.4%;bottom:5.4%;min-width:17%;height:9%;padding:0 1.1em;font-size:clamp(9px,1.3vw,15px)}
-  /* Solid maroon bar covering the baked-in (fading) bar at the top of the photo */
-  .hero-topbar{
-    position:absolute;top:0;left:0;right:0;height:10.8%;
-    background:var(--m-maroon,#4e0000);
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 20px;line-height:normal;
-  }
-  /* Width-based so it scales with the hero (percentage heights don't resolve here) */
-  .hero-topbar .brand-link{width:15.6%;min-width:96px;max-width:190px}
-  .hero-topbar img{width:100%;height:auto;display:block}
-  .maju-footer{width:100%;background:#0d3e79;border-radius:0;padding:28px 20px 34px;text-align:center;color:#eef2f8}
-  .maju-footer p{margin:0 0 16px;font-size:15px}
-  .maju-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 44px}
-  .maju-footer a{color:#dfe6f1;text-decoration:none;font-size:13.5px;display:inline-flex;align-items:center;gap:6px}
-  .maju-footer a:hover{color:#fff;text-decoration:underline}
-  .maju-footer a .ext{font-size:12px;opacity:.8}
+  /* ---- Footer ---- */
+  footer{background:var(--navy);color:#dcd8d0;padding:44px 0 30px}
+  body.is-stage footer{background:var(--maroon-deep);color:#e8dcdc}
+  .fwrap{max-width:1230px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1.4fr .6fr .6fr;gap:30px}
+  footer .logo img{height:44px;width:auto;margin-bottom:16px}
+  footer .credit{font-style:italic;color:var(--gold);margin:0 0 10px;font-size:15px}
+  footer .disc{margin:0 0 18px;font-size:13.5px;line-height:1.5;color:#cfcac2;max-width:560px}
+  footer .disc a{color:#fff}
+  footer .connect{font-size:15px;margin-bottom:10px}
+  .social{display:flex;gap:10px}
+  .social a{width:30px;height:30px;border-radius:50%;background:#dcd8d0;color:var(--navy);display:inline-flex;align-items:center;justify-content:center}
+  .social svg{width:17px;height:17px}
+  footer h4{margin:0 0 14px;font-size:22px;font-weight:700;color:#e7e3dc}
+  footer nav a{display:block;text-decoration:none;font-size:16px;margin:0 0 10px;color:#cfcac2}
+  footer nav a:hover{color:#fff;text-decoration:underline}
+  .fbottom{text-align:center;margin-top:30px;font-size:12.5px;color:#b9b3aa}
+  .fbottom b{display:block;margin-top:8px;color:#e7e3dc;font-size:13px}
 
-  .fade{animation:fade .4s ease}
-  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  /* ---- Majoo Chat panel (fixed, bottom-right) ---- */
+  .mj{position:fixed;right:24px;bottom:24px;z-index:100;width:430px;max-width:calc(100vw - 32px);height:min(700px,calc(100vh - 48px));
+    display:flex;flex-direction:column;border-radius:26px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.15);
+    background:
+      radial-gradient(ellipse 70% 45% at 0% 0%, rgba(222,210,197,.95) 0%, rgba(222,210,197,0) 70%),
+      radial-gradient(ellipse 65% 50% at 0% 100%, rgba(41,56,84,1) 0%, rgba(41,56,84,0) 70%),
+      radial-gradient(ellipse 65% 45% at 100% 0%, rgba(111,27,30,1) 0%, rgba(111,27,30,0) 70%),
+      radial-gradient(ellipse 70% 50% at 100% 100%, rgba(212,178,124,1) 0%, rgba(212,178,124,0) 70%),
+      linear-gradient(160deg,#8f8c92 0%,#8b7172 45%,#a67a5f 100%);
+    transform-origin:bottom right;animation:mjIn .22s ease}
+  @keyframes mjIn{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+  .mj-top{display:flex;align-items:center;gap:10px;padding:14px 14px 8px 16px}
+  .mc{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#7a1b1f;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+  .mc svg{width:34px;height:30px}
+  .mc span{font-size:25px;line-height:1;letter-spacing:-.01em}
+  .mc span b{font-weight:800}
+  .mc span i{font-style:normal;font-weight:400;color:#8a3a3d}
+  .mj-dl{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:var(--gold);font-weight:700;font-size:13.5px;text-shadow:0 1px 4px rgba(0,0,0,.3);padding:4px}
+  .mj-dl i{width:20px;height:20px;border-radius:50%;background:var(--gold);color:#3a2a10;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:800}
+  .mj-close{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.18);color:#fff;font-size:16px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+  .mj-close:hover{background:rgba(255,255,255,.3)}
+  .mj-dl-row{display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:0 16px 8px;font-size:12.5px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.35)}
+  .mj-dl-row button{background:var(--cream);color:var(--navy);border:none;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .mj-dl-row button:hover{background:#fff}
+  .mj-log{flex:1;overflow-y:auto;padding:8px 16px 14px;display:flex;flex-direction:column;gap:6px;min-height:0}
+  .mj-row{display:flex;flex-direction:column;align-items:flex-start;margin-left:34px}
+  .mj-row.guest{align-items:flex-end;margin:6px 0 0 0}
+  .mj-row .who{font-size:12.5px;margin-top:8px}
+  .mj .bubble{border-radius:22px;border-bottom-left-radius:0;padding:14px 18px 14px 30px;font-size:14.5px;max-width:100%;box-shadow:0 8px 22px rgba(0,0,0,.18)}
+  .mj .bubble .ava{left:-34px;bottom:-2px;width:64px;height:64px;box-shadow:0 5px 12px rgba(0,0,0,.35)}
+  .gbubble{background:var(--cream);color:#1c2230;border-radius:22px;border-bottom-right-radius:0;padding:12px 16px;font-size:14.5px;line-height:1.4;box-shadow:0 8px 22px rgba(0,0,0,.18);max-width:88%}
+  .chat-msg{min-width:0;overflow-wrap:anywhere;word-break:break-word}
+  .chat-msg p{margin:0 0 8px}.chat-msg p:last-child{margin-bottom:0}
+  .chat-msg h4{margin:10px 0 6px;font-size:14.5px;font-weight:800}.chat-msg h4:first-child{margin-top:0}
+  .chat-msg ul,.chat-msg ol{margin:4px 0 8px;padding-left:20px}.chat-msg li{margin:3px 0}
+  .chat-msg code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:rgba(0,0,0,.08);padding:1px 5px;border-radius:5px}
+  .chat-msg p.q{border-left:3px solid rgba(0,0,0,.25);padding-left:10px;opacity:.9}
+  .chat-msg a{color:var(--maroon);font-weight:700}
+  .chat-msg .disc{display:block;margin-top:7px;font-size:11px;color:#5a5e6a;font-style:italic}
+  .chat-typing{display:flex;gap:5px;align-items:center;padding:14px 18px 14px 30px}
+  .chat-typing span{width:7px;height:7px;border-radius:50%;background:#3b3f48;opacity:.4;animation:chatdot 1s infinite ease-in-out}
+  .chat-typing span:nth-child(2){animation-delay:.15s}.chat-typing span:nth-child(3){animation-delay:.3s}
+  @keyframes chatdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:.9;transform:translateY(-3px)}}
+  .mj-chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 10px 50px}
+  .chat-chip{background:var(--cream);color:#1b2741;border:1px solid rgba(27,39,65,.15);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+  .chat-chip:hover{background:#fff}
+  .mj-ask{background:#c8c2be;padding:12px 14px 10px}
+  .mj-box{position:relative;display:flex;align-items:center;gap:8px;background:var(--cream);border-radius:16px;min-height:66px;padding:8px 8px 8px 16px;box-shadow:0 6px 18px rgba(0,0,0,.12);margin:0}
+  .mj-input{flex:1;border:none;background:transparent;font-family:inherit;font-size:14.5px;font-weight:600;color:#2d3140;resize:none;min-height:24px;max-height:140px;line-height:1.4;overflow-y:auto;padding:8px 0}
+  .mj-input::placeholder{color:#5f6673;font-weight:600}
+  .mj-input:focus{outline:none}
+  .mj-send{width:48px;height:48px;flex:0 0 48px;border-radius:50%;border:none;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 5px 12px rgba(0,0,0,.3);cursor:pointer}
+  .mj-send:hover{background:var(--navy-2)}
+  .mj-send svg{width:22px;height:22px}
+  .mj-ai{margin:6px 4px 0;text-align:center;font-size:11.5px;color:#2d3140;font-weight:600}
+  .mj-note{margin:4px 4px 0;text-align:center;font-size:10.5px;color:#3b3f48;line-height:1.35}
+
+  @media(max-width:900px){
+    .top{padding:12px 18px}
+    .stage{padding:22px 16px 30px}
+    .majoo-row{margin-left:44px;max-width:none}
+    .bubble{padding:20px 22px 20px 34px;font-size:15.5px}.bubble .btn{font-size:17px;padding:10px 22px}
+    .guest-row{max-width:none}.pf{padding:20px 18px 18px}.pf h2{font-size:28px}
+    .head{flex-direction:column;align-items:flex-start;gap:14px}.head img{width:150px;flex-basis:auto}.head h1{font-size:32px}
+    .page{padding:32px 16px 48px}
+    .flow li{padding-left:56px}.flow li::before{width:40px;height:40px;font-size:17px}.flow li::after{left:19px;top:40px}
+    .fwrap{grid-template-columns:1fr;padding:0 24px}
+  }
   @media(max-width:560px){
-    .card{padding:24px 20px}
-    .answers{grid-template-columns:1fr}
-    .question{font-size:20px}
-    .brand h1{font-size:24px}
+    .mj{right:0;bottom:0;width:100vw;max-width:none;height:100vh;height:100dvh;border-radius:0}
   }
 </style>
 </head>
-<body>
-  <!-- Slim maroon bar, full width (inner screens: pathfinder / summary / forms) -->
-  <header class="maju-bar" id="majuBar" hidden>
-    <a class="brand-link" href="#" data-home title="Back to the main page"><img src="assets/majulaw-logo-white.png" alt="MajuLaw — back to the main page"></a>
+<body class="is-landing">
+
+  <div class="privacy">Your privacy matters to us. Here&rsquo;s how MajuLaw collects, uses and protects your personal data. <a href="#privacy">Find out more &#8599;</a></div>
+
+  <header class="top" id="topBar">
+    <a class="home" href="#" data-home aria-label="MajuLaw — back to the main page"><img src="assets/skin/majulaw-logo-navy.png" alt="MajuLaw"></a>
+    <a class="back-link" href="#" data-home>&#10229;&nbsp; Back to main page</a>
   </header>
 
-  <main class="page-main">
-    <div class="shell">
-      <!-- MajuLaw hero banner (landing) with real clickable regions -->
-      <header class="maju-hero" id="majuHero">
-        <img src="assets/hero.jpg" alt="MajuLaw — Seek free legal advice for your probate matters today">
-        <div class="hero-topbar">
-          <a class="brand-link" href="#" data-home title="Back to the main page"><img src="assets/majulaw-logo-white.png" alt="MajuLaw — back to the main page"></a>
+  <main>
+    <!-- ===== Landing ===== -->
+    <section class="view" id="viewLanding">
+      <div class="gold">
+        <section class="hero">
+          <img src="assets/skin/hero-illustration.jpg" alt="Majoo the owl beside a laptop: Let's help you start on your estate journey.">
+        </section>
+        <div class="ask-wrap">
+          <button type="button" class="ask" data-open-chat><b>Ask Majoo</b><small>Click here to start chat</small></button>
         </div>
-        <a class="hero-hotspot hs-chat" id="heroChat" href="#assistant">Chat with Majoo</a>
-      </header>
+      </div>
+      <section class="how" aria-label="How does it work?">
+        <div class="how-desktop">
+          <img class="bg" src="assets/skin/how-bg.jpg" alt="">
+          <div class="cards">
+            <button type="button" class="card" data-view="form162"><img src="assets/skin/card-form162.png" alt="Form 162: Let Majoo help you with filling up Form 162 if you are applying for Grant of Probate or Letters of Administration."></button>
+            <button type="button" class="card" data-view="pathfinder"><img src="assets/skin/panel2.jpg" alt="First Advice: Majoo will start you off with a short quiz to find out more about your situation, and give you a simple advice customised to your case."></button>
+            <button type="button" class="card" data-open-chat><img src="assets/skin/panel3.jpg" alt="Chat with Majoo: if the first advice did not answer your question, ask him directly with our Majoo chat. Save the chat at any point of time."></button>
+            <button type="button" class="card" data-view="roadmap"><img src="assets/skin/card-roadmap.png" alt="Roadmap: learn more about the usual journey that individuals have to go through in administering a Muslim estate in Singapore, from the death certificate to the final distribution."></button>
+          </div>
+        </div>
+        <div class="how-mobile">
+          <h2>How does it work?</h2>
+          <button type="button" class="card" data-view="form162"><img src="assets/skin/card-form162.png" alt="Form 162: Let Majoo help you with filling up Form 162 if you are applying for Grant of Probate or Letters of Administration."></button>
+          <button type="button" class="card" data-view="pathfinder"><img src="assets/skin/panel2.jpg" alt="First Advice: Majoo will start you off with a short quiz to find out more about your situation, and give you a simple advice customised to your case."></button>
+          <button type="button" class="card" data-open-chat><img src="assets/skin/panel3.jpg" alt="Chat with Majoo: if the first advice did not answer your question, ask him directly with our Majoo chat. Save the chat at any point of time."></button>
+          <button type="button" class="card" data-view="roadmap"><img src="assets/skin/card-roadmap.png" alt="Roadmap: learn more about the usual journey that individuals have to go through in administering a Muslim estate in Singapore, from the death certificate to the final distribution."></button>
+        </div>
+      </section>
+    </section>
 
-      <div class="card" id="card"><!-- injected --></div>
+    <!-- ===== Stage: PathFinder / summary / Form 162 ===== -->
+    <section class="view" id="viewStage" hidden>
+      <div class="stage">
+        <div class="convo">
+          <div class="majoo-row">
+            <div class="bubble">
+              <img class="ava" src="assets/skin/majoo-avatar.png" alt="">
+              <span id="stageText"></span><br>
+              <button type="button" class="btn" id="stageBtn"></button>
+            </div>
+            <div class="who">Majoo</div>
+          </div>
+          <div class="guest-row">
+            <div class="pf" id="card"></div>
+            <div class="who">Guest</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <p class="disclaimer" id="pageDisclaimer">Majoo does not give legal advice or calculate specific shares. For an estimate of share distribution under Faraid, please use the Syariah Court&rsquo;s <a href="https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator" target="_blank" rel="noopener">Online Trial Inheritance Calculator</a>.</p>
-
-      <!-- Project credit line (landing only) -->
-      <p class="maju-credit" id="majuPartners">A project by SUSS Law students for the LAW@CDC Access to Justice Co-Lab.</p>
-    </div>
+    <!-- ===== Roadmap ===== -->
+    <section class="view" id="viewRoadmap" hidden>
+      <div class="page"><div class="wrap" id="roadmapWrap"></div></div>
+    </section>
   </main>
 
-  <!-- Full-screen estate administration roadmap (opened from the landing page) -->
-  <div class="rm-modal" id="rmModal" hidden role="dialog" aria-modal="true" aria-labelledby="rmTitle"></div>
-
-  <!-- Full-width footer band -->
-  <footer class="maju-footer">
-    <p>&copy; 2026 MajuLaw. All Rights Reserved.</p>
-    <nav>
-      <a href="#report">Report Vulnerability <span class="ext">&#8599;</span></a>
-      <a href="#privacy">Privacy Statement <span class="ext">&#8599;</span></a>
-      <a href="#terms">Terms of Use <span class="ext">&#8599;</span></a>
-    </nav>
+  <footer>
+    <div class="fwrap">
+      <div class="logo">
+        <img src="assets/majulaw-logo-white.png" alt="MajuLaw">
+        <p class="credit">A project by SUSS Law students for the LAW@CDC Access to Justice Co-Lab.</p>
+        <p class="disc">Majoo does not give legal advice or calculate specific shares. For an estimate of share distribution under Faraid, please use the Syariah Court&rsquo;s <a href="https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator" target="_blank" rel="noopener">Online Trial Inheritance Calculator</a>.</p>
+        <div class="connect">Connect with Us</div>
+        <div class="social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5ZM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Learn more</h4><nav><a href="#" data-view="roadmap">The roadmap</a><a href="#" data-view="pathfinder">PathFinder</a><a href="#" data-view="form162">Form 162</a></nav></div>
+      <div><h4>FAQ</h4><nav><a href="#privacy">Privacy Policy</a><a href="#terms">Terms of Use</a></nav></div>
+    </div>
+    <div class="fbottom">Powered by Claude<b>Copyright &copy; 2026 MajuLaw. All Rights Reserved.</b></div>
   </footer>
+
+  <!-- ===== Majoo Chat (fixed, bottom-right) ===== -->
+  <div class="mj" id="mjWidget" hidden role="dialog" aria-label="Majoo Chat">
+    <div class="mj-top">
+      <span class="mc" aria-label="Majoo Chat">
+        <svg viewBox="0 0 52 46" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><path d="M9 6h34a6 6 0 0 1 6 6v17a6 6 0 0 1-6 6H22l-11 8v-8H9a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6Z"/><circle cx="17" cy="20" r="2" fill="currentColor" stroke="none"/><circle cx="26" cy="20" r="2" fill="currentColor" stroke="none"/><circle cx="35" cy="20" r="2" fill="currentColor" stroke="none"/></svg>
+        <span><b>Majoo</b><i>Chat</i></span>
+      </span>
+      <button type="button" class="mj-dl" id="mjDl" title="Download the chat"><i>&#8595;</i>Download Chat</button>
+      <button type="button" class="mj-close" id="mjClose" aria-label="Close chat">&#x2715;</button>
+    </div>
+    <div class="mj-dl-row" id="mjDlRow" hidden>Save as: <button type="button" onclick="chatDownload('txt')">Text</button><button type="button" onclick="chatDownload('doc')">Word</button><button type="button" onclick="chatDownload('pdf')">PDF</button></div>
+    <div class="mj-log" id="chatLog"></div>
+    <div class="mj-chips" id="chatChips"></div>
+    <div class="mj-ask">
+      <form class="mj-box" id="chatForm" autocomplete="off">
+        <textarea class="mj-input" id="chatInput" rows="1" placeholder="Ask me something" title="Enter to send, Shift+Enter for a new line" aria-label="Ask Majoo a question"></textarea>
+        <button class="mj-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="#fff"><path d="M2.4 21.6L23 12 2.4 2.4 2.4 10l14 2-14 2z"/></svg></button>
+      </form>
+      <p class="mj-ai">Majoo is an AI-powered chatbot and can make mistakes.</p>
+      <p class="mj-note">Please note that your chat history will not be saved once you leave this page, and we will not retain any information you provide during this session.</p>
+    </div>
+  </div>
 
 <!-- Libraries for client-side Form 162 (.docx) generation -->
 <script src="assets/vendor/pizzip.min.js"></script>
@@ -653,10 +494,15 @@ const QUESTIONS = [
     no:{label:"No — private property", out:"Deal with the property through the normal estate distribution."} },
 ];
 
+
+
+/* =========================================================================
+   VIEWS — landing / stage (PathFinder, summary, Form 162) / roadmap.
+   The URL hash mirrors the view so the browser Back button works.
+   ========================================================================= */
 let idx = 0;
 let answers = {};   /* keyed by question.key, e.g. answers.wasiat === 'yes' */
 const card = document.getElementById('card');
-const shell = document.querySelector('.shell');
 
 /* A question is shown only if it has no showIf, or its showIf(answers) is true.
    This lets later questions depend on earlier answers. */
@@ -666,19 +512,52 @@ const visibleQuestions = () => QUESTIONS.filter(isVisible);
 const txt = v => typeof v === 'function' ? v(answers) : v;
 const visibleOptions = item => (item.options || []).filter(o => !o.showIf || o.showIf(answers));
 
-/* Toggle the page chrome: hero + partner strip on the landing, slim maroon
-   bar on inner screens (pathfinder / summary / forms). */
-function chrome(mode){
-  const inner = mode==='inner';
-  const hero = document.getElementById('majuHero');
-  const bar = document.getElementById('majuBar');
-  const partners = document.getElementById('majuPartners');
-  const disclaimer = document.getElementById('pageDisclaimer');
-  if(hero) hero.hidden = inner;
-  if(bar) bar.hidden = !inner;
-  if(partners) partners.hidden = inner;
-  if(disclaimer) disclaimer.hidden = inner;
+const VIEWS = ['landing','stage','roadmap'];
+let currentView = 'landing';
+function showView(name){
+  currentView = name;
+  VIEWS.forEach(v => { document.getElementById('view'+v[0].toUpperCase()+v.slice(1)).hidden = (v !== name); });
+  document.body.classList.toggle('is-landing', name==='landing');
+  document.body.classList.toggle('is-stage', name==='stage');
+  window.scrollTo({top:0, behavior:'auto'});
 }
+/* Majoo's bubble above the card on the stage. */
+function stageBubble(text, btnLabel, onClick){
+  document.getElementById('stageText').innerHTML = text;
+  const b = document.getElementById('stageBtn');
+  b.textContent = btnLabel; b.onclick = onClick;
+}
+
+/* Hash routing: #pathfinder, #form162, #roadmap (nothing = landing). */
+let routing = false;
+function goto(name){
+  const want = name==='landing' ? '' : '#'+name;
+  if(location.hash !== want){
+    routing = true;
+    if(want) location.hash = want;
+    else history.pushState('', document.title, location.pathname + location.search);
+  }
+  openRoute(name);
+}
+function openRoute(name){
+  if(name==='pathfinder') startPathfinder();
+  else if(name==='form162') renderF162();
+  else if(name==='roadmap') renderRoadmap();
+  else renderIntro();
+}
+window.addEventListener('hashchange', ()=>{
+  if(routing){ routing=false; return; }
+  openRoute(location.hash.replace('#','') || 'landing');
+});
+
+/* Landing */
+function renderIntro(){
+  idx = 0; answers = {};
+  showView('landing');
+}
+
+/* ---- PathFinder ---- */
+function startPathfinder(){ idx = 0; answers = {}; render(); }
 
 /* Mockup shows the Yes/No description as an italic restatement,
    e.g. "Yes — there is a Wasiat" → "Yes, there is a Wasiat." */
@@ -689,8 +568,8 @@ function pfDesc(label){
 }
 
 function render(){
-  shell.classList.remove('intro-mode');
-  chrome('inner');
+  showView('stage');
+  stageBubble('Hello, I am Majoo! Before we begin, let&rsquo;s get to know your situation.', 'Start over', startPathfinder);
   // Skip forward over any questions hidden by the current answers.
   while(idx < QUESTIONS.length && !isVisible(QUESTIONS[idx])) idx++;
   if(idx >= QUESTIONS.length){ renderSummary(); return; }
@@ -704,52 +583,31 @@ function render(){
   let answersHtml;
   if(item.options){
     answersHtml = visibleOptions(item).map(o =>
-      `<button class="pf-opt" data-v="${o.value}"><span class="t">${txt(o.label)}</span></button>`).join('');
+      `<button type="button" class="opt" data-v="${o.value}"><span><b>${txt(o.label)}</b></span><i>&#8250;</i></button>`).join('');
   } else {
     answersHtml = `
-      <button class="pf-opt" data-v="yes"><span class="t">Yes</span><span class="d">${pfDesc(item.yes.label)}</span></button>
-      <button class="pf-opt" data-v="no"><span class="t">No</span><span class="d">${pfDesc(item.no.label)}</span></button>`;
+      <button type="button" class="opt" data-v="yes"><span><b>Yes</b><small>${pfDesc(item.yes.label)}</small></span><i>&#8250;</i></button>
+      <button type="button" class="opt" data-v="no"><span><b>No</b><small>${pfDesc(item.no.label)}</small></span><i>&#8250;</i></button>`;
   }
-
-  card.className = 'card intro fade';
+  card.className = 'pf fade';
   card.innerHTML = `
-    <div class="pf-greet">
-      <img class="pf-greet-owl" src="assets/majoo-owl.png" alt="Majoo">
-      <div>
-        <div class="pf-greet-bubble">Hello, I am Majoo. Before we begin, let&rsquo;s get to know your situation.<br>
-          <button type="button" class="try-btn" id="pfRestart">Try our PathFinder</button>
-        </div>
-        <div class="pf-greet-meta">Majoo</div>
-      </div>
-    </div>
-    <div class="pf-wrap">
-      <div class="pf-card">
-        <h2 class="pf-title">PathFinder</h2>
-        <p class="pf-sub">answer each question and we will map your route</p>
-        <div class="pf-progress">
-          <div class="pf-track"><div class="pf-fill" style="width:${pct}%"></div></div>
-          <span class="pf-count">${overallPos}/${total}</span>
-        </div>
-        <span class="pf-stage">Step ${overallPos}: ${item.stage}</span>
-        <h3 class="pf-q">${txt(item.q)}</h3>
-        <p class="pf-help">${item.help}</p>
-        <div class="pf-ans">${answersHtml}</div>
-        <button class="pf-back" id="back">${isFirst?'Back to main page':'Back'}</button>
-      </div>
-      <img class="pf-ava" src="assets/guest.png" alt="">
-      <div class="pf-guest-label">Guest</div>
-    </div>`;
-  card.querySelectorAll('.pf-opt').forEach(b=>{
+    <h2>PathFinder</h2>
+    <p class="sub">Answer each question and we will map your route.</p>
+    <div class="prog"><div class="track"><div class="fill" style="width:${pct}%"></div></div><span>${overallPos}/${total}</span></div>
+    <span class="step">Step ${overallPos}: ${item.stage}</span>
+    <h3>${txt(item.q)}</h3>
+    <p class="help">${item.help}</p>
+    ${answersHtml}
+    <div style="text-align:center"><button type="button" class="back" id="back">&#10229;&nbsp; ${isFirst?'Back to main page':'Back'}</button></div>`;
+  card.querySelectorAll('.opt').forEach(b=>{
     b.onclick = ()=>{ answers[item.key] = b.dataset.v; idx++; render(); };
   });
-  const back = document.getElementById('back');
-  if(back) back.onclick = ()=>{
+  document.getElementById('back').onclick = ()=>{
     let p = idx - 1;
     while(p >= 0 && !isVisible(QUESTIONS[p])) p--;
     if(p >= 0){ idx = p; render(); }
-    else renderIntro();   // first question: Back returns to the main page
+    else goto('landing');   // first question: Back returns to the main page
   };
-  document.getElementById('pfRestart').onclick = ()=>{ idx = 0; answers = {}; render(); };
 }
 
 /* ---- "AI" summary composed from the answers ---- */
@@ -865,10 +723,11 @@ function linkifyNarrative(text){
   return html;
 }
 
+
+
 function renderSummary(){
-  shell.classList.remove('intro-mode');
-  chrome('inner');
-  card.className = 'card intro fade';
+  showView('stage');
+  stageBubble('Here is your personalised roadmap. Click any highlighted word or step to ask me more about it.', 'Retake the PathFinder', startPathfinder);
   let lastSection = null;
   const shown = QUESTIONS.filter(isVisible);
   const recapRows = shown.map((item)=>{
@@ -884,139 +743,47 @@ function renderSummary(){
     return `${header}<tr><td>${txt(item.q)}</td><td class="${cls}">${disp}</td></tr>`;
   }).join('');
   const steps = buildSteps();
+  card.className = 'pf fade';
   card.innerHTML = `
-    <div class="summary-chat">
-      <div class="chat-row user">
-        <div class="chat-msg user">Pathfinder Completed.</div>
-        <div class="chat-meta"><span>Guest</span><img class="chat-ava" src="assets/guest.png" alt=""></div>
-      </div>
-      <div>
-        <div class="roadmap-wrap">
-          <div class="roadmap">
-            <h2>Your Estate Administrative Roadmap</h2>
-            <p class="typing" id="narr"></p>
-            <div id="after" style="display:none">
-              <div class="section-title">Recommended next steps</div>
-              <ol class="steps" id="stepList">${steps.map(s=>`<li>${s}</li>`).join('')}</ol>
-              <details class="recap">
-                <summary>Review your answers (${shown.length})</summary>
-                <table>${recapRows}</table>
-              </details>
-              <button type="button" class="retake" id="restart">Retake the PathFinder</button>
-              <p class="more-info">Need more information? Just click any highlighted keywords above or on the recommended next steps!</p>
-            </div>
-          </div>
-          <img class="roadmap-owl" src="assets/majoo-owl.png" alt="">
-        </div>
-        <div class="roadmap-meta">Majoo</div>
-      </div>
-      <div class="chat-log" id="chatLog" style="max-height:none;overflow:visible"></div>
-      <div class="summary-inputwrap">
-        <div class="chat-inputbox">
-          <form class="chat-form" id="chatForm" autocomplete="off">
-            <textarea class="chat-input" id="chatInput" rows="1" placeholder="Let Majoo know of your queries..." title="Enter to send, Shift+Enter for a new line" aria-label="Ask Majoo a question"></textarea>
-            <button class="chat-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.4 21.6L23 12 2.4 2.4 2.4 10l14 2-14 2z"/></svg></button>
-          </form>
-          <p class="chat-ai-note">Majoo is an AI-powered chatbot and can make mistakes.</p>
-          <div class="chat-dl-row"><span class="chat-dl-lbl"><span class="dlc">&#8595;</span>Download chat:</span><button type="button" class="chat-dl" onclick="chatDownload('txt')">Text</button><button type="button" class="chat-dl" onclick="chatDownload('doc')">Word</button><button type="button" class="chat-dl" onclick="chatDownload('pdf')">PDF</button></div>
-        </div>
-        <p class="chat-privacy">Please note that your chat history will not be saved, and we do not retain any information you provide during this session. Once you leave this site, all conversation data will be permanently deleted and will no longer be accessible.</p>
+    <h2>Your Estate Administrative Roadmap</h2>
+    <p class="sub">Based on your answers &middot; general guidance, not legal advice</p>
+    <p class="narr" id="narr"></p>
+    <div id="after" hidden>
+      <div class="section-title">Recommended next steps</div>
+      <ol class="steps" id="stepList">${steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      <details class="recap">
+        <summary>Review your answers (${shown.length})</summary>
+        <table>${recapRows}</table>
+      </details>
+      <p class="more-info">Need more information? Click any highlighted keyword above, or a step, to ask Majoo.</p>
+      <div class="actions">
+        <button type="button" class="btn-primary" id="askRoute">Ask Majoo about my route</button>
+        <button type="button" class="btn-secondary" id="restart">Retake the PathFinder</button>
+        <button type="button" class="btn-secondary" id="toForm162">Fill in Form 162</button>
       </div>
     </div>`;
-
   const after = document.getElementById('after');
   const narr = document.getElementById('narr');
   const narrText = buildNarrative();
-  const askMajoo = q => {
-    chatSubmit(q);
-    const input = document.getElementById('chatInput');
-    if(input) input.scrollIntoView({behavior:'smooth', block:'end'});
-  };
+  const askMajoo = q => { openChat(); chatSubmit(q); };
   typeText(narr, narrText, ()=>{
     narr.innerHTML = linkifyNarrative(narrText);
     narr.querySelectorAll('.kw').forEach(b=>{ b.onclick = ()=>askMajoo(b.dataset.q); });
-    after.style.display='block';
+    after.hidden = false;
     after.classList.add('fade');
     after.querySelectorAll('#stepList li').forEach(li=>{
       li.onclick = ()=>askMajoo('Tell me more about this step: '+li.textContent.trim());
     });
   });
-  document.getElementById('restart').onclick = ()=>{ renderIntro(); };
-  const form = document.getElementById('chatForm');
-  const input = document.getElementById('chatInput');
-  wireChatInput(form, input);
-}
-
-/* ---- Landing / main page: the questionnaire and summary only start
-   once the visitor presses the button. ---- */
-function renderIntro(){
-  idx = 0; answers = {};
-  chrome('landing');
-  shell.classList.add('intro-mode');
-  card.className = 'card fade intro';
-  card.innerHTML = `
-    <div class="intro-grid">
-      <div class="intro-main">
-        <div class="intro-lead">
-          <span class="stage-tag">Access to Justice · Guided pathfinder</span>
-          <h2 class="intro-title">Help administering a loved one's estate</h2>
-          <p class="intro-text">Two guided tools to help you navigate Singapore's Muslim estate administration process. Choose the one you need — it takes just a few minutes, and nothing you enter is saved.</p>
-        </div>
-
-        <div class="option-box primary">
-          <span class="obx-tag">Guided pathfinder</span>
-          <h3>Your personalised guide to administering your loved one's estate</h3>
-          <p>Answer a short series of questions about the will, any existing court applications, the Inheritance Certificate, and the assets and property. We'll map out a tailored route with recommended next steps.</p>
-          <button class="start-btn" id="start">Start the guided pathfinder</button>
-        </div>
-
-        <div class="option-box secondary">
-          <span class="obx-tag">Document filler</span>
-          <h3>Help with filling in Form 162</h3>
-          <p>Applying for a grant of probate or letters of administration. We'll ask the intake questions and fill in the official Form 162 for you to download as a Word document.</p>
-          <button class="start-btn alt" id="start162">Fill in Form 162</button>
-        </div>
-
-        <div class="option-box roadmap-box">
-          <span class="obx-tag">Roadmap</span>
-          <h3>The estate administration roadmap</h3>
-          <p>The usual sequence for administering a Muslim estate in Singapore, from the death certificate to the final distribution.</p>
-          <ol class="rm-mini">${ROADMAP_STEPS.map(s=>`<li>${s.short}</li>`).join('')}</ol>
-          <button class="start-btn alt" id="openRoadmap">Open the roadmap in full screen</button>
-        </div>
-
-        <p class="intro-note">General guidance only — this is not legal advice.</p>
-      </div>
-
-      <aside class="chat-panel" id="chatPanel">
-        <div class="chat-head">
-          <h3><img src="assets/majoo-owl.png" alt="">Chat with Majoo<button type="button" class="chat-expand" id="chatExpand" aria-label="Open chat in full window" title="Full window">&#x2922;</button></h3>
-          <p>I can explain the Inheritance Certificate, Faraid, Form 162, CPF nominations and more. I can't give legal advice or tell you your specific shares.</p>
-        </div>
-        <div class="chat-log" id="chatLog"></div>
-        <div class="chat-chips" id="chatChips"></div>
-        <div class="chat-inputbox">
-          <form class="chat-form" id="chatForm" autocomplete="off">
-            <textarea class="chat-input" id="chatInput" rows="1" placeholder="Let Majoo know of your queries..." title="Enter to send, Shift+Enter for a new line" aria-label="Ask Majoo a question"></textarea>
-            <button class="chat-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.4 21.6L23 12 2.4 2.4 2.4 10l14 2-14 2z"/></svg></button>
-          </form>
-          <p class="chat-ai-note">Majoo is an AI-powered chatbot and can make mistakes.</p>
-          <div class="chat-dl-row"><span class="chat-dl-lbl"><span class="dlc">&#8595;</span>Download chat:</span><button type="button" class="chat-dl" onclick="chatDownload('txt')">Text</button><button type="button" class="chat-dl" onclick="chatDownload('doc')">Word</button><button type="button" class="chat-dl" onclick="chatDownload('pdf')">PDF</button></div>
-        </div>
-        <p class="chat-privacy">Please note that your chat history will not be saved, and we do not retain any information you provide during this session. Once you leave this site, all conversation data will be permanently deleted and will no longer be accessible.</p>
-      </aside>
-    </div>`;
-  document.getElementById('start').onclick = ()=>{ render(); };
-  document.getElementById('start162').onclick = ()=>{ renderF162(); };
-  document.getElementById('openRoadmap').onclick = openRoadmap;
-  initChat();
+  document.getElementById('restart').onclick = startPathfinder;
+  document.getElementById('toForm162').onclick = ()=>goto('form162');
+  document.getElementById('askRoute').onclick = ()=>askMajoo('I have just completed the PathFinder. My answers: ' + shown.map(i=>`${txt(i.q).replace(/<[^>]+>/g,'')} ${answers[i.key]||'-'}`).join('; ') + '. What should I do first?');
 }
 
 /* =========================================================================
    ESTATE ADMINISTRATION ROADMAP
    The usual practical sequence (mirrors section 2 of the knowledge base so
-   the roadmap and the chatbot never disagree). Shown as a compact list on the
-   landing page and as a full-screen view on request.
+   the roadmap and the chatbot never disagree).
    ========================================================================= */
 const ROADMAP_STEPS = [
   { short:'Identify liabilities', title:'Identify and settle the estate’s liabilities',
@@ -1038,58 +805,45 @@ const ROADMAP_STEPS = [
     text:'If disputes arise over Baitulmal remittances, beneficiaries may submit a formal appeal to MUIS and the Syariah Court.' },
 ];
 
-function roadmapHtml(){
-  const steps = ROADMAP_STEPS.map(s=>`<li><div class="rm-step"><h4>${s.title}</h4><p>${s.text}</p>${
-    s.branch ? `<div class="rm-branch">${s.branch.map(b=>`<span><b>${b[0]}</b> &mdash; ${b[1]}</span>`).join('')}</div>` : ''
-  }</div></li>`).join('');
-  return `
-    <div class="rm-inner">
-      <div class="rm-top">
-        <h2 id="rmTitle">The estate administration roadmap</h2>
-        <button type="button" class="rm-close" id="rmClose" aria-label="Close the roadmap">&#x2715; Close</button>
-      </div>
-      <p class="rm-intro">The usual practical sequence for administering a Muslim estate in Singapore. It is a practical guide, not a legal framework, and every family’s route is slightly different — use the PathFinder for a route tailored to your answers.</p>
-      <div class="rm-routes">
-        <div class="rm-route"><h4>Was the deceased Muslim?</h4><p>If so, Faraid (Islamic inheritance law) governs who inherits and in what shares, and an Inheritance Certificate from the Syariah Court is needed.</p></div>
-        <div class="rm-route"><h4>Was there a Wasiat (Islamic will)?</h4><span class="arm"><b>Yes</b> &mdash; the executor applies for a Grant of Probate.</span><span class="arm"><b>No</b> &mdash; the next-of-kin applies for Letters of Administration.</span></div>
-        <div class="rm-route"><h4>Is the estate $50,000 or below?</h4><p>Excluding CPF and nominated insurance, and with none of the disqualifying factors, the Public Trustee may administer the estate instead of a court application.</p></div>
-      </div>
-      <p class="rm-timing"><b>Timing.</b> Applications for the Inheritance Certificate and for Letters of Administration or Probate can be filed before the deceased’s debts are settled. What must wait is the <b>distribution</b>: expenses, debts and other liabilities are paid first, any valid Wasiat is given effect, and only the net estate is then distributed under Faraid.</p>
-      <ol class="rm-flow">${steps}</ol>
-      <p class="rm-foot">General guidance only — this is not legal advice. Press Esc or use Close to return to the main page.</p>
-    </div>`;
-}
 
-function openRoadmap(){
-  const m = document.getElementById('rmModal');
-  if(!m) return;
-  m.innerHTML = roadmapHtml();
-  m.hidden = false;
-  m.scrollTop = 0;
-  document.body.classList.add('rm-lock');
-  const close = document.getElementById('rmClose');
-  close.onclick = closeRoadmap;
-  close.focus();
+
+/* ---- Roadmap page (rendered once from ROADMAP_STEPS) ---- */
+function renderRoadmap(){
+  showView('roadmap');
+  const wrap = document.getElementById('roadmapWrap');
+  if(wrap.dataset.ready) return;
+  const steps = ROADMAP_STEPS.map(s=>`<li><div class="rstep"><h3>${s.title}</h3><p>${s.text}</p>${
+    s.branch ? `<div class="branch">${s.branch.map(b=>`<span><b>${b[0]}</b> &mdash; ${b[1]}</span>`).join('')}</div>` : ''
+  }</div></li>`).join('');
+  wrap.innerHTML = `
+    <div class="head">
+      <img src="assets/skin/roadmap-map.png" alt="">
+      <div>
+        <span class="pill">Roadmap</span>
+        <h1>The estate administration roadmap</h1>
+        <p>The usual journey for administering a Muslim estate in Singapore, from the death certificate to the final distribution. It is a practical guide, not a legal framework. Use the PathFinder for a route tailored to your answers.</p>
+      </div>
+    </div>
+    <div class="routes">
+      <div class="route"><h4>Was the deceased Muslim?</h4><p>If so, Faraid (Islamic inheritance law) governs who inherits and in what shares, and an Inheritance Certificate from the Syariah Court is needed.</p></div>
+      <div class="route"><h4>Was there a Wasiat (Islamic will)?</h4><span class="arm"><b>Yes</b> &mdash; the executor applies for a Grant of Probate.</span><span class="arm"><b>No</b> &mdash; the next-of-kin applies for Letters of Administration.</span></div>
+      <div class="route"><h4>Is the estate $50,000 or below?</h4><p>Excluding CPF and nominated insurance, and with none of the disqualifying factors, the Public Trustee may administer the estate instead of a court application.</p></div>
+    </div>
+    <p class="timing"><b>Timing.</b> Applications for the Inheritance Certificate and for Letters of Administration or Probate can be filed before the deceased&rsquo;s debts are settled. What must wait is the <b>distribution</b>: expenses, debts and other liabilities are paid first, any valid Wasiat is given effect, and only the net estate is then distributed under Faraid.</p>
+    <ol class="flow">${steps}</ol>
+    <div class="cta">
+      <button type="button" class="btn-secondary" data-view="pathfinder">Try the PathFinder</button>
+      <button type="button" class="btn-primary" data-view="form162">Fill in Form 162</button>
+      <button type="button" class="btn-secondary" data-open-chat>Ask Majoo</button>
+    </div>
+    <p class="rfoot">General guidance only &mdash; this is not legal advice.</p>`;
+  wrap.dataset.ready = '1';
+  wireNav(wrap);
 }
-function closeRoadmap(){
-  const m = document.getElementById('rmModal');
-  if(!m || m.hidden) return;
-  m.hidden = true;
-  m.innerHTML = '';
-  document.body.classList.remove('rm-lock');
-  const btn = document.getElementById('openRoadmap');
-  if(btn) btn.focus();
-}
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeRoadmap(); });
 
 /* =========================================================================
-   GUARDRAILED ASSISTANT (static, no backend / no API key)
-   A scope-locked FAQ assistant that answers only estate-administration
-   questions from vetted content. Every answer carries a "not legal advice"
-   note and points to the Syariah Court, MUIS and legal-aid clinics. It never
-   gives a definitive legal ruling or a personalised Faraid share calculation.
-   To upgrade to a live Claude-powered chatbot, replace chatReply() with a
-   call to a serverless proxy that holds the API key (see README).
+   MAJOO — the chatbot. Grounded replies come from /api/chat (see README);
+   the static assistant below is the fallback when no key is configured.
    ========================================================================= */
 const CHAT_DISCLAIMER = 'General guidance only — not legal advice.';
 const CHAT_HELP_LINE = 'For advice on your situation, contact the <b>Syariah Court (SYC)</b>, <b>MUIS</b>, or a <b>legal-aid clinic</b> (e.g. the Law Society Pro Bono Services community legal clinics).';
@@ -1172,24 +926,32 @@ function chatReply(raw){
   return { html:"I'm not able to help with that — I can only answer questions about Singapore's Muslim estate administration process (the Inheritance Certificate, Faraid, probate, letters of administration, CPF nominations, property and Form 162). Try rephrasing, or "+CHAT_HELP_LINE.charAt(0).toLowerCase()+CHAT_HELP_LINE.slice(1), disc:false };
 }
 
+
+
+/* ---- Chat panel rendering ---- */
 function chatAppend(role, html, withDisc){
   const log = document.getElementById('chatLog');
   if(!log) return;
   const row = document.createElement('div');
-  row.className = 'chat-row '+role;
-  const div = document.createElement('div');
-  div.className = 'chat-msg '+role;
-  div.innerHTML = html + (withDisc ? `<span class="disc">${CHAT_DISCLAIMER}</span>` : '');
-  row.appendChild(div);
-  // Only the visitor's messages carry a name row; Majoo's owl sits in the panel header.
   if(role==='user'){
-    const meta = document.createElement('div');
-    meta.className = 'chat-meta';
-    meta.innerHTML = '<span>Guest</span><img class="chat-ava" src="assets/guest.png" alt="">';
-    row.appendChild(meta);
+    row.className = 'mj-row guest chat-row user';
+    row.innerHTML = `<div class="gbubble chat-msg user">${html}</div><div class="who">Guest</div>`;
+    const chips = document.getElementById('chatChips'); if(chips) chips.hidden = true;   // suggestions only until the first question
+  } else {
+    row.className = 'mj-row chat-row bot';
+    row.innerHTML = `<div class="bubble chat-msg bot"><img class="ava" src="assets/skin/majoo-avatar.png" alt="">${html}${withDisc ? `<span class="disc">${CHAT_DISCLAIMER}</span>` : ''}</div><div class="who">Majoo</div>`;
   }
   log.appendChild(row);
   log.scrollTop = log.scrollHeight;
+}
+function chatTypingShow(){
+  const log = document.getElementById('chatLog');
+  if(!log) return null;
+  const d = document.createElement('div');
+  d.className = 'mj-row';
+  d.innerHTML = '<div class="bubble chat-typing"><span></span><span></span><span></span></div>';
+  log.appendChild(d); log.scrollTop = log.scrollHeight;
+  return d;
 }
 
 /* Transcript export: plain text, Word (.doc via HTML) or PDF (print dialog). */
@@ -1256,15 +1018,6 @@ function chatFormat(t){
   flushPara(); closeList();
   return html || '<p>'+inline(escv(t))+'</p>';
 }
-function chatTypingShow(){
-  const log = document.getElementById('chatLog');
-  if(!log) return null;
-  const d = document.createElement('div');
-  d.className = 'chat-msg bot chat-typing';
-  d.innerHTML = '<span></span><span></span><span></span>';
-  log.appendChild(d); log.scrollTop = log.scrollHeight;
-  return d;
-}
 
 /* The conversation so far (user/assistant turns), sent with every request so
    the live model remembers what the visitor has already told it. */
@@ -1309,51 +1062,49 @@ async function chatSubmit(text){
   }
 }
 
-/* Shared input wiring: Enter sends, Shift+Enter adds a new line, the box grows
-   with its content, and each screen starts a fresh conversation. */
+
+
+/* Input wiring: Enter sends, Shift+Enter adds a new line, the box grows with
+   its content. The conversation persists while the visitor moves between
+   screens; it is cleared when the page is left. */
 function wireChatInput(form, input){
-  chatHistory = [];
   const grow = ()=>{ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,140)+'px'; };
   const send = ()=>{ const v=input.value; input.value=''; grow(); chatSubmit(v); };
   form.onsubmit = e=>{ e.preventDefault(); send(); };
   input.onkeydown = e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } };
   input.oninput = grow;
 }
-
 function initChat(){
   const log = document.getElementById('chatLog');
   const chips = document.getElementById('chatChips');
   const form = document.getElementById('chatForm');
   const input = document.getElementById('chatInput');
-  if(!log || !form) return;
   log.innerHTML = '';
+  chatHistory = [];
   chatAppend('bot', CHAT_GREETING, false);
+  chips.hidden = false;
   chips.innerHTML = CHAT_CHIPS.map((c,i)=>`<button type="button" class="chat-chip" data-i="${i}">${escv(c.label)}</button>`).join('');
   chips.querySelectorAll('.chat-chip').forEach(btn=>{
     btn.onclick = ()=>{ chatSubmit(CHAT_CHIPS[+btn.dataset.i].q); };
   });
   wireChatInput(form, input);
-
-  // Full-window toggle (Escape closes it).
-  const panel = document.getElementById('chatPanel');
-  const expand = document.getElementById('chatExpand');
-  if(panel && expand){
-    const setFull = on => {
-      panel.classList.toggle('chat-full', on);
-      document.body.classList.toggle('chat-lock', on);
-      expand.innerHTML = on ? '&#x2715;' : '&#x2922;';
-      expand.title = on ? 'Close full window' : 'Full window';
-    };
-    expand.onclick = ()=> setFull(!panel.classList.contains('chat-full'));
-    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && panel.classList.contains('chat-full')) setFull(false); });
-  }
+  const dl = document.getElementById('mjDl'), dlRow = document.getElementById('mjDlRow');
+  dl.onclick = ()=>{ dlRow.hidden = !dlRow.hidden; };
+  document.getElementById('mjClose').onclick = closeChat;
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !document.getElementById('mjWidget').hidden) closeChat(); });
 }
+function openChat(){
+  const w = document.getElementById('mjWidget');
+  w.hidden = false;
+  const log = document.getElementById('chatLog'); log.scrollTop = log.scrollHeight;
+  setTimeout(()=>{ const i=document.getElementById('chatInput'); if(i && window.innerWidth>560) i.focus({preventScroll:true}); }, 60);
+}
+function closeChat(){ document.getElementById('mjWidget').hidden = true; }
 
 /* =========================================================================
    FORM 162 — Originating Application for Probate / Administration (PAA 1934)
-   A separate guided flow that collects the intake answers (with skip logic)
-   and fills the official Form 162 .docx in the browser via docxtemplater.
-   v1 scope: Probate (Path A) and Letters of Administration (Path B).
+   Collects the intake answers (with skip logic) and fills the official
+   Form 162 .docx in the browser via docxtemplater.
    ========================================================================= */
 const f162 = {};
 let f162Idx = 0;
@@ -1454,7 +1205,58 @@ const F162_STEPS = [
 ];
 
 const f162Visible = () => F162_STEPS.filter(s => !s.showIf || s.showIf(f162));
-function renderF162(){ shell.classList.remove('intro-mode'); chrome('inner'); Object.keys(f162).forEach(k=>delete f162[k]); f162.benes=[{}]; f162Idx=0; renderF162Step(); }
+
+
+function renderF162(){
+  showView('stage');
+  stageBubble('Let Majoo help you with filling up Form 162 if you are applying for a <b>Grant of Probate</b> or <b>Letters of Administration</b>.', 'Start over', ()=>renderF162());
+  Object.keys(f162).forEach(k=>delete f162[k]); f162.benes=[{}]; f162Idx=0; renderF162Step();
+}
+function renderF162Step(){
+  const steps=f162Visible();
+  if(f162Idx>=steps.length){ renderF162Review(); return; }
+  const step=steps[f162Idx];
+  const pct=Math.round(((f162Idx+1)/(steps.length+1))*100);
+  const body = step.repeat ? f162RepeatHtml(step.repeat) : step.fields.map(f162Field).join('');
+  card.className='pf fade';
+  card.innerHTML=`
+    <h2>Form 162</h2>
+    <p class="sub">We ask the intake questions and fill in the official form for you to download.</p>
+    <div class="prog"><div class="track"><div class="fill" style="width:${pct}%"></div></div><span>${f162Idx+1}/${steps.length}</span></div>
+    <span class="step">Form 162 &middot; ${step.title}</span>
+    ${step.intro?`<h3>${step.intro}</h3>`:`<h3>${step.title}</h3>`}
+    <div class="f162-fields">${body}</div>
+    <div class="nav">
+      <button type="button" class="back" id="fback">&#10229;&nbsp; ${f162Idx===0?'Back to main page':'Back'}</button>
+      <button type="button" class="next" id="fnext">${f162Idx===steps.length-1?'Review &rarr;':'Next &rarr;'}</button>
+    </div>`;
+  card.querySelectorAll('.f162-radios').forEach(g=>g.querySelectorAll('.f162-opt').forEach(b=>{
+    b.onclick=()=>{ saveF162Inputs(); f162[g.dataset.k]=b.dataset.v; renderF162Step(); };
+  }));
+  card.querySelectorAll('.f162-in[data-rerender]').forEach(el=>el.onchange=()=>{ saveF162Inputs(); renderF162Step(); });
+  const add=document.getElementById('f162add'); if(add&&step.repeat) add.onclick=()=>{ saveF162Inputs(); f162[step.repeat.key].push({}); renderF162Step(); };
+  card.querySelectorAll('.f162-rm').forEach(b=>b.onclick=()=>{ saveF162Inputs(); f162[step.repeat.key].splice(+b.dataset.rm,1); renderF162Step(); });
+  // Back steps through the form; on the first page it returns to the main page.
+  const back=document.getElementById('fback'); if(back) back.onclick=()=>{ if(f162Idx>0){ saveF162Inputs(); f162Idx--; renderF162Step(); } else goto('landing'); };
+  const next=document.getElementById('fnext'); if(next) next.onclick=()=>{ saveF162Inputs(); f162Idx++; renderF162Step(); };
+}
+function renderF162Review(){
+  card.className='pf fade';
+  card.innerHTML=`
+    <h2>Form 162</h2>
+    <p class="sub">Ready to generate</p>
+    <span class="step">Form 162 &middot; Review</span>
+    <h3>Ready to generate your Form 162</h3>
+    <p class="help">We'll fill the official Form 162 with your answers and download it as a Word document. Open it, delete any "* delete as appropriate" alternatives, and check everything before filing. Nothing you entered leaves your browser.</p>
+    <div class="actions"><button type="button" class="btn-primary" id="f162gen">Download filled Form 162 (.docx)</button></div>
+    <p class="status" id="f162status"></p>
+    <div class="nav"><button type="button" class="back" id="fback">&#10229;&nbsp; Back</button><span class="dots">Draft &mdash; not legal advice</span></div>
+    <div class="actions"><button type="button" class="btn-secondary" id="f162restart">Start over</button><button type="button" class="btn-secondary" id="f162home">Back to main page</button></div>`;
+  document.getElementById('f162gen').onclick=generateForm162;
+  document.getElementById('fback').onclick=()=>{ f162Idx=f162Visible().length-1; renderF162Step(); };
+  document.getElementById('f162restart').onclick=()=>renderF162();
+  document.getElementById('f162home').onclick=()=>goto('landing');
+}
 
 function f162Field(f){
   if(f.showIf && !f.showIf(f162)) return '';
@@ -1479,48 +1281,7 @@ function saveF162Inputs(){
     else f162[k]=el.value;
   });
 }
-function renderF162Step(){
-  const steps=f162Visible();
-  if(f162Idx>=steps.length){ renderF162Review(); return; }
-  const step=steps[f162Idx];
-  const pct=Math.round((f162Idx/(steps.length+1))*100);
-  const body = step.repeat ? f162RepeatHtml(step.repeat) : step.fields.map(f162Field).join('');
-  card.className='card fade';
-  card.innerHTML=`
-    <div class="progress-wrap"><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <div class="progress-label">Form 162 · ${f162Idx+1} / ${steps.length}</div></div>
-    <div class="section-head">Form 162</div>
-    <h2 class="question">${step.title}</h2>
-    ${step.intro?`<p class="helper">${step.intro}</p>`:''}
-    <div class="f162-fields">${body}</div>
-    <div class="nav">
-      <button class="back-btn" id="fback">${f162Idx===0?'&larr; Back to main page':'&larr; Back'}</button>
-      <button class="f162-next" id="fnext">${f162Idx===steps.length-1?'Review &rarr;':'Next &rarr;'}</button>
-    </div>`;
-  card.querySelectorAll('.f162-radios').forEach(g=>g.querySelectorAll('.f162-opt').forEach(b=>{
-    b.onclick=()=>{ saveF162Inputs(); f162[g.dataset.k]=b.dataset.v; renderF162Step(); };
-  }));
-  card.querySelectorAll('.f162-in[data-rerender]').forEach(el=>el.onchange=()=>{ saveF162Inputs(); renderF162Step(); });
-  const add=document.getElementById('f162add'); if(add&&step.repeat) add.onclick=()=>{ saveF162Inputs(); f162[step.repeat.key].push({}); renderF162Step(); };
-  card.querySelectorAll('.f162-rm').forEach(b=>b.onclick=()=>{ saveF162Inputs(); f162[step.repeat.key].splice(+b.dataset.rm,1); renderF162Step(); });
-  // Back steps through the form; on the first page it returns to the main page.
-  const back=document.getElementById('fback'); if(back) back.onclick=()=>{ if(f162Idx>0){ saveF162Inputs(); f162Idx--; renderF162Step(); } else renderIntro(); };
-  const next=document.getElementById('fnext'); if(next) next.onclick=()=>{ saveF162Inputs(); f162Idx++; renderF162Step(); };
-}
-function renderF162Review(){
-  card.className='card fade';
-  card.innerHTML=`
-    <div class="section-head">Form 162</div>
-    <h2 class="question">Ready to generate your Form 162</h2>
-    <p class="helper">We'll fill the official Form 162 with your answers and download it as a Word document. Open it, delete any "* delete as appropriate" alternatives, and check everything before filing. Nothing you entered leaves your browser.</p>
-    <button class="start-btn" id="f162gen">Download filled Form 162 (.docx)</button>
-    <p class="intro-note" id="f162status"></p>
-    <div class="nav"><button class="back-btn" id="fback">&larr; Back</button><span class="dots">Draft — not legal advice</span></div>
-    <button class="restart" id="f162restart">Start over</button>`;
-  document.getElementById('f162gen').onclick=generateForm162;
-  document.getElementById('fback').onclick=()=>{ f162Idx=f162Visible().length-1; renderF162Step(); };
-  document.getElementById('f162restart').onclick=renderIntro;
-}
+
 function buildF162Data(){
   const a=f162, probate=a.grantType==='probate', v=x=>x||'';
   const d={ caseNo:v(a.caseNo), filingDate:v(a.filingDate), applicantName:v(a.applicantName), applicantId:v(a.applicantId),
@@ -1560,27 +1321,18 @@ async function generateForm162(){
   }catch(e){ status.textContent='Sorry, generation failed: '+e.message; console.error(e); }
 }
 
-/* Logo (top-left of the hero and of the inner-page bar) → back to the main page. */
-document.querySelectorAll('[data-home]').forEach(a=>{
-  a.onclick = (e)=>{ e.preventDefault(); closeRoadmap(); renderIntro(); window.scrollTo({top:0, behavior:'smooth'}); };
-});
 
-/* Hero "Chat with Majoo" → return to the landing and focus the assistant. */
-(function(){
-  const hc = document.getElementById('heroChat');
-  if(hc) hc.onclick = (e)=>{
-    e.preventDefault();
-    renderIntro();
-    setTimeout(()=>{
-      const panel = document.getElementById('chatPanel');
-      const input = document.getElementById('chatInput');
-      if(panel) panel.scrollIntoView({behavior:'smooth', block:'center'});
-      if(input) input.focus({preventScroll:true});
-    }, 80);
-  };
-})();
 
-renderIntro();
+/* ---- Navigation wiring: cards, footer links, logo, chat openers ---- */
+function wireNav(root){
+  root.querySelectorAll('[data-view]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); goto(el.dataset.view); }; });
+  root.querySelectorAll('[data-open-chat]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); openChat(); }; });
+  root.querySelectorAll('[data-home]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); goto('landing'); }; });
+}
+wireNav(document);
+initChat();
+openRoute(location.hash.replace('#','') || 'landing');
+
 </script>
 </body>
 </html>

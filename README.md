@@ -13,8 +13,10 @@ time and then produces a tailored summary and recommended next steps.
 The app is a **single self-contained static page** — all logic (including the
 generated summary) runs in the browser. No backend or build step is required.
 
-- `index.html` — the entire app (markup, styles, and logic)
-- `assets/background.jpg` — optimized background photo
+- `index.html` — the entire app (markup, styles, and logic): landing page,
+  the guided PathFinder, the Form 162 filler, the roadmap and the Majoo chat panel
+- `assets/skin/` — the site artwork (hero illustration, the four cards, Majoo's avatar, logo)
+- `assets/knowledge-base.md` — the vetted material the chatbot answers from
 - `server.js` — optional tiny local web server for testing
 
 ## Run locally
@@ -36,7 +38,7 @@ Because it is fully static, it can be hosted free on any static host:
 
 ## Assistant chatbot
 
-The landing page includes an assistant panel. It runs in two modes:
+Majoo, the chat panel (bottom-right, opened from "Ask Majoo" or the "Chat with Majoo" card), runs in two modes:
 
 - **Grounded (live):** the serverless function `api/chat.js` sends questions to a
   Claude model with a system prompt that embeds the vetted knowledge base
