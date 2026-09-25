@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MajuLaw — Roadmap (majuskin preview)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================================
+     MAJUSKIN — Roadmap page (opens from the Roadmap card).
+     The estate administration sequence in the new look. Content mirrors
+     section 2 of the knowledge base, as on the live site.
+     ===================================================================== */
+  :root{
+    --navy:#1b2741; --navy-2:#243553; --gold:#cbae73; --gold-deep:#b8923f; --maroon:#7a1b1f; --maroon-deep:#721419;
+    --brown:#3f1e18; --cream:#f6efe6; --sand:#efe4d2; --ink:#1c2230; --muted:#5f6673;
+    --font:"Figtree","Avenir Next","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--font);color:var(--ink);background:var(--brown);line-height:1.5}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  .privacy{background:var(--navy);color:#e7e3dc;text-align:center;font-size:14.5px;padding:6px 16px;line-height:1.35}
+  .privacy a{color:#fff;text-decoration:underline;text-underline-offset:3px;margin-left:6px}
+
+  .top{background:var(--gold);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .top img{height:44px;width:auto}
+  .back{text-decoration:none;color:var(--navy);font-weight:700;font-size:17px}
+  .back:hover{text-decoration:underline}
+
+  .page{background:linear-gradient(180deg,#4a1f1c 0%,#3b1815 55%,#2f1512 100%);padding:48px 24px 64px}
+  .wrap{max-width:980px;margin:0 auto}
+  .head{display:flex;align-items:center;gap:26px;margin-bottom:26px}
+  .head img{width:190px;flex:0 0 190px}
+  .head h1{margin:0 0 8px;color:var(--gold);font-size:40px;font-weight:800;line-height:1.05}
+  .head p{margin:0;color:#e7dccf;font-size:17px;max-width:620px}
+  .pill{display:inline-block;background:var(--maroon);color:#fff;font-weight:700;font-size:14px;padding:6px 16px;border-radius:999px;margin-bottom:12px}
+
+  .routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:0 0 20px}
+  .route{background:var(--cream);border-radius:18px;padding:18px 20px;box-shadow:0 14px 34px rgba(0,0,0,.3)}
+  .route h4{margin:0 0 6px;font-size:16px;color:var(--navy)}
+  .route p{margin:0;font-size:14px;color:#3a4150}
+  .route .arm{display:block;margin-top:8px;padding:8px 12px;border-radius:10px;background:var(--sand);font-size:13.5px}
+  .route .arm b{color:var(--maroon)}
+  .timing{background:rgba(203,174,115,.16);border-left:4px solid var(--gold);border-radius:12px;padding:14px 18px;color:#f1e7da;font-size:15px;margin:0 0 26px}
+  .timing b{color:#fff}
+
+  .flow{list-style:none;margin:0;padding:0;counter-reset:s;position:relative}
+  .flow li{position:relative;padding:0 0 18px 66px;counter-increment:s}
+  .flow li::before{content:counter(s);position:absolute;left:0;top:0;width:46px;height:46px;border-radius:50%;background:var(--gold);color:#3a2a10;font-weight:800;font-size:19px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(0,0,0,.35);z-index:1}
+  .flow li::after{content:"";position:absolute;left:22px;top:46px;bottom:0;width:2px;background:rgba(203,174,115,.35)}
+  .flow li:last-child::after{display:none}
+  .step{background:var(--cream);border-radius:18px;padding:16px 20px;box-shadow:0 14px 34px rgba(0,0,0,.28)}
+  .step h3{margin:0 0 6px;font-size:18px;color:var(--navy);font-weight:800}
+  .step p{margin:0;font-size:15px;color:#3a4150}
+  .branch{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
+  .branch span{background:var(--sand);border-radius:12px;padding:10px 12px;font-size:14px}
+  .branch b{color:var(--maroon)}
+  .foot{margin:22px 0 0;text-align:center;color:#cbb9a8;font-size:13.5px}
+  .foot a{color:#fff}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
+  .btn{display:inline-block;text-decoration:none;background:var(--navy);color:#fff;font-weight:700;font-size:16px;padding:12px 26px;border-radius:999px;box-shadow:0 8px 18px rgba(0,0,0,.35)}
+  .btn.alt{background:var(--maroon)}
+  .btn:hover{filter:brightness(1.1)}
+
+  footer{background:var(--navy);color:#dcd8d0;padding:48px 0 34px}
+  .fwrap{max-width:1230px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1.3fr .7fr .7fr;gap:30px}
+  footer .logo img{height:44px;width:auto;margin-bottom:22px}
+  footer .connect{font-size:16px;margin-bottom:14px}
+  .social{display:flex;gap:10px}
+  .social a{width:30px;height:30px;border-radius:50%;background:#dcd8d0;color:var(--navy);display:inline-flex;align-items:center;justify-content:center}
+  .social svg{width:17px;height:17px}
+  footer h4{margin:0 0 14px;font-size:24px;font-weight:700;color:#e7e3dc}
+  footer nav a{display:block;text-decoration:none;font-size:17px;margin:0 0 12px;color:#cfcac2}
+  footer nav a:hover{color:#fff;text-decoration:underline}
+  .fbottom{text-align:center;margin-top:34px;font-size:12.5px;color:#b9b3aa}
+  .fbottom b{display:block;margin-top:8px;color:#e7e3dc;font-size:13px}
+  @media(max-width:760px){
+    .top{padding:12px 18px}.page{padding:32px 16px 48px}
+    .head{flex-direction:column;align-items:flex-start;gap:14px}.head img{width:150px;flex-basis:auto}.head h1{font-size:32px}
+    .flow li{padding-left:56px}.flow li::before{width:40px;height:40px;font-size:17px}.flow li::after{left:19px;top:40px}
+    .fwrap{grid-template-columns:1fr;padding:0 24px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="privacy">Your privacy matters to us. Here&rsquo;s how Majulaw collects, uses and protects your personal data. <a href="#privacy">Find our more &#8599;</a></div>
+
+  <div class="top">
+    <a class="home" href="majuskin-preview.html" aria-label="MajuLaw — back to the main page"><img src="../assets/skin/majulaw-logo-navy.png" alt="MajuLaw"></a>
+    <a class="back" href="majuskin-preview.html">&#10229;&nbsp; Back to main page</a>
+  </div>
+
+  <main class="page">
+    <div class="wrap">
+      <div class="head">
+        <img src="../assets/skin/roadmap-map.png" alt="">
+        <div>
+          <span class="pill">Roadmap</span>
+          <h1>The estate administration roadmap</h1>
+          <p>The usual journey for administering a Muslim estate in Singapore, from the death certificate to the final distribution. It is a practical guide, not a legal framework. Use the PathFinder for a route tailored to your answers.</p>
+        </div>
+      </div>
+
+      <div class="routes">
+        <div class="route"><h4>Was the deceased Muslim?</h4><p>If so, Faraid (Islamic inheritance law) governs who inherits and in what shares, and an Inheritance Certificate from the Syariah Court is needed.</p></div>
+        <div class="route"><h4>Was there a Wasiat (Islamic will)?</h4><span class="arm"><b>Yes</b> &mdash; the executor applies for a Grant of Probate.</span><span class="arm"><b>No</b> &mdash; the next-of-kin applies for Letters of Administration.</span></div>
+        <div class="route"><h4>Is the estate $50,000 or below?</h4><p>Excluding CPF and nominated insurance, and with none of the disqualifying factors, the Public Trustee may administer the estate instead of a court application.</p></div>
+      </div>
+
+      <p class="timing"><b>Timing.</b> Applications for the Inheritance Certificate and for Letters of Administration or Probate can be filed before the deceased&rsquo;s debts are settled. What must wait is the <b>distribution</b>: expenses, debts and other liabilities are paid first, any valid Wasiat is given effect, and only the net estate is then distributed under Faraid.</p>
+
+      <ol class="flow">
+        <li><div class="step"><h3>Identify and settle the estate&rsquo;s liabilities</h3><p>Funeral and burial expenses, debts owed to creditors, and outstanding religious liabilities such as unpaid Zakat, Kafarah (expiation payments) or oath penalties. These are paid from the estate before the net estate is distributed &mdash; they do not have to be cleared before applying for the Inheritance Certificate or a court grant.</p></div></li>
+        <li><div class="step"><h3>Obtain the Death Certificate</h3><p>Once the death is certified by a doctor it is registered automatically with the Immigration &amp; Checkpoints Authority (ICA). The next-of-kin downloads the digital death certificate from MyLegacy@LifeSG. It is needed for post-death matters, including the burial or cremation permit from the National Environment Agency (NEA).</p></div></li>
+        <li><div class="step"><h3>Apply to the Syariah Court for the Inheritance Certificate</h3><p>The Inheritance Certificate (IC) identifies all the legal Faraid heirs and their exact fractional shares. For an estimate of the shares, use the Syariah Court&rsquo;s Online Trial Inheritance Calculator.</p></div></li>
+        <li><div class="step"><h3>Search for and list all estate assets</h3><p>Check every institution: HDB, banks, insurance companies, the CPF Board (for CPF savings) and investment entities. The Public Trustee&rsquo;s Office is only involved where it administers a qualifying estate of $50,000 or below, or distributes un-nominated CPF monies.</p></div></li>
+        <li><div class="step"><h3>Apply for the court grant</h3><p>The application is made at the Family Justice Courts. Which grant you apply for depends on whether the deceased left a Wasiat (Islamic will):</p>
+          <div class="branch"><span><b>Wasiat: yes</b> &mdash; the executor applies for a <b>Grant of Probate</b>.</span><span><b>Wasiat: no</b> &mdash; the next-of-kin applies for a <b>Grant of Letters of Administration</b>.</span></div></div></li>
+        <li><div class="step"><h3>Liquidate the assets into cash</h3><p>The administrator or executor presents the court order and the Inheritance Certificate to the financial institutions and property agents.</p></div></li>
+        <li><div class="step"><h3>Distribute the net estate in sequence</h3><p>Faraid shares to the heirs as set out in the Inheritance Certificate; Wasiat bequests (up to one-third, to non-heirs); Nuzriah obligations; and any unallocated surplus remitted to Baitulmal.</p></div></li>
+        <li><div class="step"><h3>Appeals, if there is a dispute</h3><p>If disputes arise over Baitulmal remittances, beneficiaries may submit a formal appeal to MUIS and the Syariah Court.</p></div></li>
+      </ol>
+
+      <div class="cta">
+        <a class="btn" href="majuskin-pathfinder.html">Try the PathFinder</a>
+        <a class="btn alt" href="majuskin-form162.html">Fill in Form 162</a>
+      </div>
+      <p class="foot">General guidance only &mdash; this is not legal advice. Majoo does not give legal advice or calculate specific shares; for an estimate under Faraid use the Syariah Court&rsquo;s <a href="https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator" target="_blank" rel="noopener">Online Trial Inheritance Calculator</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="fwrap">
+      <div class="logo">
+        <img src="../assets/majulaw-logo-white.png" alt="MajuLaw">
+        <div class="connect">Connect with Us</div>
+        <div class="social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5ZM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Learn more</h4><nav><a href="#">About us</a><a href="#">Outreach</a></nav></div>
+      <div><h4>FAQ</h4><nav><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></nav></div>
+    </div>
+    <div class="fbottom">Powered by Claude<b>Copyright &copy; 2026 MajuLaw. All Rights Reserved.</b></div>
+  </footer>
+
+</body>
+</html>
