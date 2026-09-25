@@ -550,12 +550,15 @@ const QUESTIONS = [
     no:{label:"No — there is no Wasiat", out:"The estate is distributed under full Faraid; apply for Letters of Administration (LOA)."} },
 
   { key:"grantApplied", section:"Preliminary Questions", stage:"Existing application",
-    q:"Have you or another applied for Letters of Administration or a Grant of Probate?",
+    // Wording and options follow the Wasiat answer: a Grant of Probate only exists where there is a Wasiat.
+    q: a => a.wasiat==='yes'
+      ? "Have you or another applied for Letters of Administration or a Grant of Probate?"
+      : "Have you or another applied for Letters of Administration?",
     help:"Only one grant can be issued per estate. Check whether an application is already in progress before starting a new one.",
     options:[
-      {value:"probate", label:"Yes — A grant of probate", out:"Check the status of the probate application and coordinate with the applicant — avoid filing a duplicate."},
+      {value:"probate", showIf: a => a.wasiat==='yes', label:"Yes — A grant of probate", out:"Check the status of the probate application and coordinate with the applicant — avoid filing a duplicate."},
       {value:"loa", label:"Yes — For Letters of Administration", out:"Check the status of the LOA application and coordinate with the applicant — avoid filing a duplicate."},
-      {value:"none", label:"No — Neither", out:"A grant application (LOA or Probate) will need to be filed as part of the process."},
+      {value:"none", label: a => a.wasiat==='yes' ? "No — Neither" : "No — not yet applied", out:"A grant application (LOA or Probate) will need to be filed as part of the process."},
     ] },
 
   { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
@@ -619,6 +622,8 @@ const QUESTIONS = [
     no:{label:"No — larger / disqualified", out:"Use the Family Justice Courts LOA process (Stage 4B)."} },
 
   { key:"underFiveM", section:"Estate", stage:"Which court",
+    // Skipped when the Public Trustee route applies and no court application has been filed.
+    showIf: a => !(a.smallEstate==='yes' && a.grantApplied==='none'),
     q:"Is the estate value ≤ $5 million?",
     help:"Court level depends on the value of the estate (Stage 4B).",
     yes:{label:"Yes — ≤ $5m", out:"Apply to the Family Courts."},
@@ -657,6 +662,9 @@ const shell = document.querySelector('.shell');
    This lets later questions depend on earlier answers. */
 const isVisible = item => !item.showIf || item.showIf(answers);
 const visibleQuestions = () => QUESTIONS.filter(isVisible);
+/* Question text and option labels may be functions of the answers so far. */
+const txt = v => typeof v === 'function' ? v(answers) : v;
+const visibleOptions = item => (item.options || []).filter(o => !o.showIf || o.showIf(answers));
 
 /* Toggle the page chrome: hero + partner strip on the landing, slim maroon
    bar on inner screens (pathfinder / summary / forms). */
@@ -695,8 +703,8 @@ function render(){
 
   let answersHtml;
   if(item.options){
-    answersHtml = item.options.map(o =>
-      `<button class="pf-opt" data-v="${o.value}"><span class="t">${o.label}</span></button>`).join('');
+    answersHtml = visibleOptions(item).map(o =>
+      `<button class="pf-opt" data-v="${o.value}"><span class="t">${txt(o.label)}</span></button>`).join('');
   } else {
     answersHtml = `
       <button class="pf-opt" data-v="yes"><span class="t">Yes</span><span class="d">${pfDesc(item.yes.label)}</span></button>
@@ -723,7 +731,7 @@ function render(){
           <span class="pf-count">${overallPos}/${total}</span>
         </div>
         <span class="pf-stage">Step ${overallPos}: ${item.stage}</span>
-        <h3 class="pf-q">${item.q}</h3>
+        <h3 class="pf-q">${txt(item.q)}</h3>
         <p class="pf-help">${item.help}</p>
         <div class="pf-ans">${answersHtml}</div>
         <button class="pf-back" id="back">${isFirst?'Back to main page':'Back'}</button>
@@ -867,13 +875,13 @@ function renderSummary(){
     const v = answers[item.key];
     const cls = v==='yes'?'pill-yes':(v==='no'?'pill-no':'');
     let disp = '—';
-    if(v) disp = item.options ? ((item.options.find(o=>o.value===v)||{}).label || v) : v.toUpperCase();
+    if(v) disp = item.options ? (txt((item.options.find(o=>o.value===v)||{}).label) || v) : v.toUpperCase();
     let header = '';
     if(item.section !== lastSection){
       lastSection = item.section;
       header = `<tr><td colspan="2" class="recap-section">${item.section}</td></tr>`;
     }
-    return `${header}<tr><td>${item.q}</td><td class="${cls}">${disp}</td></tr>`;
+    return `${header}<tr><td>${txt(item.q)}</td><td class="${cls}">${disp}</td></tr>`;
   }).join('');
   const steps = buildSteps();
   card.innerHTML = `
