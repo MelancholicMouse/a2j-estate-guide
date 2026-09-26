@@ -113,6 +113,9 @@
   .status{font-size:13.5px;color:var(--muted);margin:10px 0 0;min-height:1.2em}
 
   /* Summary card */
+  .pf-stop{background:rgba(203,174,115,.25);border-left:4px solid var(--gold-deep);border-radius:12px;padding:12px 16px;margin:0 0 14px}
+  .pf-stop b{display:block;font-size:16px;color:var(--maroon);margin-bottom:4px}
+  .pf-stop p{margin:0;font-size:14.5px;line-height:1.5;color:#3a2a10}
   .narr{font-size:16px;line-height:1.65;color:var(--ink);white-space:pre-wrap;margin:0 0 6px}
   .kw{background:none;border:none;padding:0;font:inherit;color:var(--maroon);font-weight:700;text-decoration:underline;cursor:pointer;white-space:nowrap}
   .kw::after{content:" ✦";font-size:11px;vertical-align:super}
@@ -402,122 +405,115 @@
 /* Two sections: "Preliminary Questions" then "Estate". Answers are keyed by
    `key`, so the display order here is independent of the summary/step logic. */
 const QUESTIONS = [
-  { key:"wasiat", section:"Preliminary Questions", stage:"The Will",
-    q:"Did the deceased leave a <b>Wasiat</b>?",
+  /* ---- Will and Inheritance Certificate questions ---- */
+  { key:"wasiat", section:"Will and Inheritance Certificate", stage:"The Will",
+    q:"Did the deceased leave a <b>Wasiat</b> (will)?",
     help:"A <b>Wasiat</b> is an Islamic will. Under Faraid, it can dispose up to 1/3 of the estate.",
-    yes:{label:"Yes — there is a Wasiat", out:"Assess the Wasiat; the executor applies for a Grant of Probate (an Inheritance Certificate is still needed first)."},
-    no:{label:"No — there is no Wasiat", out:"The estate is distributed under full Faraid; apply for Letters of Administration (LOA)."} },
-
-  { key:"grantApplied", section:"Preliminary Questions", stage:"Existing application",
-    // Wording and options follow the Wasiat answer: a Grant of Probate only exists where there is a Wasiat.
-    q: a => a.wasiat==='yes'
-      ? "Have you or another applied for Letters of Administration or a Grant of Probate?"
-      : "Have you or another applied for Letters of Administration?",
-    help:"Only one grant can be issued per estate. Check whether an application is already in progress before starting a new one.",
     options:[
-      {value:"probate", showIf: a => a.wasiat==='yes', label:"Yes — A grant of probate", out:"Check the status of the probate application and coordinate with the applicant — avoid filing a duplicate."},
-      {value:"loa", label:"Yes — For Letters of Administration", out:"Check the status of the LOA application and coordinate with the applicant — avoid filing a duplicate."},
-      {value:"none", label: a => a.wasiat==='yes' ? "No — Neither" : "No — not yet applied", out:"A grant application (LOA or Probate) will need to be filed as part of the process."},
-    ] },
+      {value:"yes", label:"Yes", desc:"Yes, there is a Wasiat."},
+      {value:"no", label:"No", desc:"No, there is no Wasiat."},
+      {value:"unsure", label:"Unsure", desc:"I do not know whether there is a Wasiat.", stop:true} ] },
 
-  { key:"forms2024", section:"Preliminary Questions", stage:"Forms version",
-    showIf: a => a.grantApplied === 'loa',
-    q:"Was the LOA application filed on or after 15 Oct 2024?",
-    help:"The Family Justice Courts Practice Directions changed the required forms.",
-    yes:{label:"Yes — on/after 15 Oct 2024", out:"Use the FJCPD 2024 forms (Forms 162, 163, 167, 177, 166)."},
-    no:{label:"No — before 15 Oct 2024", out:"Use the FJCPD 2015 forms (OS, Forms 255, 54, 226, 53)."} },
+  { key:"priorIC", section:"Will and Inheritance Certificate", stage:"Inheritance Certificate",
+    q:"Has a prior <b>Inheritance Certificate</b> already been issued for the estate?",
+    help:"The <b>Inheritance Certificate (IC)</b> from the Syariah Court lists the lawful heirs and their shares.",
+    options:[
+      {value:"yes", label:"Yes", desc:"Yes, an Inheritance Certificate exists."},
+      {value:"no", label:"No", desc:"No, none has been issued."},
+      {value:"unsure", label:"Unsure", desc:"I do not know whether one has been issued.", stop:true} ] },
 
-  { key:"priorIC", section:"Preliminary Questions", stage:"Inheritance Certificate",
-    q:"Has a prior Inheritance Certificate (IC) already been issued for this estate?",
-    help:"The <b>IC</b> from the Syariah Court (SYC) lists the lawful heirs and their shares.",
-    yes:{label:"Yes — one exists", out:"Apply for an Extract or a Revision of the IC, as appropriate."},
-    no:{label:"No prior IC", out:"Apply for a new Inheritance Certificate."} },
-
-  { key:"icApplied", section:"Preliminary Questions", stage:"IC application",
+  { key:"icApplied", section:"Will and Inheritance Certificate", stage:"IC application",
     showIf: a => a.priorIC === 'no',
-    q:"Has an Inheritance Certificate been applied for?",
-    help:"Whether an application for an Inheritance Certificate has been lodged with the Syariah Court.",
-    yes:{label:"Yes — applied for", out:"Track the application through the Syariah Court's preliminary review."},
-    no:{label:"No — not yet applied", out:"Apply to the Syariah Court for an Inheritance Certificate."} },
+    q:"Have you or someone else applied for an Inheritance Certificate from the Syariah Court?",
+    help:"Whether an application has already been lodged with the Syariah Court.",
+    options:[
+      {value:"yes", label:"Yes", desc:"Yes, an application has been lodged."},
+      {value:"no", label:"No", desc:"No, not yet applied."},
+      {value:"unsure", label:"Unsure", desc:"I do not know whether an application has been lodged.", stop:true} ] },
 
-  { key:"icApproved", section:"Preliminary Questions", stage:"IC application review",
-    showIf: a => a.icApplied === 'yes',
-    q:"Did the IC application pass preliminary SYC approval?",
-    help:"The Syariah Court does a completeness check before processing.",
-    yes:{label:"Yes — approved", out:"Proceed to the Statutory Declaration and payment."},
-    no:{label:"No — returned", out:"Respond to the 'Returned as Incomplete' notice and resubmit."} },
+  { key:"icIssued", section:"Will and Inheritance Certificate", stage:"IC application",
+    showIf: a => a.priorIC === 'no' && a.icApplied === 'yes',
+    q:"Have you made payment and been issued with the Inheritance Certificate?",
+    help:"The Syariah Court issues the certificate once the application is approved and paid for.",
+    yes:{label:"Yes — issued", out:"The Inheritance Certificate has been issued."},
+    no:{label:"No — not yet issued", out:"The application is still in progress."} },
 
-  { key:"icDownloaded", section:"Preliminary Questions", stage:"Securing the IC",
-    showIf: a => a.priorIC === 'yes',
-    q:"Was the IC downloaded within 14 days of issuance?",
-    help:"The digital IC must be retrieved within the access window.",
-    yes:{label:"Yes — downloaded in time", out:"The IC is secured."},
-    no:{label:"No — window missed", out:"Apply for an Extract of the IC ($34)."} },
-
-  { key:"caveats", section:"Preliminary Questions", stage:"Disputes",
-    showIf: a => a.icApplied === 'yes',
-    q:"Were any caveats or competing applications found?",
-    help:"A <b>caveat</b> blocks a grant until a dispute is resolved.",
-    yes:{label:"Yes — caveat / dispute", out:"Negotiate withdrawal, or proceed via contentious probate."},
-    no:{label:"No disputes", out:"Proceed with the standard application."} },
-
-  { key:"beneficiaryDied", section:"Preliminary Questions", stage:"Changes before distribution",
-    showIf: a => a.priorIC === 'yes',
-    q:"Did a beneficiary die before the final distribution?",
+  { key:"beneficiaryDied", section:"Will and Inheritance Certificate", stage:"Changes before distribution",
+    showIf: a => a.priorIC === 'yes' || a.icIssued === 'yes',
+    q:"Did a beneficiary die before the final distribution of the estate?",
     help:"A death among the heirs can change the lawful shares.",
-    yes:{label:"Yes — a beneficiary died", out:"Apply for a Revision of the IC at SYC ($34/page) before distributing."},
-    no:{label:"No — heirs unchanged", out:"Proceed with the original IC."} },
+    yes:{label:"Yes — a beneficiary died", out:"Apply for a Revision of the IC at the Syariah Court before distributing."},
+    no:{label:"No — heirs unchanged", out:"Proceed with the existing IC."} },
 
-  { key:"nomination", section:"Estate", stage:"Nominated assets",
-    q:"Does the asset have a valid CPF or insurance nomination?",
+  /* ---- Estate composition questions ---- */
+  { key:"nomination", section:"Estate composition", stage:"Nominated assets",
+    q:"Does the deceased have a valid <b>CPF nomination</b> or <b>insurance nomination</b>?",
     help:"Nominated CPF / insurance pays out <b>outside</b> the estate — but a CPF nominee must still distribute per Faraid under the MUIS Fatwa.",
-    yes:{label:"Yes — there's a nomination", out:"Paid directly to the nominee outside the estate (CPF nominee must still distribute per Faraid per the MUIS Fatwa)."},
-    no:{label:"No nomination", out:"The asset falls into the estate."} },
+    options:[
+      {value:"yes", label:"Yes", desc:"Yes, there is a nomination."},
+      {value:"no", label:"No", desc:"No nomination."},
+      {value:"unsure", label:"Unsure", desc:"I do not know — I will need to check."} ] },
 
-  { key:"smallEstate", section:"Estate", stage:"Administration route",
-    q:"Is the estate ≤ $50,000 with no disqualifying factors?",
-    help:"Small estates may use the simpler Public Trustee route instead of court.",
-    yes:{label:"Yes — small estate", out:"Consider the Public Trustee's Office route (Stage 4A)."},
-    no:{label:"No — larger / disqualified", out:"Use the Family Justice Courts LOA process (Stage 4B)."} },
-
-  { key:"underFiveM", section:"Estate", stage:"Which court",
-    // Skipped when the Public Trustee route applies and no court application has been filed.
-    showIf: a => !(a.smallEstate==='yes' && a.grantApplied==='none'),
-    q:"Is the estate value ≤ $5 million?",
-    help:"Court level depends on the value of the estate (Stage 4B).",
-    yes:{label:"Yes — ≤ $5m", out:"Apply to the Family Courts."},
-    no:{label:"No — over $5m", out:"Apply to the Family Division of the High Court."} },
-
-  { key:"holdsProperty", section:"Estate", stage:"Property",
-    q:"Does the deceased hold any property?",
+  { key:"holdsProperty", section:"Estate composition", stage:"Property",
+    q:"Does the deceased own any property?",
     help:"Real property (a flat, house or land) needs to be accounted for in the estate.",
-    yes:{label:"Yes — there is property", out:"Determine how the property is held to see whether it falls into the estate."},
-    no:{label:"No property", out:"There is no real property to include in the estate."} },
+    options:[
+      {value:"yes", label:"Yes", desc:"Yes, the deceased owns property."},
+      {value:"no", label:"No", desc:"No property."},
+      {value:"unsure", label:"Unsure", desc:"I do not know — I will need to check."} ] },
 
-  { key:"propertyHolding", section:"Estate", stage:"Property holding",
+  { key:"propertyHDB", section:"Estate composition", stage:"Property type",
+    showIf: a => a.holdsProperty === 'yes',
+    q:"Is the property a HDB property?",
+    help:"HDB flats have their own ownership and eligibility rules on transfer.",
+    yes:{label:"Yes — HDB", out:"HDB rules apply to the transfer."},
+    no:{label:"No — private property", out:"Standard conveyancing applies."} },
+
+  { key:"propertyHolding", section:"Estate composition", stage:"Property holding",
     showIf: a => a.holdsProperty === 'yes',
     q:"Is this property held solely, as a joint tenancy or as part of a tenancy in common?",
-    help:"How the property is held determines whether — and how much of — it falls into the estate.",
+    help:"The manner of holding decides whether the property falls into the estate.",
     options:[
-      {value:"solely", label:"Held solely", out:"The whole property falls into the estate and is distributed under Faraid via the LOA."},
-      {value:"joint", label:"Joint tenancy", out:"Passes automatically to the surviving co-owner by survivorship — outside the estate."},
-      {value:"tenancy-in-common", label:"Tenancy-in-common", out:"The deceased's share falls into the estate; include it in the LOA / distribution."},
-    ] },
+      {value:"solely", label:"Held solely", desc:"The whole property falls into the estate."},
+      {value:"joint", label:"Joint tenancy", desc:"Passes to the surviving co-owner by survivorship."},
+      {value:"tenancy-in-common", label:"Tenancy-in-common", desc:"The deceased's share falls into the estate."},
+      {value:"unsure", label:"Unsure", desc:"I do not know — I will need to check the title."} ] },
 
-  { key:"propertyHDB", section:"Estate", stage:"Property type",
-    showIf: a => a.holdsProperty === 'yes',
-    q:"Is the property a HDB?",
-    help:"HDB flats carry their own ownership and eligibility rules on transfer, on top of Faraid.",
-    yes:{label:"Yes — HDB flat", out:"HDB ownership / eligibility rules apply; liaise with HDB on the transfer."},
-    no:{label:"No — private property", out:"Deal with the property through the normal estate distribution."} },
+  { key:"smallEstate", section:"Estate composition", stage:"Administration route",
+    q:"Is the total estate value $50,000 or less (excluding CPF and insurance)?",
+    help:"Smaller estates may be administered by the Public Trustee instead of a court application.",
+    yes:{label:"Yes — $50,000 or less", out:"The Public Trustee route may apply.", stop:true},
+    no:{label:"No — more than $50,000", out:"A court grant is needed."} },
+
+  { key:"underFiveM", section:"Estate composition", stage:"Which court",
+    q:"Is the total estate value $5 million or less?",
+    help:"The court level depends on the value of the estate.",
+    yes:{label:"Yes — $5 million or less", out:"Apply to the Family Courts."},
+    no:{label:"No — over $5 million", out:"Apply to the Family Division of the High Court."} },
+
+  { key:"caveatSearch", section:"Estate composition", stage:"Searches",
+    q: a => a.wasiat==='yes'
+      ? "Have you conducted a caveat search or a search for competing applications before applying for the Grant of Probate?"
+      : "Have you conducted a caveat search or a search for competing applications before applying for Letters of Administration?",
+    help:"A <b>caveat</b> or a competing application blocks a grant until it is resolved, so it is checked before applying.",
+    yes:{label:"Yes — search done", out:"The search has been carried out."},
+    no:{label:"No — not yet", out:"Carry out the search before applying.", stop:true} },
+
+  { key:"caveats", section:"Estate composition", stage:"Disputes",
+    showIf: a => a.caveatSearch === 'yes',
+    q:"Were any caveats or competing applications found?",
+    help:"If something was found, the dispute has to be dealt with before a grant is issued.",
+    yes:{label:"Yes — caveat / competing application", out:"Seek legal advice before proceeding."},
+    no:{label:"No — nothing found", out:"Proceed with the standard application."} },
 ];
 
+/* Answers that end the PathFinder early (an "Unsure" that needs checking first,
+   the Public Trustee route, or a search that has not been done yet). */
+function pfStopsAt(item, value){
+  const o = item.options ? item.options.find(x=>x.value===value) : item[value];
+  return !!(o && o.stop);
+}
 
-
-/* =========================================================================
-   VIEWS — landing / stage (PathFinder, summary, Form 162) / roadmap.
-   The URL hash mirrors the view so the browser Back button works.
-   ========================================================================= */
 let idx = 0;
 let answers = {};   /* keyed by question.key, e.g. answers.wasiat === 'yes' */
 const card = document.getElementById('card');
@@ -601,7 +597,7 @@ function render(){
   let answersHtml;
   if(item.options){
     answersHtml = visibleOptions(item).map(o =>
-      `<button type="button" class="opt" data-v="${o.value}"><span><b>${txt(o.label)}</b></span><i>&#8250;</i></button>`).join('');
+      `<button type="button" class="opt" data-v="${o.value}"><span><b>${txt(o.label)}</b>${o.desc?`<small>${o.desc}</small>`:''}</span><i>&#8250;</i></button>`).join('');
   } else {
     answersHtml = `
       <button type="button" class="opt" data-v="yes"><span><b>Yes</b><small>${pfDesc(item.yes.label)}</small></span><i>&#8250;</i></button>
@@ -618,7 +614,7 @@ function render(){
     ${answersHtml}
     <div style="text-align:center"><button type="button" class="back" id="back">&#10229;&nbsp; ${isFirst?'Back to main page':'Back'}</button></div>`;
   card.querySelectorAll('.opt').forEach(b=>{
-    b.onclick = ()=>{ answers[item.key] = b.dataset.v; idx++; render(); };
+    b.onclick = ()=>{ answers[item.key] = b.dataset.v; if(pfStopsAt(item, b.dataset.v)){ renderSummary(); return; } idx++; render(); };
   });
   document.getElementById('back').onclick = ()=>{
     let p = idx - 1;
@@ -628,81 +624,95 @@ function render(){
   };
 }
 
-/* ---- "AI" summary composed from the answers ---- */
+/* ---- Summary composed from the answers ---- */
+
+/* Early stops: the PathFinder ends and the summary leads with what to check. */
+function pfStopReason(){
+  const a = answers;
+  if(a.wasiat==='unsure') return { title:"First, find out whether there is a Wasiat",
+    text:"The route depends on whether the deceased left a Wasiat (will), so the PathFinder stops here until that is known. Ask close family members and check the deceased's papers. You can also search the Wills Registry for existing will records. Once you know, retake the PathFinder." };
+  if(a.priorIC==='unsure') return { title:"First, check whether an Inheritance Certificate has been issued",
+    text:"Check with the Syariah Court whether a prior Inheritance Certificate has already been issued for this estate. Once you know, retake the PathFinder." };
+  if(a.icApplied==='unsure') return { title:"First, check whether an Inheritance Certificate application has been lodged",
+    text:"Check with the Syariah Court whether an application for the Inheritance Certificate has already been lodged by you or someone else. Once you know, retake the PathFinder." };
+  if(a.smallEstate==='yes') return { title:"The Public Trustee route may apply",
+    text:"Because the estate is $50,000 or less (excluding CPF and insurance), administration by the Public Trustee's Office (PTO) is applicable, provided there are none of the disqualifying factors. The Public Trustee can administer the estate without a court application." };
+  if(a.caveatSearch==='no') return { title:"Carry out a caveat search before applying",
+    text:"Before applying for " + (a.wasiat==='yes' ? "the Grant of Probate" : "Letters of Administration") + ", conduct a caveat search and a search for competing applications. You may go to the Family Justice Courts Service Bureau to conduct the search, or engage a lawyer to do it for you. Once done, retake the PathFinder." };
+  return null;
+}
+
+/* Things the visitor said they were unsure about — checked in the final output. */
+function pfChecks(){
+  const a = answers, c = [];
+  if(a.nomination==='unsure') c.push("Check whether the deceased made a CPF nomination (with the CPF Board) or an insurance nomination (with each insurance company). Nominated monies pay out outside the estate.");
+  if(a.holdsProperty==='unsure') c.push("Check whether the deceased owned any property — for HDB flats, check with HDB.");
+  if(a.propertyHolding==='unsure') c.push("Check the title deed for the manner of holding (solely, joint tenancy or tenancy-in-common)" + (a.propertyHDB==='yes' ? ", or check with HDB for a HDB flat." : "."));
+  return c;
+}
+
 function buildNarrative(){
   const a = answers;
   const parts = [];
-  parts.push(a.wasiat==='yes'
-    ? "Because the deceased left a Wasiat, the estate is handled through a Grant of Probate, with the executor giving effect to the will (up to one-third) and the remainder distributed under Faraid."
-    : "With no Wasiat in place, the entire estate is distributed according to Faraid, and the family applies for Letters of Administration.");
-  if(a.grantApplied==='probate') parts.push("A Grant of Probate application has already been started for this estate, so the priority is to check its status and coordinate with whoever filed it rather than lodging a duplicate.");
-  else if(a.grantApplied==='loa') parts.push("A Letters of Administration application has already been started for this estate, so the priority is to check its status and coordinate with whoever filed it rather than lodging a duplicate.");
-  else parts.push("No grant application has been filed yet, so applying for Letters of Administration (or Probate) will form part of your route.");
+  const stop = pfStopReason();
+  if(a.wasiat==='yes') parts.push("Because the deceased left a Wasiat, the estate is handled through a Grant of Probate, with the executor giving effect to the will (up to one-third) and the remainder distributed under Faraid.");
+  else if(a.wasiat==='no') parts.push("With no Wasiat in place, the entire estate is distributed according to Faraid, and the family applies for Letters of Administration.");
+  if(a.priorIC==='yes') parts.push("An Inheritance Certificate already exists, so you'll work from it (or a Revision of it) rather than a fresh application.");
+  else if(a.priorIC==='no'){
+    if(a.icApplied==='yes' && a.icIssued==='yes') parts.push("The Inheritance Certificate application has been paid for and the certificate issued, so the heirs and their shares are settled.");
+    else if(a.icApplied==='yes') parts.push("An Inheritance Certificate application has been lodged but the certificate has not been issued yet, so completing that application comes first.");
+    else if(a.icApplied==='no') parts.push("No Inheritance Certificate has been applied for yet, so applying to the Syariah Court is the first foundational step.");
+  }
+  if(a.beneficiaryDied==='yes') parts.push("A beneficiary has died before distribution, so the Inheritance Certificate must be revised to reflect the corrected shares before any funds move.");
   if(a.nomination==='yes') parts.push("Some assets carry a valid CPF or insurance nomination, so they pay out directly to the nominee outside the estate — though a CPF nominee remains obliged to distribute those funds per Faraid under the MUIS Fatwa.");
-  else parts.push("Without nominations, those assets fall into the general estate.");
+  else if(a.nomination==='no') parts.push("Without nominations, CPF and insurance monies fall into the general estate.");
   if(a.holdsProperty==='yes'){
     if(a.propertyHolding==='joint') parts.push("The deceased's property is held in joint tenancy, so it passes automatically to the surviving co-owner by survivorship and sits outside the estate.");
     else if(a.propertyHolding==='tenancy-in-common') parts.push("The property is held as tenancy-in-common, so only the deceased's share falls into the estate and must be included in the administration.");
     else if(a.propertyHolding==='solely') parts.push("The property is held solely by the deceased, so it falls wholly into the estate for distribution.");
     if(a.propertyHDB==='yes') parts.push("As an HDB flat, HDB's ownership and eligibility rules apply to the transfer, on top of the Faraid distribution.");
-  } else if(a.holdsProperty==='no'){
-    parts.push("There is no real property in the estate to deal with.");
-  }
-  parts.push(a.priorIC==='yes'
-    ? "An Inheritance Certificate already exists, so you'll work from an Extract or a Revision rather than a fresh application."
-    : "No Inheritance Certificate has been issued yet, so obtaining one from the Syariah Court is the first foundational step.");
-  if(a.priorIC==='no' && a.icApplied==='yes') parts.push("An IC application has already been lodged, so the focus is on clearing the Syariah Court's preliminary review.");
-  else if(a.priorIC==='no' && a.icApplied==='no') parts.push("No IC application has been lodged yet, so applying to the Syariah Court comes first.");
-  if(a.icApproved==='no') parts.push("The IC application was returned as incomplete — this needs attention before anything else can progress.");
-  if(a.icDownloaded==='no') parts.push("The 14-day download window was missed, so an Extract of the IC will need to be purchased.");
-  parts.push(a.smallEstate==='yes'
-    ? "As a smaller estate (≤ $50,000) with no disqualifying factors, the streamlined Public Trustee route is available, which is faster and cheaper than court."
-    : "Given the estate's size or circumstances, administration goes through the Family Justice Courts.");
-  if(a.smallEstate==='no'){
+  } else if(a.holdsProperty==='no') parts.push("There is no real property in the estate to deal with.");
+  if(a.smallEstate==='yes') parts.push("As a smaller estate ($50,000 or less, excluding CPF and insurance) with no disqualifying factors, the streamlined Public Trustee route is available, which is faster and cheaper than court.");
+  else if(a.smallEstate==='no'){
     parts.push(a.underFiveM==='yes'
-      ? "At ≤ $5 million the matter is dealt with by the Family Courts."
-      : "Because the estate exceeds $5 million, it is handled by the Family Division of the High Court.");
-    if(a.forms2024) parts.push(a.forms2024==='yes'
-      ? "Filing falls on or after 15 Oct 2024, so the FJCPD 2024 forms apply."
-      : "Filing predates 15 Oct 2024, so the older FJCPD 2015 forms apply.");
+      ? "Above $50,000 the estate goes through the Family Justice Courts; at $5 million or less the matter is dealt with by the Family Courts."
+      : (a.underFiveM==='no' ? "Above $50,000 the estate goes through the Family Justice Courts; because it exceeds $5 million, it is handled by the Family Division of the High Court." : "Above $50,000 the estate goes through the Family Justice Courts."));
   }
-  if(a.caveats==='yes') parts.push("A caveat or competing application has surfaced, which makes this a contested matter — expect a negotiation or contentious-probate track.");
-  if(a.beneficiaryDied==='yes') parts.push("A beneficiary has died before distribution, so the Inheritance Certificate must be revised to reflect the corrected shares before any funds move.");
+  if(a.caveatSearch==='yes' && a.caveats==='yes') parts.push("A caveat or competing application has been found, which makes this a contested matter — seek your own legal advice or engage a lawyer before proceeding.");
+  else if(a.caveatSearch==='yes' && a.caveats==='no') parts.push("The caveat search found nothing, so the application can proceed on the standard track.");
+  if(stop && !parts.length) parts.push("Once you have checked this, retake the PathFinder and I will map the full route for you.");
   return parts.join(" ");
 }
 
 function buildSteps(){
   const a = answers, steps = [];
-  if(a.grantApplied==='probate' || a.grantApplied==='loa'){
-    const grantKind = a.grantApplied==='probate' ? 'Grant of Probate' : 'Letters of Administration';
-    steps.push(`Check the status of the existing ${grantKind} application before filing anything new, and coordinate with whoever lodged it to avoid a duplicate grant.`);
-  }
+  const stop = pfStopReason();
+  if(stop && a.smallEstate!=='yes' && a.caveatSearch!=='no') return steps;   // the banner says what to check
   if(a.priorIC==='no'){
-    if(a.icApplied==='yes') steps.push("Follow up the existing Inheritance Certificate application through the Syariah Court's preliminary review.");
-    else steps.push("Apply to the Syariah Court for a new Inheritance Certificate (gather the death certificate, list of heirs and asset details).");
-  }
-  else if(a.icDownloaded==='no') steps.push("Apply for an Extract of the existing Inheritance Certificate ($34) to restore your copy.");
-  else steps.push("Retrieve / confirm the Inheritance Certificate that records the lawful heirs and shares.");
-  if(a.icApproved==='no') steps.push("Respond to the Syariah Court's 'Returned as Incomplete' notice and resubmit the corrected IC application.");
-  if(a.wasiat==='yes') steps.push("Engage the named executor to apply for a Grant of Probate and validate the Wasiat (capped at one-third of the estate).");
+    if(a.icApplied==='yes' && a.icIssued==='no') steps.push("Complete the Inheritance Certificate application with the Syariah Court — make payment and collect the certificate.");
+    else if(a.icApplied==='no') steps.push("Apply to the Syariah Court for an Inheritance Certificate (gather the death certificate, list of heirs and asset details).");
+    else steps.push("Keep the issued Inheritance Certificate safe — it records the lawful heirs and shares.");
+  } else if(a.priorIC==='yes') steps.push("Retrieve / confirm the Inheritance Certificate that records the lawful heirs and shares.");
+  if(a.beneficiaryDied==='yes') steps.push("File a Revision of the Inheritance Certificate at the Syariah Court to update the shares before distributing.");
+  pfChecks().forEach(c=>steps.push(c));
   if(a.nomination==='yes') steps.push("Claim nominated CPF / insurance directly via the nominee, and ensure CPF monies are on-distributed per Faraid (MUIS Fatwa).");
-  if(a.smallEstate==='yes'){
-    steps.push("Approach the Public Trustee's Office (PTO) to administer the estate (≤ $50,000) without a court application.");
-  } else {
-    const court = a.underFiveM==='yes' ? "the Family Courts" : "the Family Division of the High Court";
-    const forms = a.forms2024==='yes' ? "the FJCPD 2024 forms (162, 163, 167, 177, 166)"
-                : a.forms2024==='no' ? "the FJCPD 2015 forms (OS, 255, 54, 226, 53)"
-                : "the applicable FJCPD forms";
-    steps.push(`Prepare and file the Letters of Administration application at ${court} using ${forms}.`);
-  }
   if(a.holdsProperty==='yes'){
-    if(a.propertyHolding==='tenancy-in-common') steps.push("Include the deceased's tenancy-in-common share of the property in the estate inventory for the LOA / distribution.");
-    else if(a.propertyHolding==='solely') steps.push("Include the solely-held property in the estate inventory for the LOA / distribution.");
+    if(a.propertyHolding==='tenancy-in-common') steps.push("Include the deceased's tenancy-in-common share of the property in the estate inventory.");
+    else if(a.propertyHolding==='solely') steps.push("Include the solely-held property in the estate inventory.");
     else if(a.propertyHolding==='joint') steps.push("Confirm the joint-tenancy property passes to the surviving co-owner by survivorship (outside the estate) and update the title accordingly.");
     if(a.propertyHDB==='yes') steps.push("Check HDB ownership / eligibility rules and liaise with HDB on transferring the flat to the beneficiaries.");
   }
-  if(a.caveats==='yes') steps.push("Address the caveat or competing application — negotiate a withdrawal, or proceed through contentious probate.");
-  if(a.beneficiaryDied==='yes') steps.push("File a Revision of the Inheritance Certificate at the Syariah Court ($34/page) to update the shares before distributing.");
+  if(a.smallEstate==='yes'){
+    steps.push("Approach the Public Trustee's Office (PTO) to administer the estate ($50,000 or less) without a court application, provided none of the disqualifying factors apply.");
+  } else if(a.smallEstate==='no'){
+    const grant = a.wasiat==='yes' ? "Grant of Probate" : "Letters of Administration";
+    if(a.caveatSearch==='no') steps.push("Conduct a caveat search and a search for competing applications at the Family Justice Courts Service Bureau, or engage a lawyer to do the search, before applying for the " + grant + ".");
+    else if(a.caveats==='yes') steps.push("Seek your own legal advice or engage a lawyer to deal with the caveat or competing application before applying for the " + grant + ".");
+    else {
+      const court = a.underFiveM==='no' ? "the Family Division of the High Court" : "the Family Courts";
+      steps.push(`Prepare and file the ${grant} application at ${court} (Form 162).`);
+    }
+  }
   steps.push("Distribute the estate to the heirs in the exact shares set out in the (current) Inheritance Certificate, keeping receipts.");
   return steps;
 }
@@ -726,10 +736,12 @@ const KW_MAP = [
   ['Letters of Administration','What are Letters of Administration?'],
   ['Inheritance Certificate','What is an Inheritance Certificate?'],
   ['Grant of Probate','What is a Grant of Probate?'],
-  ['Public Trustee','What is the Public Trustee route for small estates?'],
   ['MUIS Fatwa','What is the MUIS Fatwa on CPF nominations?'],
   ['Faraid','What is Faraid and how are assets distributed under Faraid?'],
   ['Wasiat','What is a Wasiat?'],
+  ['Wills Registry','What is the Wills Registry?'],
+  ['Public Trustee','What is the Public Trustee route for small estates?'],
+  ['caveat search','What is a caveat search and where do I do one?'],
   ['caveat','What is a caveat?'],
 ];
 function linkifyNarrative(text){
@@ -745,14 +757,14 @@ function linkifyNarrative(text){
 
 function renderSummary(){
   showView('stage');
-  stageBubble('Here is your personalised roadmap. Click any highlighted word or step to ask me more about it.', 'Retake the PathFinder', startPathfinder);
+  stageBubble(pfStopReason() && answers.smallEstate!=='yes' ? 'We need one thing confirmed before I can map your route. Here is what to check first.' : 'Here is your personalised roadmap. Click any highlighted word or step to ask me more about it.', 'Retake the PathFinder', startPathfinder);
   let lastSection = null;
-  const shown = QUESTIONS.filter(isVisible);
+  const shown = QUESTIONS.filter(q => isVisible(q) && answers[q.key] !== undefined);
   const recapRows = shown.map((item)=>{
     const v = answers[item.key];
     const cls = v==='yes'?'pill-yes':(v==='no'?'pill-no':'');
     let disp = '—';
-    if(v) disp = item.options ? (txt((item.options.find(o=>o.value===v)||{}).label) || v) : v.toUpperCase();
+    if(v) disp = item.options ? (txt((item.options.find(o=>o.value===v)||{}).label) || v) : (item[v] ? item[v].label.split('—')[0].trim() : v.toUpperCase());
     let header = '';
     if(item.section !== lastSection){
       lastSection = item.section;
@@ -761,14 +773,15 @@ function renderSummary(){
     return `${header}<tr><td>${txt(item.q)}</td><td class="${cls}">${disp}</td></tr>`;
   }).join('');
   const steps = buildSteps();
+  const stop = pfStopReason();
   card.className = 'pf fade';
   card.innerHTML = `
     <h2>Your Estate Administrative Roadmap</h2>
     <p class="sub">Based on your answers &middot; general guidance, not legal advice</p>
+    ${stop ? `<div class="pf-stop"><b>${stop.title}</b><p>${stop.text}</p></div>` : ''}
     <p class="narr" id="narr"></p>
     <div id="after" hidden>
-      <div class="section-title">Recommended next steps</div>
-      <ol class="steps" id="stepList">${steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      ${steps.length ? `<div class="section-title">Recommended next steps</div><ol class="steps" id="stepList">${steps.map(s=>`<li>${s}</li>`).join('')}</ol>` : ''}
       <details class="recap">
         <summary>Review your answers (${shown.length})</summary>
         <table>${recapRows}</table>
