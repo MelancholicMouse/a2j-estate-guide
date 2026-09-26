@@ -3,10 +3,10 @@
 > **Purpose of this file.** This is the *only* source of information the site's
 > assistant is permitted to answer from. It contains vetted, public-facing
 > guidance on administering a Muslim estate in Singapore (Faraid, the
-> Inheritance Certificate, the Public Trustee, Letters of Administration, and
-> support resources). It is drawn from the MajuLaw research file (v3) with all
-> internal project material removed (executive summary, timeline, budget, vendor
-> quotes, exhibition team credits, and internal research notes).
+> Inheritance Certificate, the Public Trustee, Letters of Administration, the
+> Grant of Probate, and support resources). It is drawn from the MajuLaw
+> research database (as of 26 September 2026) with internal project material
+> removed.
 >
 > **Not legal advice.** Everything here is general information. It is not a
 > substitute for advice from the Syariah Court, MUIS, the Family Justice Courts,
@@ -51,11 +51,8 @@ To apply for any inheritance-related certificate, the applicant must belong to
   required. Non-Faraid beneficiaries must remove their name from the Annex to the
   Statutory Declaration before submitting.
 - **Beneficiary details:** full names and NRIC/ID numbers of all lawful potential
-  beneficiaries. Applicants must not guess whether a relative (for example a
-  parent of the deceased) is alive: reasonable effort to confirm this is
-  expected, and where a person who would otherwise be a beneficiary is not
-  listed, documentary proof (such as a death certificate) or an affirmed
-  Statutory Declaration is required.
+  beneficiaries. Provide the full list of potential beneficiaries to the best of
+  your knowledge (see the FAQ in section 1.5).
 - **Discrepancy explanation:** documents explaining any inconsistencies (e.g.
   spelling differences in names). Without documentary proof, an affirmed
   Statutory Declaration confirming the information is required.
@@ -115,23 +112,61 @@ original certificate dies **before the final distribution** of the estate.
   PDF (payment at least 1 day before the 60-day validity expires).
 - **Fees:** SGD $34.00 per page (payable via PayNow, eNETS, or credit card). *(last updated 23 August 2026)*
 
+### 1.5 Frequently asked questions about the Inheritance Certificate
+
+- **Can I still apply if I do not have the details of some beneficiaries?** Yes.
+  However, you should endeavour to provide the full list of potential
+  beneficiaries in your application, to the best of your knowledge. This avoids
+  the risk of having to rectify the certificate later, when missing beneficiary
+  information surfaces during the application for a Grant of Probate or Letters
+  of Administration.
+- **Can I apply before the estate's debts have been cleared?** Yes. You may apply
+  for an Inheritance Certificate before paying off estate debts and liabilities.
+  However, distribution under Faraid should only be done after all debts and
+  liabilities have been cleared and, if a valid Wasiat exists, after the Wasiat
+  has been given effect.
+- **Does the certificate specify the estate composition?** No. The certificate
+  only sets out who the potential beneficiaries are and their allocated shares
+  under Faraid. All assets in the estate should be listed in the Schedule of
+  Assets if you are required to apply for a Grant of Probate or Letters of
+  Administration.
+- **The family disagrees on who the rightful heirs are. Can the Syariah Court
+  help?** Under s 115 of AMLA the Syariah Court does not have jurisdiction to hear
+  evidence or make findings on any question of fact. Factual disputes must
+  therefore be resolved in the Family Justice Courts. Once the facts have been
+  determined, the Syariah Court can certify the rightful heirs and Faraid shares
+  on those facts. If the disagreement is only about the share entitlement under
+  Faraid, you may use the Online Trial Inheritance Calculator on the Syariah
+  Court website to work out the shares; if it remains unresolved, you may
+  approach the Syariah Court for a determination of the shares.
+- **A beneficiary passed away before distribution. What happens to their share?**
+  Since they were legally entitled to the share under Faraid, it falls into their
+  own estate, to be distributed among their heirs. The remaining beneficiaries
+  may then apply to the Syariah Court for a revision of the certificate. If,
+  however, the beneficiary died *before* the deceased, neither they nor their
+  estate receives any share.
+- **I omitted a potential beneficiary and the certificate has already been
+  issued.** You must submit a new application to include the additional
+  beneficiary. A revision is only available where a beneficiary named in the
+  certificate has died before the final distribution.
+
 ---
 
 ## 2. Administering a Muslim estate — the practical sequence
 
 The steps below describe the usual practical sequence for administering a
-Muslim estate in Singapore. They are a practical guide, not a legal framework:
-the legal rules are the statutes and authorities set out in sections 5 and 6.
+Muslim estate in Singapore, integrating Shari'ah requirements with civil probate
+law. They are a guideline, not a legal framework: the legal rules are the
+statutes and authorities set out in sections 5, 6 and 7.
 
 **Which route applies?**
 
 - Was the deceased Muslim? If so, Faraid governs who inherits and in what
   shares, and an Inheritance Certificate from the Syariah Court is needed.
 - Did the deceased leave a valid Wasiat (Islamic will)? If **yes**, the
-  executor applies to the Family Justice Courts for a **Grant of Probate**. If
-  **no**, the next-of-kin applies for a **Grant of Letters of Administration**.
-  (Section 4 sets out the court procedure for Letters of Administration; the
-  detailed procedure for a Grant of Probate is not covered in this material.)
+  executor named in the Wasiat applies to the Family Justice Courts for a
+  **Grant of Probate** (section 6). If **no**, the next-of-kin applies for a
+  **Grant of Letters of Administration** (section 4).
 - Is the estate (excluding CPF and nominated insurance) **$50,000 or below**,
   with none of the disqualifying factors in section 3.6? If so, the **Public
   Trustee** may administer it instead of a court application.
@@ -144,10 +179,10 @@ paid from the estate first, any valid Wasiat is given effect, and only the net
 estate is then distributed under Faraid.
 
 1. **Identify and settle the estate's liabilities (before any distribution):**
-   funeral and burial expenses; debts owed to creditors; and outstanding
-   religious liabilities such as unpaid Zakat, Kafarah (expiation payments), or
-   oath penalties. These are paid from the estate before the net estate is
-   distributed — they do not have to be cleared before applying for the
+   funeral and burial expenses; commercial debts owed to creditors; and
+   outstanding religious liabilities such as unpaid Zakat, Kafarah (expiation
+   payments), or oath penalties. These are paid from the estate before the net
+   estate is distributed — they do not have to be cleared before applying for the
    Inheritance Certificate or a court grant.
 2. **Obtain the Death Certificate** — after the death is certified by a doctor,
    it is automatically registered with the Immigration & Checkpoints Authority
@@ -160,10 +195,11 @@ estate is then distributed under Faraid.
    Faraid heirs and specifies their exact fractional shares. To estimate the
    shares heirs will receive, you may use the **Online Trial Inheritance
    Calculator** on the Syariah Court website
-   (https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator).
+   (https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator)
+   — see section 2.1.
 4. **Conduct a full search and inventory** of all estate assets across
-   institutions including HDB, banks, insurance companies, the CPF Board (for
-   CPF savings), and investment entities. (The Public Trustee's Office is only
+   institutions including HDB, the CPF Board (for CPF savings), banks, insurance
+   companies, and investment entities. (The Public Trustee's Office is only
    involved where it administers a qualifying estate of $50,000 or below, or
    distributes un-nominated CPF monies — see section 3.)
 5. **Apply for the court grant** — if a valid Wasiat exists, the applicant may
@@ -179,7 +215,52 @@ estate is then distributed under Faraid.
 8. **Appeals** — if disputes arise over Baitulmal remittances, beneficiaries may
    submit a formal appeal to MUIS and the Syariah Court.
 
-### 2.1 Special scenarios and frequently asked questions
+### 2.1 Estimating shares: the Online Trial Inheritance Calculator
+
+The Syariah Court's Online Trial Inheritance Calculator
+(https://syariahcourt.gov.sg/Inheritance/Online-Trial-inheritance-Calculator)
+gives an estimate of how an estate would be divided under Faraid.
+
+- **Step 1** — enter the deceased's name, gender, and the Mazhab (school of
+  Muslim law) which the deceased followed.
+- **Step 2** — enter the number of potential beneficiaries of the deceased's
+  estate, to the best of your knowledge.
+- **Final step** — the calculator produces a breakdown of how the estate would
+  be distributed.
+
+*Note:* the result is an estimate only. It does **not** count as a valid
+Inheritance Certificate or a legal instrument of distribution.
+
+**How the calculator treats the beneficiaries**
+
+*Primary / Quranic heirs (Ashab al-Furud)* — the calculator checks for the key
+Quranic heirs to determine their fixed shares:
+
+- **Husband:** 1/2 if there are no children or agnatic grandchildren; 1/4 if
+  descendants exist.
+- **Wife:** 1/4 if there are no children or agnatic grandchildren; 1/8 if
+  descendants exist.
+- **Mother / grandmother:** 1/3 if there are no descendants and no multiple
+  siblings; 1/6 if descendants or siblings exist. Paternal or maternal
+  grandmothers may inherit if the mother is deceased (nearer degrees exclude
+  further ones).
+- **Father / grandfather:** a 1/6 base share when descendants are present; 1/6
+  plus the residue in the absence of descendants.
+- **Daughter(s):** 1/2 for a single daughter with no sons; 2/3 shared among
+  multiple daughters with no sons. If sons are present, daughters take as
+  residuary heirs, receiving half of a son's share.
+- **Son's daughter(s):** 1/6 if only one daughter of the deceased is present.
+- **Siblings (germane, consanguine, uterine):** shares vary depending on whether
+  the deceased left surviving children, a father, or other full or half siblings.
+
+*Residual beneficiaries ('Asabah)* — after the Quranic shares are satisfied, any
+remaining residue of the estate is allocated among the residual heirs (for
+example sons and male-line relatives) according to legal priority.
+
+The assistant must not calculate a person's specific shares. The exact shares
+for a particular family are set out in the Inheritance Certificate.
+
+### 2.2 Special scenarios and frequently asked questions
 
 - **Adopted children** — not blood relatives and do not inherit automatically
   under Faraid. Adoptive parents can provide for them by making a Wasiat leaving
@@ -189,13 +270,19 @@ estate is then distributed under Faraid.
   automatically as Faraid heirs from a deceased Muslim. However, a Muslim revert
   can prepare a Wasiat to bequeath up to 1/3 of their net estate to non-Muslim
   family members.
-- **Non-Muslim spouse** — a non-Muslim spouse cannot inherit as a Faraid
-  beneficiary. A non-Muslim spouse married in a civil ceremony is not recognised
-  as a lawful spouse under Islamic law. Where the marriage was solemnised under
-  Islamic law, a spouse who is not Muslim still does not inherit under Faraid
-  unless they embraced Islam after the marriage. A Muslim can provide for a
-  non-Muslim spouse by Wasiat (up to 1/3 of the net estate). Confirm the
-  position for a particular marriage with the Syariah Court or MUIS.
+- **Civil marriage with a non-Muslim spouse** — a non-Muslim spouse married in a
+  civil ceremony is not recognised as a lawful spouse under Islamic law and
+  cannot inherit as a Faraid beneficiary.
+- **Muslim marriage with a non-Muslim spouse** — a spouse married in a Muslim
+  ceremony is recognised as a lawful spouse under Islamic law and can inherit as
+  a Faraid beneficiary, provided the spouse remains a Muslim at the time the
+  deceased spouse passed away.
+- **Muslim marriage solemnised overseas** — the surviving spouse is still
+  entitled to a share under Faraid. They may apply to the Singapore Syariah Court
+  for an Inheritance Certificate, provided the deceased was domiciled in
+  Singapore at the time of death. The surviving spouse must produce the foreign
+  marriage certificate in the application, translated into English if it is in a
+  foreign language. You may want to seek your own legal advice on these matters.
 - **Children born out of wedlock** — children born outside a valid Islamic
   marriage do not inherit from their biological father under Faraid, but retain
   full inheritance rights from their mother and her side of the family. (See MCCY:
@@ -205,7 +292,7 @@ estate is then distributed under Faraid.
   ratios, provided all affected heirs are above 18 years of age and give informed
   consent via a Deed of Family Undertaking.
 - **Un-nominated CPF monies** — if no CPF nomination is made, savings are
-  transferred to the Public Trustee's Office (PTO / IPTO). Legal heirs must apply
+  transferred to the Public Trustee's Office (PTO). Legal heirs must apply
   online (https://eservices.mlaw.gov.sg/ipto/forms/pto/pto-home.form) or present
   documentation to the Public Trustee for disbursement in accordance with the
   Syariah Court Inheritance Certificate.
@@ -393,7 +480,8 @@ probate cases and caveats filed in relation to the deceased's estate. Benefits:
 
 To conduct a caveat search, visit the Service Bureau with the deceased's
 identification number. The search should be done on the day you file the LOA
-application, for the present year.
+application, for the present year. You may also engage a lawyer to do the search
+for you.
 
 ### 4.2 Filing on or after 15 October 2024
 
@@ -402,7 +490,7 @@ application, for the present year.
 | # | Document | Notes |
 |---|----------|-------|
 | 1 | **Originating Application for Probate (Form 162)** | Formal document filed to initiate obtaining legal authority to manage and distribute the estate. Filing must be done within 6 months of the deceased's date of death. Book an appointment at the Service Bureau, which uses the information you provide about the deceased and the estate to generate the Originating Application. |
-| 2 | **Schedule of Assets (Form 177)** | A detailed inventory of properties, bank accounts, investments, and secured liabilities owned at death. The court uses it to confirm the estate value and determine the administration bond in certain circumstances. Contact the relevant institutions (e.g. banks, HDB) to obtain the information. |
+| 2 | **Schedule of Assets (Form 177)** | A detailed inventory of properties, bank accounts, investments, and secured liabilities owned at death. The court uses it to confirm the estate value and determine the administration bond in certain circumstances; beneficiaries and creditors may also use it to ascertain the assets. Contact the relevant institutions (e.g. banks, HDB) to obtain the information. |
 | 3 | **Copy of the Inheritance Certificate (Syariah Court)** | Mandatory supporting document for Muslim estates. When filing, the applicant must legally declare the rightful beneficiaries and the exact size of their shares; for Muslim estates this is governed by Faraid, and the Syariah Court Inheritance Certificate is the only document the FJC accepts as proof of these shares. Obtain it from the Syariah Court **before** the originating application. |
 
 **Optional documents at Stage 1**
@@ -504,27 +592,27 @@ be a beneficiary under Faraid.
 
 ### 5.2 Must an Inheritance Certificate be obtained before LOA is issued?
 
-Yes, in practice. For a Muslim estate the Inheritance Certificate is a required
-supporting document for the LOA application at the FJC, so it must be obtained
-from the Syariah Court **before** filing. It is the authoritative evidence used
-to identify the heirs, assess competing rights to administration, and direct
-Faraid distribution.
+Generally, yes: obtaining an Inheritance Certificate is a prerequisite to an
+application for Letters of Administration in court. For a Muslim estate it is one
+of the required supporting documents for the LOA application at the FJC, so it
+must be obtained from the Syariah Court **before** filing. It is ordinarily the
+authoritative evidence needed to identify the heirs and determine the share
+allocation under Faraid.
 
 **What the certificate does and does not decide.** The certificate identifies the
 beneficiaries and their Faraid shares based on the family facts supplied to the
-Syariah Court. It does **not** decide what assets form part of the estate, and it
-is not conclusive of facts or title — if it was based on wrong or incomplete
-family facts it can be corrected or replaced. Which assets belong to the estate
-is established separately (title records, bank and insurance records, nomination
-status) and, where disputed, by the civil courts.
+Syariah Court. It is not conclusive of facts, title or estate composition, and it
+can be disregarded or replaced when it was based on wrong facts. Which assets
+belong to the estate is established separately (title records, bank and insurance
+records, nomination status) and, where disputed, by the civil courts.
 
 **Disputes about who the heirs are.** The Syariah Court certifies heirs and
 shares on the family facts presented to it; it does not hear evidence or make
 findings on disputed facts (AMLA s 115). Where relatives disagree on facts that
-determine who is an heir (for example whether a marriage or parentage is
-recognised), the factual dispute must be resolved by the Family Justice Courts
-first, after which the Syariah Court can certify the heirs and shares on the
-established facts. Legal advice is strongly recommended in such cases.
+determine who is an heir, the factual dispute must be resolved by the Family
+Justice Courts first, after which the Syariah Court can certify the heirs and
+shares on the established facts. Legal advice is strongly recommended in such
+cases. (See also the FAQ in section 1.5.)
 
 ### 5.3 What does the LOA cover?
 
@@ -545,8 +633,8 @@ certificate.
 | Insurance trust nomination | **Excluded** | Insurance Act s 132 creates a present statutory trust; s 132(4) excludes policy monies from the estate/debts. Insurer pays trustee/nominees; trustee protects minor nominees. | Insurance Act s 132 |
 | Insurance revocable nomination | **Excluded** | Statutory beneficiary designation under s 133; the death benefit is payable to the nominee, not collected under LOA. | Insurance Act s 133; Nomination Regulations; Fatwa on revocable insurance nomination |
 | No effective insurance nomination | **Included** | No statutory nominee/trust exclusion merely from holding a policy. If payable to personal representatives/estate, the administrator collects and applies Faraid distribution only after estate debts are cleared. | Insurance Act ss 134 onward |
-| Registered joint-tenancy land | **Excluded** | The deceased's interest is extinguished at death by survivorship; the survivor becomes sole owner by operation of law. No Faraid distribution of the extinguished interest. | *Shafeeg*; MUIS 2019 joint-tenancy fatwa |
-| Tenancy-in-common land | **Included** | The deceased retains an undivided beneficial share; the administrator administers that share and distributes the net value under AMLA s 112. | *Shafeeg*; MUIS 2019 fatwa |
+| Registered joint-tenancy private property or HDB | **Excluded** | The deceased's interest is extinguished at death by survivorship. When property is held as joint tenants and one owner dies, their interest passes automatically to the surviving joint tenant by operation of law; the deceased's share does not form part of the estate and is not distributed under Faraid. The surviving joint tenant becomes the sole owner. | *Shafeeg*; MUIS 2019 joint-tenancy fatwa (which recognises survivorship) |
+| Tenancy-in-common private property or HDB | **Included** | The deceased retains an undivided beneficial share; the administrator administers that share and distributes the net value under AMLA s 112. | *Shafeeg*; MUIS 2019 fatwa |
 | Joint bank account | **Unclear** | The current state of the law does not give an absolute position on this — you are advised to seek your own legal advice. *Shafeeg*'s land holding does not automatically apply to joint accounts. | *Shafeeg* |
 | Property held by the deceased as bare trustee | **Excluded** | The deceased lacked beneficial interest; the successor trustee/limited administrator deals only with legal title; trust beneficiaries remain beneficial owners. | PAA s 23; *Mahidon* |
 | Wakaf | **Excluded** | Special AMLA statutory administration and vesting; MUIS administers and the property vests in MUIS. | AMLA ss 58–59; *Syed Abbas* |
@@ -578,8 +666,8 @@ governing trust (GIA ss 15–18).
 
 Available safeguards include:
 
-- Refusing a grant to a person lacking mental capacity (or an infant), and
-  appointing a guardian/trustee instead (PAA s 22).
+- Refusing a grant to an infant or a person lacking mental capacity, and
+  appointing a guardian/trustee instead (PAA ss 21–22).
 - An administration bond under PAA s 29 — security for the "due administration of
   the estate". It is typically given by the administrator with two sureties who
   co-sign and financially back the administrator's performance. The bond's value
@@ -610,7 +698,118 @@ estates are expressly excluded (IFPA s 1(2)).
 
 ---
 
-## 6. Legal authorities (reference)
+## 6. The Grant of Probate — where there is a Wasiat
+
+### 6.1 What is a Grant of Probate?
+
+A Grant of Probate (GOP) is a court document that legally recognises the
+executor named in a deceased person's valid will as having the authority to
+administer the deceased's estate. The executor is the person appointed by the
+deceased in the will to manage the estate. After obtaining the grant, the
+executor may collect and manage the deceased's assets, pay the deceased's debts
+and other estate expenses, and distribute the remaining estate to the
+beneficiaries in accordance with the applicable law.
+
+A Grant of Probate is generally applicable where:
+
+- the deceased left a valid will (Wasiat); **and**
+- the applicant is the executor named in that will.
+
+Where the deceased did not leave a valid will, the appropriate application is
+generally a Grant of Letters of Administration instead (section 4).
+
+For a Muslim estate, a copy of the Inheritance Certificate issued by the Syariah
+Court must also be provided in the probate application.
+
+- Estates valued **up to $5 million** — apply to the **Family Courts**.
+- Estates valued **above $5 million** — apply to the **Family Division of the High
+  Court**.
+
+The application should generally be filed within **6 months** of the deceased's
+date of death. If it is filed after 6 months, the applicant must state the
+reason for the delay.
+
+*Court guides: https://www.judiciary.gov.sg/family/apply-for-probate and
+https://www.judiciary.gov.sg/family/how-to-file-grant-of-probate*
+
+### 6.2 Optional caveat search
+
+Before making the application, it is optional to conduct a search of the court's
+records for existing probate cases and caveats relating to the deceased's estate.
+The search may reveal whether a grant has already been issued, whether another
+probate application is pending, or whether a caveat has been filed against the
+estate. A caveat may prevent the court from issuing the grant until the matter
+is resolved. If you decide to conduct the search, it should be done at the
+Service Bureau on the same day the probate application is filed, using the
+deceased's identification number. You may also engage a lawyer to do the search
+for you.
+
+### 6.3 Filing on or after 15 October 2024
+
+**Stage 1 — Making the application**
+
+| # | Document | Notes |
+|---|----------|-------|
+| 1 | **Originating Application for Probate (Form 162)** | The formal court document used to commence the application. File within 6 months of the date of death (state the reason if later). A self-represented applicant may book an appointment and attend the Service Bureau, which will use the information provided to prepare the Originating Application. |
+| 2 | **Schedule of Assets (Form 177)** | Details of the assets forming the estate and their values. Contact the relevant institutions (banks, HDB) for the information. If it is not yet available, the Schedule of Assets may be filed later. |
+| 3 | **Original will of the deceased** | Establishes the testamentary document under which the executor is appointed. After filing the application, the original will must be presented to the Probate Counter for verification by 4.30 pm on the next operating day of the Probate Counter. It is returned after verification. |
+| 4 | **Certified true copy of the deceased's will** | The will must generally be certified as a true copy on every page before submission. |
+| 5 | **Copy of the Inheritance Certificate (Syariah Court)** | Required for a Muslim estate; identifies the persons entitled under Muslim inheritance law and their shares. Obtain it from the Syariah Court **before** filing the probate application. |
+| 6 | **Copy of the deceased's death certificate** | A certified true copy is not required where the deceased has a digitally verifiable Digital Death Certificate or Digital Death Extract issued by the Registrar of Births and Deaths. |
+
+**Optional documents at Stage 1**
+
+| Document | When applicable |
+|----------|-----------------|
+| **Renunciation of other executors (Form 166)** | Only where another executor named in the will renounces the right to apply. The renunciation must be sworn or affirmed before a Commissioner for Oaths before filing. |
+| **Death certificate of other executor(s)** | Where another executor named in the will has died. |
+
+**Stage 2 — Filing of supporting documents**
+(https://www.judiciary.gov.sg/family/file-supporting-documents-probate-or-administration)
+
+| Document | Notes |
+|----------|-------|
+| **Supporting Affidavit (Form 163)** | A sworn or affirmed document confirming that the information and documents submitted are accurate. Must be filed within 14 days after the Originating Application. |
+| **Administration Oath** | A sworn or affirmed undertaking by the executor to faithfully administer and account for the estate. Must also be filed within 14 days after the Originating Application. |
+| **Supplementary Affidavit** | Confirms that a Schedule of Assets filed later is true and accurate. Required only if the Schedule of Assets was not filed with the initial application and Supporting Affidavit. |
+
+**Stage 3 — Attend hearing (if required)**
+(https://www.judiciary.gov.sg/family/going-to-court-for-probate-or-administration-hearing)
+
+- *Scenario A — issues with the application:* if there are outstanding issues,
+  incomplete documents, or documents not accepted by the court, the executor must
+  attend the hearing, where the court may ask for clarification or further
+  information. Attendance is compulsory unless the court informs the executor
+  that the application has already been granted. Failure to attend may result in
+  the application being struck out.
+- *Scenario B — application in order:* if all documents have been accepted, the
+  court may approve the application without requiring attendance, and will
+  inform the applicant accordingly.
+
+**Stage 4 — Issuance of the Grant of Probate**
+(https://www.judiciary.gov.sg/family/probate-and-administration/issuance-of-the-probate-or-administration-grant)
+
+After the court has approved the application and all relevant supporting
+documents, including the Schedule of Assets, the Grant of Probate is issued
+electronically. If an organisation such as a bank requires a certified true copy
+of the grant, the Schedule of Assets, or the will before releasing assets, a
+self-represented executor may visit the Service Bureau to file a Request for
+Certified True Copy, stating the reason and identifying the documents required.
+
+Once the grant is issued, the executor has the legal authority to administer the
+estate: collecting the assets, paying debts and expenses, and distributing the
+remaining estate to the beneficiaries in accordance with the applicable law.
+
+**Stage 5 — Appeal (optional)**
+
+If the applicant is dissatisfied with a decision made by the court in relation to
+the probate application, they may consider filing an appeal in accordance with
+the applicable Family Justice Courts appeal procedure. Independent legal advice
+is recommended.
+
+---
+
+## 7. Legal authorities (reference)
 
 **Legislation**
 
@@ -644,10 +843,11 @@ estates are expressly excluded (IFPA s 1(2)).
 - MUIS CPF Nomination fatwa — official religious guidance; statutory civil effect governed by the CPF Act and *Saniah*.
 - "Muslim Law of Inheritance in Singapore: Principles and Practice" [2025] SAL Prac 22 — recent professionally reviewed commentary; useful on institutional practice, not binding.
 - Public Trustee's Office CPF guidance — official administrative explanation of nominated and un-nominated CPF payment channels.
+- Law Gazette, "Feature" (2006) — commentary describing certificate practice as a precondition; not statutory or judicial authority.
 
 ---
 
-## 7. Social and support resources
+## 8. Social and support resources
 
 ### Counselling and psychological support
 
@@ -660,10 +860,6 @@ estates are expressly excluded (IFPA s 1(2)).
   support for vulnerable individuals and families with social and emotional
   issues, connecting them to appropriate community resources. No additional
   eligibility criteria; nominal charges may apply.
-- **Asatizah Solace Care** (https://www.pergas.org.sg/what-we-do/asatizah-solace-care/) —
-  a safe, confidential platform for emotional and spiritual support, conducted
-  virtually by certified asatizah (physical sessions considered case-by-case).
-  Open to any individual or family facing challenges. Free.
 
 ### Financial assistance
 
@@ -711,21 +907,22 @@ estates are expressly excluded (IFPA s 1(2)).
 
 ---
 
-## 8. If you are in crisis
+## 9. If you are in crisis
 
-Bereavement and estate matters can be overwhelming. If you are having thoughts
-of suicide or self-harm, or feel you cannot cope, please reach out now:
+Bereavement and estate matters can be overwhelming. If you are thinking of
+harming yourself, or feel you cannot cope, please reach out now. Crisis support
+in Singapore (24/7):
 
-- **National Mindline 1771** (24 hours) — or WhatsApp **6669 1771**
-- **Samaritans of Singapore 1767** — or WhatsApp CareText **9151 1767**
-- **Emergency ambulance 995**
+- **National Mindline 1771** (24/7 mental-health support) — or WhatsApp **6669 1771**
+- **Samaritans of Singapore (SOS) 1767** (crisis and suicide-prevention support) — or WhatsApp CareText **9151 1767**
+- **Emergency ambulance 995** — including if there is immediate risk of self-harm or medical danger
 
-Counselling, Family Service Centres and Asatizah Solace Care (section 7) can
-also help with grief and emotional distress.
+Counselling and Family Service Centres (section 8) can also help with grief and
+emotional distress.
 
 ---
 
-## 9. About MajuLaw
+## 10. About MajuLaw
 
 MajuLaw is an Access to Justice community project — an online triaging system
 designed to serve as a public gateway for routine administrative guidance on
@@ -747,10 +944,12 @@ become a super-aged society by 2030, with one in four citizens aged 65 and above
 
 **What MajuLaw offers.**
 
-1. *Probate triage* — a self-service portal that guides users through basic
-   inheritance processes, helping them map out assets, understand their legal
-   rights, and receive next-step guidance, with a directory of helpful resources
-   and referral links to social and support services in Singapore.
+1. *Probate triage* — a self-service portal (the PathFinder) that guides users
+   through basic inheritance processes, helping them map out assets, understand
+   their legal rights, and receive next-step guidance, with a directory of
+   helpful resources and referral links to social and support services in
+   Singapore. A Form 162 filler prepares the court application document, and the
+   roadmap sets out the usual sequence.
 2. *Legal support referral* — for more complex cases requiring human
    intervention, the platform identifies the complex issues and redirects users
    to legal clinics specialising in Syariah law, equipping them with a
@@ -761,24 +960,30 @@ scaling into civil probate matters.
 
 ---
 
-## 10. Glossary
+## 11. Glossary
 
 - **IC / IHC** — Inheritance Certificate (issued by the Syariah Court).
 - **SYC** — Syariah Court.
 - **LOA** — Letters of Administration.
+- **GOP** — Grant of Probate.
 - **FJC** — Family Justice Courts.
 - **CPF** — Central Provident Fund.
 - **MUIS** — Islamic Religious Council of Singapore.
 - **Faraid** — Islamic law of inheritance.
 - **Wasiat** — Islamic will (may direct up to 1/3 of the net estate to non-Faraid beneficiaries).
+- **Executor** — the person named in a Wasiat to administer the estate; applies for the Grant of Probate.
+- **Administrator** — the person appointed by the court under Letters of Administration where there is no Wasiat.
 - **Nuzriah** — a death-bed/testamentary device (void after 1 July 1968 unless exceptions apply).
+- **Hibah** — a gift made during the giver's lifetime.
 - **Baitulmal** — the Muslim community fund administered by MUIS.
+- **Mazhab** — the school of Muslim law followed by the deceased.
 - **PTO / IPTO** — Public Trustee's Office.
 - **NOK** — Next-of-Kin.
 - **SD** — Statutory Declaration.
 - **ICA** — Immigration & Checkpoints Authority.
 - **HDB** — Housing & Development Board.
 - **SLA** — Singapore Land Authority.
+- **Caveat** — a document filed by someone with a legal interest in the estate; the court must give them the chance to contest any application for a grant.
 - **Survivorship** — when property is held as joint tenants and one owner dies, their interest passes automatically to the surviving joint owner(s) by operation of law, outside the estate.
 - **Joint tenancy / tenancy-in-common** — two ways of co-owning property; a joint tenancy passes by survivorship, while a tenancy-in-common share forms part of the deceased's estate.
 - **Intestate** — dying without a valid will (Wasiat).
