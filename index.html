@@ -179,9 +179,12 @@
   .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
 
   /* ---- Footer ---- */
-  footer{background:var(--navy);color:#dcd8d0;padding:44px 0 30px}
+  footer{background:var(--navy);color:#dcd8d0;padding:0 0 30px}
+  .partners{background:var(--cream);padding:22px 24px 24px;text-align:center}
+  .partners p{margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--maroon)}
+  .partners img{display:block;margin:0 auto;height:78px;width:auto;max-width:100%}
   body.is-stage footer{background:var(--maroon-deep);color:#e8dcdc}
-  .fwrap{max-width:1230px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1.4fr .6fr .6fr;gap:30px}
+  .fwrap{max-width:1230px;margin:0 auto;padding:40px 48px 0;display:grid;grid-template-columns:1.4fr .6fr .6fr;gap:30px}
   footer .logo img{height:44px;width:auto;margin-bottom:16px}
   footer .credit{font-style:italic;color:var(--gold);margin:0 0 10px;font-size:15px}
   footer .disc{margin:0 0 18px;font-size:13.5px;line-height:1.5;color:#cfcac2;max-width:560px}
@@ -270,7 +273,8 @@
     .head{flex-direction:column;align-items:flex-start;gap:14px}.head img{width:150px;flex-basis:auto}.head h1{font-size:32px}
     .page{padding:32px 16px 48px}
     .flow li{padding-left:56px}.flow li::before{width:40px;height:40px;font-size:17px}.flow li::after{left:19px;top:40px}
-    .fwrap{grid-template-columns:1fr;padding:0 24px}
+    .fwrap{grid-template-columns:1fr;padding:32px 24px 0}
+    .partners img{height:56px}
   }
   @media(max-width:560px){
     .mj{right:0;bottom:0;width:100vw;max-width:none;height:100vh;height:100dvh;border-radius:0}
@@ -344,6 +348,7 @@
   </main>
 
   <footer>
+    <div class="partners"><p>In partnership with</p><img src="assets/skin/partners.png" alt="In partnership with PEGUAM, MUIS, Pro Bono SG and M³"></div>
     <div class="fwrap">
       <div class="logo">
         <img src="assets/majulaw-logo-white.png" alt="MajuLaw">
