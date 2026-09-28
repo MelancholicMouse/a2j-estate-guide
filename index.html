@@ -219,7 +219,10 @@
   .mc span{font-size:25px;line-height:1;letter-spacing:-.01em}
   .mc span b{font-weight:800}
   .mc span i{font-style:normal;font-weight:400;color:#8a3a3d}
-  .mj-dl{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:var(--gold);font-weight:700;font-size:13.5px;text-shadow:0 1px 4px rgba(0,0,0,.3);padding:4px}
+  .mj-lang{margin-left:auto;display:inline-flex;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px}
+  .mj-lang button{background:none;border:none;color:#fff;font-weight:800;font-size:11.5px;padding:4px 9px;border-radius:999px;cursor:pointer;opacity:.75}
+  .mj-lang button.on{background:#fff;color:var(--maroon);opacity:1}
+  .mj-dl{margin-left:6px;display:inline-flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:var(--gold);font-weight:700;font-size:13.5px;text-shadow:0 1px 4px rgba(0,0,0,.3);padding:4px}
   .mj-dl i{width:20px;height:20px;border-radius:50%;background:var(--gold);color:#3a2a10;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:800}
   .mj-close{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.18);color:#fff;font-size:16px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
   .mj-close:hover{background:rgba(255,255,255,.3)}
@@ -376,24 +379,25 @@
         <svg viewBox="0 0 52 46" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"><path d="M9 6h34a6 6 0 0 1 6 6v17a6 6 0 0 1-6 6H22l-11 8v-8H9a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6Z"/><circle cx="17" cy="20" r="2" fill="currentColor" stroke="none"/><circle cx="26" cy="20" r="2" fill="currentColor" stroke="none"/><circle cx="35" cy="20" r="2" fill="currentColor" stroke="none"/></svg>
         <span><b>Majoo</b><i>Chat</i></span>
       </span>
-      <button type="button" class="mj-dl" id="mjDl" title="Download the chat"><i>&#8595;</i>Download Chat</button>
+      <div class="mj-lang" role="group" aria-label="Language"><button type="button" data-lang="en" class="on">EN</button><button type="button" data-lang="ms">BM</button></div>
+      <button type="button" class="mj-dl" id="mjDl" title="Download the chat"><i>&#8595;</i><span data-i18n="download">Download Chat</span></button>
       <button type="button" class="mj-close" id="mjClose" aria-label="Close chat">&#x2715;</button>
     </div>
-    <div class="mj-dl-row" id="mjDlRow" hidden>Save as: <button type="button" onclick="chatDownload('txt')">Text</button><button type="button" onclick="chatDownload('doc')">Word</button><button type="button" onclick="chatDownload('pdf')">PDF</button><button type="button" class="em" id="mjEmailBtn">Email</button></div>
+    <div class="mj-dl-row" id="mjDlRow" hidden><span data-i18n="saveAs">Save as:</span> <button type="button" onclick="chatDownload('txt')">Text</button><button type="button" onclick="chatDownload('doc')">Word</button><button type="button" onclick="chatDownload('pdf')">PDF</button><button type="button" class="em" id="mjEmailBtn" data-i18n="email">Email</button></div>
     <form class="mj-email" id="mjEmail" hidden autocomplete="on">
-      <input type="email" id="mjEmailTo" placeholder="Your email address" aria-label="Your email address" required>
-      <button type="submit" id="mjEmailSend">Send advice</button>
+      <input type="email" id="mjEmailTo" placeholder="Your email address" data-i18n-placeholder="emailPh" aria-label="Your email address" required>
+      <button type="submit" id="mjEmailSend" data-i18n="sendAdvice">Send advice</button>
     </form>
     <div class="mj-email-status" id="mjEmailStatus" hidden></div>
     <div class="mj-log" id="chatLog"></div>
     <div class="mj-chips" id="chatChips"></div>
     <div class="mj-ask">
       <form class="mj-box" id="chatForm" autocomplete="off">
-        <textarea class="mj-input" id="chatInput" rows="1" placeholder="Ask me something" title="Enter to send, Shift+Enter for a new line" aria-label="Ask Majoo a question"></textarea>
+        <textarea class="mj-input" id="chatInput" rows="1" placeholder="Ask me something" data-i18n-placeholder="askPh" title="Enter to send, Shift+Enter for a new line" aria-label="Ask Majoo a question"></textarea>
         <button class="mj-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="#fff"><path d="M2.4 21.6L23 12 2.4 2.4 2.4 10l14 2-14 2z"/></svg></button>
       </form>
-      <p class="mj-ai">Majoo is an AI-powered chatbot and can make mistakes.</p>
-      <p class="mj-note">Please note that your chat history will not be saved once you leave this page, and we will not retain any information you provide during this session. If you choose to email the conversation to yourself, it is sent once to the address you enter and the address is not stored.</p>
+      <p class="mj-ai" data-i18n="aiNote">Majoo is an AI-powered chatbot and can make mistakes.</p>
+      <p class="mj-note" data-i18n="privacy">Please note that your chat history will not be saved once you leave this page, and we will not retain any information you provide during this session. If you choose to email the conversation to yourself, it is sent once to the address you enter and the address is not stored.</p>
     </div>
   </div>
 
@@ -915,13 +919,45 @@ const CHAT_KB = [
     a:"A common order is: (1) obtain the <b>death certificate</b>; (2) apply for the <b>Inheritance Certificate</b> from the Syariah Court; (3) check <b>CPF / insurance nominations</b> and how property is held; (4) apply for <b>probate or letters of administration</b> (Form 162) if a court grant is needed; then gather assets, settle debts and distribute. Use the guided pathfinder to tailor this to your case." }
 ];
 
-const CHAT_GREETING = "Assalamu alaikum. I'm here to help you understand Singapore's Muslim estate administration process — the Inheritance Certificate, Faraid, letters of administration, probate and Form 162. Ask me anything, or tap a suggestion below.";
-const CHAT_CHIPS = [
-  { label:'What is an Inheritance Certificate?', q:'What is an Inheritance Certificate?' },
-  { label:'How do I apply for the IC?', q:'How do I apply for the Inheritance Certificate?' },
-  { label:'What is Form 162?', q:'What is Form 162?' },
-  { label:'Where do I start?', q:'Where do I start?' }
-];
+/* ---- Chat language (EN / BM). Majoo answers in the selected language; the
+   grounded replies come from the same English knowledge base either way. ---- */
+const CHAT_I18N = {
+  en: {
+    greeting: "Assalamu alaikum. I'm here to help you understand Singapore's Muslim estate administration process — the Inheritance Certificate, Faraid, letters of administration, probate and Form 162. Ask me anything, or tap a suggestion below.",
+    chips: [
+      { label:'What is an Inheritance Certificate?', q:'What is an Inheritance Certificate?' },
+      { label:'How do I apply for the IC?', q:'How do I apply for the Inheritance Certificate?' },
+      { label:'What is Form 162?', q:'What is Form 162?' },
+      { label:'Where do I start?', q:'Where do I start?' } ],
+    download:'Download Chat', saveAs:'Save as:', email:'Email', emailPh:'Your email address', sendAdvice:'Send advice', askPh:'Ask me something',
+    aiNote:'Majoo is an AI-powered chatbot and can make mistakes.',
+    privacy:'Please note that your chat history will not be saved once you leave this page, and we will not retain any information you provide during this session. If you choose to email the conversation to yourself, it is sent once to the address you enter and the address is not stored.',
+    disc:'General guidance only — not legal advice.',
+    offline:"I'm only able to answer in Bahasa Melayu when the live assistant is available. For now, please ask in English.",
+    emailFirst:'Ask Majoo something first, then email the conversation.', sending:'Sending…', sent:'Sent to {to}. Check your inbox (and spam folder).',
+    emailOff:'Email is not switched on yet — please use Download instead.', emailBad:'That email address does not look right.', emailRate:'Too many emails just now — please try again in a few minutes.', emailFail:'Sorry, the email could not be sent. Please use Download instead.'
+  },
+  ms: {
+    greeting: "Assalamualaikum. Saya di sini untuk membantu anda memahami proses pentadbiran harta pusaka orang Islam di Singapura — Sijil Warisan (Inheritance Certificate), Faraid, Surat Kuasa Mentadbir (Letters of Administration), probet dan Borang 162. Tanyalah apa sahaja, atau ketik cadangan di bawah.",
+    chips: [
+      { label:'Apakah itu Sijil Warisan?', q:'Apakah itu Sijil Warisan (Inheritance Certificate)?' },
+      { label:'Bagaimana memohon Sijil Warisan?', q:'Bagaimanakah cara memohon Sijil Warisan daripada Mahkamah Syariah?' },
+      { label:'Apakah itu Borang 162?', q:'Apakah itu Borang 162?' },
+      { label:'Dari mana saya harus mula?', q:'Dari mana saya harus bermula?' } ],
+    download:'Muat Turun Sembang', saveAs:'Simpan sebagai:', email:'E-mel', emailPh:'Alamat e-mel anda', sendAdvice:'Hantar nasihat', askPh:'Tanya saya sesuatu',
+    aiNote:'Majoo ialah chatbot berkuasa AI dan boleh membuat kesilapan.',
+    privacy:'Sila ambil perhatian bahawa sejarah sembang anda tidak akan disimpan setelah anda meninggalkan halaman ini, dan kami tidak menyimpan sebarang maklumat yang anda berikan sepanjang sesi ini. Jika anda memilih untuk menghantar perbualan ini ke e-mel anda, ia dihantar sekali sahaja ke alamat yang anda masukkan dan alamat itu tidak disimpan.',
+    disc:'Panduan umum sahaja — bukan nasihat undang-undang.',
+    offline:"Maaf, saya hanya dapat menjawab dalam Bahasa Melayu apabila pembantu langsung tersedia. Buat masa ini, sila bertanya dalam bahasa Inggeris.",
+    emailFirst:'Tanya Majoo sesuatu dahulu, kemudian e-melkan perbualan ini.', sending:'Menghantar…', sent:'Dihantar ke {to}. Sila semak peti masuk anda (dan folder spam).',
+    emailOff:'E-mel belum diaktifkan — sila gunakan Muat Turun.', emailBad:'Alamat e-mel itu nampaknya tidak betul.', emailRate:'Terlalu banyak e-mel buat masa ini — sila cuba lagi dalam beberapa minit.', emailFail:'Maaf, e-mel tidak dapat dihantar. Sila gunakan Muat Turun.'
+  }
+};
+let chatLang = 'en';
+try{ if(localStorage.getItem('majoo-lang')==='ms') chatLang='ms'; }catch(e){}
+const T = () => CHAT_I18N[chatLang];
+const CHAT_GREETING = CHAT_I18N.en.greeting;
+const CHAT_CHIPS = CHAT_I18N.en.chips;
 
 /* Requests we must not answer definitively (personalised legal conclusions). */
 function chatWantsRuling(t){
@@ -970,7 +1006,7 @@ function chatAppend(role, html, withDisc){
     const chips = document.getElementById('chatChips'); if(chips) chips.hidden = true;   // suggestions only until the first question
   } else {
     row.className = 'mj-row chat-row bot';
-    row.innerHTML = `<div class="bubble chat-msg bot"><img class="ava" src="assets/skin/majoo-avatar.png" alt="">${html}${withDisc ? `<span class="disc">${CHAT_DISCLAIMER}</span>` : ''}</div><div class="who">Majoo</div>`;
+    row.innerHTML = `<div class="bubble chat-msg bot"><img class="ava" src="assets/skin/majoo-avatar.png" alt="">${html}${withDisc ? `<span class="disc">${T().disc}</span>` : ''}</div><div class="who">Majoo</div>`;
   }
   log.appendChild(row);
   log.scrollTop = log.scrollHeight;
@@ -1028,17 +1064,17 @@ async function chatEmail(to){
   const btn = document.getElementById('mjEmailSend');
   const show = (msg, err) => { status.hidden = false; status.textContent = msg; status.classList.toggle('err', !!err); };
   const rows = chatTranscript().map(r => ({ role: r.who==='Guest' ? 'user' : 'assistant', text: r.text }));
-  if(!rows.some(r => r.role==='user')){ show('Ask Majoo something first, then email the conversation.', true); return; }
-  btn.disabled = true; show('Sending…');
+  if(!rows.some(r => r.role==='user')){ show(T().emailFirst, true); return; }
+  btn.disabled = true; show(T().sending);
   try{
     const res = await fetch('/api/email', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ to, messages: rows }) });
     const data = res.headers.get('content-type')?.includes('application/json') ? await res.json() : {};
-    if(data.sent){ show('Sent to ' + to + '. Check your inbox (and spam folder).'); document.getElementById('mjEmailTo').value=''; }
-    else if(data.configured === false) show('Email is not switched on yet — please use Download instead.', true);
-    else if(data.error==='invalid_email') show('That email address does not look right.', true);
-    else if(data.error==='rate_limited') show('Too many emails just now — please try again in a few minutes.', true);
-    else show('Sorry, the email could not be sent. Please use Download instead.', true);
-  }catch(e){ show('Sorry, the email could not be sent. Please use Download instead.', true); }
+    if(data.sent){ show(T().sent.replace('{to}', to)); document.getElementById('mjEmailTo').value=''; }
+    else if(data.configured === false) show(T().emailOff, true);
+    else if(data.error==='invalid_email') show(T().emailBad, true);
+    else if(data.error==='rate_limited') show(T().emailRate, true);
+    else show(T().emailFail, true);
+  }catch(e){ show(T().emailFail, true); }
   btn.disabled = false;
 }
 
@@ -1092,7 +1128,7 @@ async function chatSubmit(text){
     const res = await fetch('/api/chat', {
       method:'POST',
       headers:{'content-type':'application/json'},
-      body: JSON.stringify({ messages: chatHistory })
+      body: JSON.stringify({ messages: chatHistory, lang: chatLang })
     });
     if(res.ok && (res.headers.get('content-type')||'').includes('application/json')){
       const data = await res.json();
@@ -1109,7 +1145,7 @@ async function chatSubmit(text){
   if(!handled){
     if(typing) typing.remove();
     chatHistory.pop();   // the static fallback keeps no model history
-    const r = chatReply(clean);
+    const r = chatLang==='ms' ? { html: T().offline, disc:false } : chatReply(clean);
     setTimeout(()=>chatAppend('bot', r.html, r.disc), 120);
   }
 }
@@ -1131,13 +1167,20 @@ function initChat(){
   const chips = document.getElementById('chatChips');
   const form = document.getElementById('chatForm');
   const input = document.getElementById('chatInput');
+  const t = T();
   log.innerHTML = '';
   chatHistory = [];
-  chatAppend('bot', CHAT_GREETING, false);
+  chatAppend('bot', t.greeting, false);
   chips.hidden = false;
-  chips.innerHTML = CHAT_CHIPS.map((c,i)=>`<button type="button" class="chat-chip" data-i="${i}">${escv(c.label)}</button>`).join('');
+  chips.innerHTML = t.chips.map((c,i)=>`<button type="button" class="chat-chip" data-i="${i}">${escv(c.label)}</button>`).join('');
   chips.querySelectorAll('.chat-chip').forEach(btn=>{
-    btn.onclick = ()=>{ chatSubmit(CHAT_CHIPS[+btn.dataset.i].q); };
+    btn.onclick = ()=>{ chatSubmit(T().chips[+btn.dataset.i].q); };
+  });
+  document.querySelectorAll('#mjWidget [data-i18n]').forEach(el=>{ el.textContent = t[el.dataset.i18n]; });
+  document.querySelectorAll('#mjWidget [data-i18n-placeholder]').forEach(el=>{ el.placeholder = t[el.dataset.i18nPlaceholder]; });
+  document.querySelectorAll('.mj-lang button').forEach(b=>{
+    b.classList.toggle('on', b.dataset.lang===chatLang);
+    b.onclick = ()=>{ if(b.dataset.lang===chatLang) return; chatLang=b.dataset.lang; try{ localStorage.setItem('majoo-lang', chatLang); }catch(e){} initChat(); };
   });
   wireChatInput(form, input);
   const dl = document.getElementById('mjDl'), dlRow = document.getElementById('mjDlRow');

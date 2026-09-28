@@ -58,6 +58,10 @@ Majoo, the chat panel (bottom-right, opened from "Ask Majoo" or the "Chat with M
   - `EMAIL_FROM` — optional sender, e.g. `Majoo at MajuLaw <majoo@majulaw.sg>`
     (the domain must be verified in Resend; use `onboarding@resend.dev` to test).
   Visit `/api/email` in a browser to check whether the key is visible.
+- **Language:** the panel has an EN / BM switch. Majoo answers in Bahasa Melayu
+  when BM is selected (or when the visitor writes in Malay), translating its
+  explanation while keeping every fact from the English knowledge base. The
+  choice is sent as `lang` with each request and remembered on the device.
 - **Static fallback:** if no key is configured (or the site is served by a
   static-only host), the panel falls back to a scope-locked scripted assistant so
   the chat always works. Nothing breaks before the key is added.
