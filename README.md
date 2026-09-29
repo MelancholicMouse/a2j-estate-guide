@@ -14,7 +14,10 @@ The app is a **single self-contained static page** — all logic (including the
 generated summary) runs in the browser. No backend or build step is required.
 
 - `index.html` — the entire app (markup, styles, and logic): landing page,
-  the guided PathFinder, the Form 162 filler, the roadmap and the Majoo chat panel
+  the guided PathFinder, the roadmap and the Majoo chat panel
+- The Form 162 filler is switched off for now: no card, link or route reaches it,
+  but its code (`renderF162…`, `assets/form162-template.docx`, `assets/skin/card-form162.png`)
+  is kept in `index.html` so it can be switched back on.
 - `assets/skin/` — the site artwork (hero illustration, the four cards, Majoo's avatar, logo)
 - `assets/knowledge-base.md` — the vetted material the chatbot answers from
 - `server.js` — optional tiny local web server for testing

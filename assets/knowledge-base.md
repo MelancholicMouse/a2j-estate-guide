@@ -948,8 +948,7 @@ become a super-aged society by 2030, with one in four citizens aged 65 and above
    through basic inheritance processes, helping them map out assets, understand
    their legal rights, and receive next-step guidance, with a directory of
    helpful resources and referral links to social and support services in
-   Singapore. A Form 162 filler prepares the court application document, and the
-   roadmap sets out the usual sequence.
+   Singapore. The roadmap sets out the usual sequence.
 2. *Legal support referral* — for more complex cases requiring human
    intervention, the platform identifies the complex issues and redirects users
    to legal clinics specialising in Syariah law, equipping them with a
