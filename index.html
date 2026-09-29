@@ -48,11 +48,11 @@
   .hero{max-width:1178px;margin:0 auto;padding:6px 18px 0}
   .hero img{width:100%;height:auto;border-radius:4px}
   .ask-wrap{display:flex;justify-content:center;padding:12px 16px 20px}
-  .ask{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;background:var(--navy);color:#fff;border-radius:999px;padding:8px 44px 9px;min-width:268px;
+  .ask{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;background:var(--navy);color:#fff;border-radius:999px;padding:14px 44px;min-width:268px;text-align:center;
     box-shadow:0 6px 16px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);transition:.15s;cursor:pointer}
-  .ask:hover{background:var(--navy-2);transform:translateY(-1px)}
-  .ask b{font-size:22px;font-weight:700;line-height:1.05}
-  .ask small{font-size:14px;opacity:.85;margin-top:1px}
+  .ask:hover,.ask:focus-visible{background:var(--navy-2);transform:translateY(-1px);outline:none}
+  .ask b{font-size:22px;font-weight:700;line-height:1.15}
+  @media(max-width:560px){ .ask{padding:12px 24px;min-width:0;width:100%;max-width:340px} .ask b{font-size:19px} }
   .how-desktop{position:relative;line-height:0}
   .how-desktop img.bg{width:100%;height:auto}
   .cards{position:absolute;left:24.3%;top:7.5%;width:69.5%;height:82.5%;display:flex;align-items:stretch;justify-content:space-between;gap:1%}
@@ -313,7 +313,7 @@
           <img src="assets/skin/hero-illustration.jpg" alt="Majoo the owl beside a laptop: Let's help you start on your estate journey.">
         </section>
         <div class="ask-wrap">
-          <button type="button" class="ask" data-open-chat><b>Ask Majoo</b><small>Click here to start chat</small></button>
+          <a class="ask" href="https://syariahcourt.gov.sg/Inheritance/Process/Application-for-Inheritance-Certificate" target="_blank" rel="noopener"><b>Apply for an Inheritance Certificate</b></a>
         </div>
       </div>
       <section class="how" aria-label="How does it work?">
