@@ -52,7 +52,6 @@
   .hs{position:absolute;display:block;border:none;background:none;padding:0;cursor:pointer;border-radius:14px;-webkit-tap-highlight-color:transparent;transition:.15s}
   .hs:hover,.hs:focus-visible{box-shadow:0 0 0 3px rgba(255,255,255,.85),0 14px 34px rgba(0,0,0,.35);outline:none}
   .hs.hs-ask{left:39.44%;top:30.87%;width:20.74%;height:2.54%;border-radius:999px}
-  .hs.hs-chat{left:42.05%;top:36.34%;width:16.96%;height:19.36%;border-radius:6px}
   .hs.hs-pf{left:37.016%;top:63.036%;width:25.484%;height:16.591%;border-radius:19.8% / 17.7%}
   .hs.hs-rm{left:65.795%;top:63.205%;width:25.291%;height:16.535%;border-radius:19.9% / 17.7%}
   /* Form 162: not wired up yet — a semi-transparent "Coming soon" sits over the card */
@@ -320,7 +319,6 @@
       <div class="art">
         <img src="assets/skin/landing.webp" alt="MajuLaw. Let's help you start on your estate journey. How does it work: Welcome to MajuLaw; Chat with Majoo; Other tools; Download the information. Tools: Form 162 (coming soon), Guided PathFinder, Roadmap. Supported by South East CDC, Ministry of Law, Pro Bono SG and partners, in conjunction with SG Law 200.">
         <button type="button" class="hs hs-ask" data-open-chat aria-label="Ask Majoo — start a chat"></button>
-        <button type="button" class="hs hs-chat" data-open-chat aria-label="Chat with Majoo"></button>
         <button type="button" class="hs hs-pf" data-view="pathfinder" aria-label="Guided PathFinder"></button>
         <button type="button" class="hs hs-rm" data-view="roadmap" aria-label="Roadmap"></button>
         <div class="soon" aria-label="Form 162 — coming soon"><span>Coming soon</span></div>
@@ -335,7 +333,7 @@
           <h2>How does it work?</h2>
           <div class="m-grid">
             <span class="pc"><img src="assets/skin/m-panel-welcome.webp" alt="Welcome to MajuLaw. Clear answers. A simple path. For your family's tomorrow."></span>
-            <button type="button" class="pc" data-open-chat><img src="assets/skin/m-panel-chat.webp" alt="Chat with Majoo. Ask Majoo anything about Singapore's Muslim estate administration process."></button>
+            <span class="pc"><img src="assets/skin/m-panel-chat.webp" alt="Chat with Majoo. Ask Majoo anything about Singapore's Muslim estate administration process."></span>
             <span class="pc"><img src="assets/skin/m-panel-tools.webp" alt="Other tools. Explore our other functions below, such as the PathFinder, if you are unsure where to start."></span>
             <span class="pc"><img src="assets/skin/m-panel-download.webp" alt="Download the information. Save it for future reference and keep it handy anytime."></span>
           </div>
