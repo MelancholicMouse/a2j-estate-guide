@@ -280,6 +280,23 @@
   .mj-ai{margin:6px 4px 0;text-align:center;font-size:11.5px;color:#2d3140;font-weight:600}
   .mj-note{margin:4px 4px 0;text-align:center;font-size:10.5px;color:#3b3f48;line-height:1.35}
 
+  /* Privacy pop-up (opened by "Find out more" in the top strip and the footer Privacy Policy link) */
+  .pv{position:fixed;inset:0;z-index:120;background:rgba(27,39,65,.74);display:flex;align-items:center;justify-content:center;padding:20px}
+  .pv[hidden]{display:none}
+  .pv-card{position:relative;background:var(--cream);color:var(--ink);border-radius:20px;max-width:640px;width:100%;max-height:min(88vh,780px);overflow:auto;padding:28px 34px 26px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+  .pv-card h2{margin:0 0 4px;color:var(--navy);font-size:27px;font-weight:800;letter-spacing:-.01em;padding-right:40px}
+  .pv-sub{margin:0 0 14px;font-size:13.5px;color:var(--muted)}
+  .pv-card h3{margin:16px 0 4px;font-size:16px;color:var(--navy);font-weight:800}
+  .pv-card p{margin:0 0 8px;font-size:15px;line-height:1.5}
+  .pv-key{background:rgba(203,174,115,.28);border-left:4px solid var(--gold-deep);border-radius:12px;padding:12px 16px;margin:12px 0 4px}
+  .pv-key p{margin:0}
+  .pv-x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(27,39,65,.25);background:#fff;color:var(--navy);font-size:17px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+  .pv-x:hover{background:var(--sand)}
+  .pv-ok{display:inline-block;margin-top:14px;background:var(--navy);color:#fff;border:none;border-radius:999px;padding:11px 26px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+  .pv-ok:hover{background:var(--navy-2)}
+  body.pv-lock{overflow:hidden}
+  @media(max-width:560px){ .pv{padding:12px} .pv-card{padding:22px 18px 20px;border-radius:16px} .pv-card h2{font-size:22px} .pv-card p{font-size:14.5px} }
+
   .mj-close{flex:0 0 32px}
   .mj-lang{flex:0 0 auto}
   @media(max-width:560px){
@@ -305,7 +322,7 @@
 </head>
 <body class="is-landing">
 
-  <div class="privacy">Your privacy matters to us. Here&rsquo;s how MajuLaw collects, uses and protects your personal data. <a href="#privacy">Find out more &#8599;</a></div>
+  <div class="privacy">Your privacy matters to us. Here&rsquo;s how MajuLaw collects, uses and protects your personal data. <a href="#privacy" data-privacy id="privacyMore">Find out more &#8599;</a></div>
 
   <header class="top" id="topBar">
     <a class="home" href="#" data-home aria-label="MajuLaw — back to the main page"><img src="assets/skin/majulaw-logo-navy.png" alt="MajuLaw"></a>
@@ -388,7 +405,7 @@
         </div>
       </div>
       <div><h4>Learn more</h4><nav><a href="#" data-view="roadmap">The roadmap</a><a href="#" data-view="pathfinder">PathFinder</a></nav></div>
-      <div><h4>FAQ</h4><nav><a href="#privacy">Privacy Policy</a><a href="#terms">Terms of Use</a></nav></div>
+      <div><h4>FAQ</h4><nav><a href="#privacy" data-privacy>Privacy Policy</a><a href="#terms">Terms of Use</a></nav></div>
     </div>
     <div class="fbottom"><b>Copyright &copy; 2026 MajuLaw. All Rights Reserved.</b></div>
   </footer>
@@ -419,6 +436,36 @@
       </form>
       <p class="mj-ai" data-i18n="aiNote">Majoo is an AI-powered chatbot and can make mistakes.</p>
       <p class="mj-note" data-i18n="privacy">Please note that your chat history will not be saved once you leave this page, and we will not retain any information you provide during this session. If you choose to email the conversation to yourself, it is sent once to the address you enter and the address is not stored.</p>
+    </div>
+  </div>
+
+  <!-- Privacy disclaimer pop-up -->
+  <div class="pv" id="pvModal" hidden role="dialog" aria-modal="true" aria-labelledby="pvTitle">
+    <div class="pv-card">
+      <button class="pv-x" id="pvClose" type="button" aria-label="Close">&#10005;</button>
+      <h2 id="pvTitle">Your privacy</h2>
+      <p class="pv-sub">General privacy disclaimer &middot; last updated 1 October 2026</p>
+
+      <div class="pv-key"><p><strong>In short: MajuLaw does not collect, store or share any of your personal data.</strong> The only exception is if you choose to email a chat to yourself, in which case your email address and the conversation sit on mail servers temporarily while the email is delivered.</p></div>
+
+      <h3>What we do not collect</h3>
+      <p>MajuLaw is a free, non-profit guide. There are no accounts, no sign-ups and no tracking cookies. We do not record your name, contact details or anything about your family or estate. Your answers in the Guided PathFinder, and the roadmap it produces, exist only in your browser while the page is open and disappear when you leave.</p>
+
+      <h3>Chatting with Majoo</h3>
+      <p>Messages you type to Majoo are used only to generate a reply. Your chat history is not saved once you close the chat or leave the page, and MajuLaw keeps no record of what you asked.</p>
+
+      <h3>The optional email</h3>
+      <p>If you choose <strong>Email</strong> in the chat, the conversation and the address you enter are passed to our email delivery service solely to send that one message to you. They sit on the service&rsquo;s mail servers temporarily while the email is delivered and are then cleared in the ordinary course of that service. MajuLaw does not keep a copy of the address or of the chat, and we never use the address to contact you again.</p>
+
+      <h3>Your device</h3>
+      <p>If you switch Majoo to Bahasa Melayu, that choice is remembered on your own device only, so the chat opens in your chosen language next time. Nothing is sent to us.</p>
+
+      <h3>Other websites</h3>
+      <p>Links to the Syariah Court, MUIS, the Public Trustee&rsquo;s Office and other organisations take you to their own websites, which have their own privacy policies.</p>
+
+      <p>If you have any questions about privacy, reach us through the <strong>Connect with Us</strong> links at the bottom of the page.</p>
+
+      <button class="pv-ok" id="pvOk" type="button">Got it</button>
     </div>
   </div>
 
@@ -581,6 +628,7 @@ function goto(name){
 function openRoute(name){
   if(name==='pathfinder') startPathfinder();
   else if(name==='roadmap') renderRoadmap();
+  else if(name==='privacy'){ renderIntro(); openPrivacy(); }   /* direct link to the privacy disclaimer */
   else renderIntro();
 }
 window.addEventListener('hashchange', ()=>{
@@ -1217,6 +1265,32 @@ function openChat(){
 }
 function closeChat(){ document.getElementById('mjWidget').hidden = true; document.body.classList.remove('chat-lock'); }
 
+/* Privacy disclaimer pop-up */
+let pvReturnFocus = null;
+function openPrivacy(){
+  const m = document.getElementById('pvModal');
+  pvReturnFocus = document.activeElement;
+  m.hidden = false;
+  document.body.classList.add('pv-lock');
+  m.querySelector('.pv-card').scrollTop = 0;
+  setTimeout(()=>document.getElementById('pvClose').focus({preventScroll:true}), 30);
+}
+function closePrivacy(){
+  const m = document.getElementById('pvModal');
+  if(m.hidden) return;
+  m.hidden = true;
+  document.body.classList.remove('pv-lock');
+  if(pvReturnFocus && pvReturnFocus.focus) pvReturnFocus.focus({preventScroll:true});
+  pvReturnFocus = null;
+}
+(function initPrivacy(){
+  const m = document.getElementById('pvModal');
+  document.getElementById('pvClose').onclick = closePrivacy;
+  document.getElementById('pvOk').onclick = closePrivacy;
+  m.addEventListener('click', e=>{ if(e.target === m) closePrivacy(); });   /* click on the dark backdrop closes */
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !m.hidden){ e.stopImmediatePropagation(); closePrivacy(); } }, true);
+})();
+
 /* =========================================================================
    FORM 162 FILLER — currently switched off (no button or route reaches it).
    FORM 162 — Originating Application for Probate / Administration (PAA 1934)
@@ -1445,6 +1519,7 @@ function wireNav(root){
   root.querySelectorAll('[data-view]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); goto(el.dataset.view); }; });
   root.querySelectorAll('[data-open-chat]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); openChat(); }; });
   root.querySelectorAll('[data-home]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); goto('landing'); }; });
+  root.querySelectorAll('[data-privacy]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); openPrivacy(); }; });
 }
 wireNav(document);
 initChat();
