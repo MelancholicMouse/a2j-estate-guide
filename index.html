@@ -40,33 +40,44 @@
   .top .home:focus-visible{outline:2px solid var(--navy);outline-offset:4px;border-radius:6px}
   .back-link{text-decoration:none;color:var(--navy);font-weight:700;font-size:17px;white-space:nowrap}
   .back-link:hover{text-decoration:underline}
-  body.is-landing .top{justify-content:center;padding:12px 16px 6px}
   body.is-landing .back-link{display:none}
 
-  /* ---- Landing ---- */
-  .gold{background:var(--gold)}
-  .hero{max-width:1178px;margin:0 auto;padding:6px 18px 0}
-  .hero img{width:100%;height:auto;border-radius:4px}
-  .ask-wrap{display:flex;justify-content:center;padding:12px 16px 20px}
-  .ask{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;background:var(--navy);color:#fff;border-radius:999px;padding:14px 44px;min-width:268px;text-align:center;
-    box-shadow:0 6px 16px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);transition:.15s;cursor:pointer}
-  .ask:hover,.ask:focus-visible{background:var(--navy-2);transform:translateY(-1px);outline:none}
-  .ask b{font-size:22px;font-weight:700;line-height:1.15}
-  @media(max-width:560px){ .ask{padding:12px 24px;min-width:0;width:100%;max-width:340px} .ask b{font-size:19px} }
-  .how-desktop{position:relative;line-height:0}
-  .how-desktop img.bg{width:100%;height:auto}
-  .cards{position:absolute;left:24.3%;top:7.5%;width:69.5%;height:82.5%;display:flex;align-items:stretch;justify-content:space-between;gap:1%}
-  .card{display:block;flex:0 0 auto;height:100%;border:none;background:none;padding:0;border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:.15s;filter:drop-shadow(0 16px 30px rgba(0,0,0,.35))}
-  .card img{height:100%;width:auto;display:block;border-radius:8px}
-  .card:hover,.card:focus-visible{transform:translateY(-6px);filter:drop-shadow(0 24px 40px rgba(0,0,0,.45));outline:none}
-  .how-mobile{display:none;position:relative;background:linear-gradient(#4a1f1c,#3b1815 60%,#2f1512);padding:34px 18px 40px;overflow:hidden}
-  .how-mobile::before{content:"";position:absolute;left:0;right:0;top:0;height:300px;background:url("assets/skin/maroon-texture.jpg") top center/cover;
-    -webkit-mask-image:linear-gradient(#000 45%,transparent);mask-image:linear-gradient(#000 45%,transparent);pointer-events:none}
-  .how-mobile > *{position:relative}
-  .how-mobile h2{margin:0 0 18px;text-align:center;color:var(--gold);font-size:34px;font-weight:700;line-height:1.1}
-  .how-mobile .card{display:block;max-width:340px;height:auto;margin:0 auto 16px;border-radius:8px;overflow:hidden;filter:none;box-shadow:0 14px 34px rgba(0,0,0,.4)}
-  .how-mobile .card img{width:100%;height:auto}
-  @media(max-width:820px){.how-desktop{display:none}.how-mobile{display:block}}
+  /* ---- Landing: the page graphic with clickable regions ----
+     Desktop shows the whole artwork (assets/skin/landing.webp) with hotspots
+     placed as percentages of its 1032x1772 size. Phones show the same artwork
+     cut into pieces and stacked so the text stays readable. ---- */
+  body.is-landing .top{display:none}          /* the artwork carries its own logo row */
+  .art{position:relative;line-height:0;background:var(--gold)}
+  .art > img{width:100%;height:auto;display:block}
+  .hs{position:absolute;display:block;border:none;background:none;padding:0;cursor:pointer;border-radius:14px;-webkit-tap-highlight-color:transparent;transition:.15s}
+  .hs:hover,.hs:focus-visible{box-shadow:0 0 0 3px rgba(255,255,255,.85),0 14px 34px rgba(0,0,0,.35);outline:none}
+  .hs.hs-ask{left:39.44%;top:30.87%;width:20.74%;height:2.54%;border-radius:999px}
+  .hs.hs-chat{left:42.05%;top:36.34%;width:16.96%;height:19.36%;border-radius:6px}
+  .hs.hs-pf{left:37.02%;top:63.09%;width:25.19%;height:16.42%;border-radius:28px}
+  .hs.hs-rm{left:65.79%;top:63.21%;width:25.19%;height:16.42%;border-radius:28px}
+  /* Form 162: not wired up yet — a semi-transparent "Coming soon" sits over the card */
+  .soon{position:absolute;left:7.75%;top:63.09%;width:25.68%;height:16.82%;border-radius:28px;background:rgba(27,39,65,.55);display:flex;align-items:center;justify-content:center;cursor:default}
+  .soon span{background:var(--cream);color:var(--maroon);font-weight:800;font-size:clamp(12px,1.6vw,22px);letter-spacing:.06em;text-transform:uppercase;padding:.45em 1.1em;border-radius:999px;transform:rotate(-8deg);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+  .art-m{display:none}
+  @media(max-width:700px){
+    .art{display:none}
+    .art-m{display:block}
+    .art-m .m-hero{background:var(--gold);position:relative;line-height:0}
+    .art-m .m-hero img{width:100%;height:auto}
+    .art-m .m-hero .hs.hs-ask{left:30%;top:86%;width:40%;height:14%;border-radius:999px}
+    .art-m h2{margin:0 0 16px;text-align:center;color:var(--gold);font-size:30px;font-weight:700;line-height:1.1}
+    .art-m .m-how{background:linear-gradient(#4a1f1c,#3b1815 60%,#2f1512);padding:30px 18px 24px}
+    .art-m .m-tools{background:linear-gradient(#17304b,#122540);padding:24px 18px 28px}
+    .art-m .m-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto}
+    .art-m .m-grid .pc{display:block;border:none;background:none;padding:0;border-radius:8px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.4);position:relative;line-height:0}
+    .art-m .m-grid .pc img{width:100%;height:auto;display:block}
+    .art-m .m-cards{display:flex;flex-direction:column;gap:14px;max-width:340px;margin:0 auto}
+    .art-m .m-cards .pc{display:block;border:none;background:none;padding:0;border-radius:24px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.4);position:relative;line-height:0}
+    .art-m .m-cards .pc img{width:100%;height:auto;display:block}
+    .art-m .soon{left:0;top:0;right:0;bottom:0;width:auto;height:auto;border-radius:24px}
+    .art-m .m-sponsors{background:var(--gold);line-height:0;padding:22px 18px}
+    .art-m .m-sponsors img{width:100%;height:auto}
+  }
 
   /* ---- Stage (PathFinder / summary / Form 162) ---- */
   .stage{position:relative;min-height:70vh;padding:30px 48px 40px;
@@ -184,9 +195,6 @@
 
   /* ---- Footer ---- */
   footer{background:var(--navy);color:#dcd8d0;padding:0 0 30px}
-  .partners{background:var(--cream);padding:22px 24px 24px;text-align:center}
-  .partners p{margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--maroon)}
-  .partners img{display:block;margin:0 auto;height:78px;width:auto;max-width:100%}
   body.is-stage footer{background:var(--maroon-deep);color:#e8dcdc}
   .fwrap{max-width:1230px;margin:0 auto;padding:40px 48px 0;display:grid;grid-template-columns:1.4fr .6fr .6fr;gap:30px}
   footer .logo img{height:44px;width:auto;margin-bottom:16px}
@@ -291,7 +299,6 @@
     .page{padding:32px 16px 48px}
     .flow li{padding-left:56px}.flow li::before{width:40px;height:40px;font-size:17px}.flow li::after{left:19px;top:40px}
     .fwrap{grid-template-columns:1fr;padding:32px 24px 0}
-    .partners img{height:56px}
   }
 
 </style>
@@ -308,30 +315,39 @@
   <main>
     <!-- ===== Landing ===== -->
     <section class="view" id="viewLanding">
-      <div class="gold">
-        <section class="hero">
-          <img src="assets/skin/hero-illustration.jpg" alt="Majoo the owl beside a laptop: Let's help you start on your estate journey.">
-        </section>
-        <div class="ask-wrap">
-          <a class="ask" href="https://syariahcourt.gov.sg/Inheritance/Process/Application-for-Inheritance-Certificate" target="_blank" rel="noopener"><b>Apply for an Inheritance Certificate</b></a>
-        </div>
+      <!-- Desktop / tablet: the whole page graphic with clickable regions -->
+      <div class="art">
+        <img src="assets/skin/landing.webp" alt="MajuLaw. Let's help you start on your estate journey. How does it work: Welcome to MajuLaw; Chat with Majoo; Other tools; Download the information. Tools: Form 162 (coming soon), Guided PathFinder, Roadmap. Supported by South East CDC, Ministry of Law, Pro Bono SG and partners, in conjunction with SG Law 200.">
+        <button type="button" class="hs hs-ask" data-open-chat aria-label="Ask Majoo — start a chat"></button>
+        <button type="button" class="hs hs-chat" data-open-chat aria-label="Chat with Majoo"></button>
+        <button type="button" class="hs hs-pf" data-view="pathfinder" aria-label="Guided PathFinder"></button>
+        <button type="button" class="hs hs-rm" data-view="roadmap" aria-label="Roadmap"></button>
+        <div class="soon" aria-label="Form 162 — coming soon"><span>Coming soon</span></div>
       </div>
-      <section class="how" aria-label="How does it work?">
-        <div class="how-desktop">
-          <img class="bg" src="assets/skin/how-bg.jpg" alt="">
-          <div class="cards">
-            <button type="button" class="card" data-view="pathfinder"><img src="assets/skin/panel2.jpg" alt="First Advice: Majoo will start you off with a short quiz to find out more about your situation, and give you a simple advice customised to your case."></button>
-            <button type="button" class="card" data-open-chat><img src="assets/skin/panel3.jpg" alt="Chat with Majoo: if the first advice did not answer your question, ask him directly with our Majoo chat. Save the chat at any point of time."></button>
-            <button type="button" class="card" data-view="roadmap"><img src="assets/skin/card-roadmap.png" alt="Roadmap: learn more about the usual journey that individuals have to go through in administering a Muslim estate in Singapore, from the death certificate to the final distribution."></button>
+      <!-- Phones: the same artwork in pieces, stacked -->
+      <div class="art-m">
+        <div class="m-hero">
+          <img src="assets/skin/m-hero.webp" alt="MajuLaw. Let's help you start on your estate journey.">
+          <button type="button" class="hs hs-ask" data-open-chat aria-label="Ask Majoo — start a chat"></button>
+        </div>
+        <div class="m-how">
+          <h2>How does it work?</h2>
+          <div class="m-grid">
+            <span class="pc"><img src="assets/skin/m-panel-welcome.webp" alt="Welcome to MajuLaw. Clear answers. A simple path. For your family's tomorrow."></span>
+            <button type="button" class="pc" data-open-chat><img src="assets/skin/m-panel-chat.webp" alt="Chat with Majoo. Ask Majoo anything about Singapore's Muslim estate administration process."></button>
+            <span class="pc"><img src="assets/skin/m-panel-tools.webp" alt="Other tools. Explore our other functions below, such as the PathFinder, if you are unsure where to start."></span>
+            <span class="pc"><img src="assets/skin/m-panel-download.webp" alt="Download the information. Save it for future reference and keep it handy anytime."></span>
           </div>
         </div>
-        <div class="how-mobile">
-          <h2>How does it work?</h2>
-          <button type="button" class="card" data-view="pathfinder"><img src="assets/skin/panel2.jpg" alt="First Advice: Majoo will start you off with a short quiz to find out more about your situation, and give you a simple advice customised to your case."></button>
-          <button type="button" class="card" data-open-chat><img src="assets/skin/panel3.jpg" alt="Chat with Majoo: if the first advice did not answer your question, ask him directly with our Majoo chat. Save the chat at any point of time."></button>
-          <button type="button" class="card" data-view="roadmap"><img src="assets/skin/card-roadmap.png" alt="Roadmap: learn more about the usual journey that individuals have to go through in administering a Muslim estate in Singapore, from the death certificate to the final distribution."></button>
+        <div class="m-tools">
+          <div class="m-cards">
+            <span class="pc"><img src="assets/skin/m-card-form162.webp" alt="Form 162 — coming soon"><div class="soon"><span>Coming soon</span></div></span>
+            <button type="button" class="pc" data-view="pathfinder"><img src="assets/skin/m-card-pathfinder.webp" alt="Guided PathFinder: answer a short series of questions and we'll map out a tailored route with the recommended next steps."></button>
+            <button type="button" class="pc" data-view="roadmap"><img src="assets/skin/m-card-roadmap.webp" alt="Roadmap: the usual journey in administering a Muslim estate in Singapore, from the death certificate to the final distribution."></button>
+          </div>
         </div>
-      </section>
+        <div class="m-sponsors"><img src="assets/skin/m-sponsors.webp" style="max-width:420px;margin:0 auto" alt="Supported by South East CDC, Ministry of Law, Pro Bono SG and partners, in conjunction with SG Law 200."></div>
+      </div>
     </section>
 
     <!-- ===== Stage: PathFinder / summary / Form 162 ===== -->
@@ -361,7 +377,6 @@
   </main>
 
   <footer>
-    <div class="partners"><p>In partnership with</p><img src="assets/skin/partners.png" alt="In partnership with PEGUAM, MUIS, Pro Bono SG and M³"></div>
     <div class="fwrap">
       <div class="logo">
         <img src="assets/majulaw-logo-white.png" alt="MajuLaw">
