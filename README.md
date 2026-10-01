@@ -65,6 +65,12 @@ Majoo, the chat panel (bottom-right, opened from "Ask Majoo" or the "Chat with M
   when BM is selected (or when the visitor writes in Malay), translating its
   explanation while keeping every fact from the English knowledge base. The
   choice is sent as `lang` with each request and remembered on the device.
+- **Guided site tour:** on a visitor's first visit the landing page dims and a
+  pop-up box with an arrow walks through Ask Majoo, the "How it works" panels,
+  the PathFinder, the Roadmap, Form 162 and the privacy link. Taking or
+  declining it is remembered on the device (`localStorage` key `majoo-tour`);
+  it can be replayed from the footer link "Take the site tour" or the `#tour`
+  hash. Steps and copy live in `TOUR_STEPS` in `index.html`.
 - **Privacy disclaimer:** "Find out more" in the top strip, the footer Privacy
   Policy link and the `#privacy` hash open a pop-up stating that MajuLaw
   collects no personal data, except that the optional email sends the chat and

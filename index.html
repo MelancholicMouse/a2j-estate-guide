@@ -297,6 +297,42 @@
   body.pv-lock{overflow:hidden}
   @media(max-width:560px){ .pv{padding:12px} .pv-card{padding:22px 18px 20px;border-radius:16px} .pv-card h2{font-size:22px} .pv-card p{font-size:14.5px} }
 
+  /* Guided site tour: dims the page, spotlights one area at a time and explains it in a box with an arrow */
+  .tour{position:fixed;inset:0;z-index:115;pointer-events:none}
+  .tour[hidden]{display:none}
+  .tour-catch{position:absolute;inset:0;pointer-events:auto}                      /* swallows clicks on the page while the tour runs */
+  .tour-spot{position:fixed;box-shadow:0 0 0 200vmax rgba(27,39,65,.74);border-radius:14px;transition:left .3s,top .3s,width .3s,height .3s,border-radius .3s}
+  .tour-spot.no-anim{transition:none}
+  .tour-centre .tour-spot{display:none}
+  .tour-centre .tour-catch{background:rgba(27,39,65,.74)}
+  .tour-tip{position:fixed;pointer-events:auto;background:var(--cream);color:var(--ink);border-radius:16px;padding:18px 20px 16px;box-shadow:0 18px 48px rgba(0,0,0,.45);transition:left .3s,top .3s}
+  .tour-tip.no-anim{transition:none}
+  .tour-arrow{position:absolute;width:16px;height:16px;background:var(--cream);transform:rotate(45deg)}
+  .tour-arrow[hidden]{display:none}
+  .tour-tip[data-side="below"] .tour-arrow{top:-8px;margin-left:-8px}
+  .tour-tip[data-side="above"] .tour-arrow{bottom:-8px;margin-left:-8px}
+  .tour-tip[data-side="right"] .tour-arrow{left:-8px;margin-top:-8px}
+  .tour-tip[data-side="left"] .tour-arrow{right:-8px;margin-top:-8px}
+  .tour-owl{display:none;width:84px;height:auto;margin:-4px auto 6px}
+  .tour-centre .tour-owl{display:block}
+  .tour-step{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 4px}
+  .tour-step:empty{display:none}
+  .tour-title{margin:0 0 6px;font-size:19px;font-weight:800;color:var(--navy);line-height:1.2}
+  .tour-centre .tour-title{text-align:center;font-size:23px}
+  .tour-text{margin:0;font-size:14.5px;line-height:1.5}
+  .tour-centre .tour-text{text-align:center}
+  .tour-btns{display:flex;align-items:center;gap:8px;margin-top:14px}
+  .tour-skip{background:none;border:none;color:var(--muted);font-size:13.5px;font-weight:600;cursor:pointer;padding:6px 2px;margin-right:auto;text-decoration:underline;text-underline-offset:3px}
+  .tour-skip:hover{color:var(--navy)}
+  .tour-prev{background:none;border:1.5px solid rgba(27,39,65,.3);color:var(--navy);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:700;cursor:pointer}
+  .tour-prev:hover{background:var(--sand)}
+  .tour-next{background:var(--navy);color:#fff;border:none;border-radius:999px;padding:9px 20px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+  .tour-next:hover{background:var(--navy-2)}
+  .tour-centre .tour-btns{justify-content:center}
+  .tour-centre .tour-skip{margin-right:0}
+  /* invisible marker over the "How does it work?" panels in the desktop artwork, for the tour spotlight only */
+  .tm-how{position:absolute;left:24.6%;top:36.1%;width:69.5%;height:22.1%;border-radius:10px;pointer-events:none}
+
   .mj-close{flex:0 0 32px}
   .mj-lang{flex:0 0 auto}
   @media(max-width:560px){
@@ -339,6 +375,7 @@
         <button type="button" class="hs hs-pf" data-view="pathfinder" aria-label="Guided PathFinder"></button>
         <button type="button" class="hs hs-rm" data-view="roadmap" aria-label="Roadmap"></button>
         <div class="soon" aria-label="Form 162 — coming soon"><span>Coming soon</span></div>
+        <div class="tm-how" aria-hidden="true"></div>
       </div>
       <!-- Phones: the same artwork in pieces, stacked -->
       <div class="art-m">
@@ -404,7 +441,7 @@
           <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5ZM3 9h4v12H3zM10 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4z"/></svg></a>
         </div>
       </div>
-      <div><h4>Learn more</h4><nav><a href="#" data-view="roadmap">The roadmap</a><a href="#" data-view="pathfinder">PathFinder</a></nav></div>
+      <div><h4>Learn more</h4><nav><a href="#" data-view="roadmap">The roadmap</a><a href="#" data-view="pathfinder">PathFinder</a><a href="#tour" data-tour>Take the site tour</a></nav></div>
       <div><h4>FAQ</h4><nav><a href="#privacy" data-privacy>Privacy Policy</a><a href="#terms">Terms of Use</a></nav></div>
     </div>
     <div class="fbottom"><b>Copyright &copy; 2026 MajuLaw. All Rights Reserved.</b></div>
@@ -466,6 +503,24 @@
       <p>If you have any questions about privacy, reach us through the <strong>Connect with Us</strong> links at the bottom of the page.</p>
 
       <button class="pv-ok" id="pvOk" type="button">Got it</button>
+    </div>
+  </div>
+
+  <!-- Guided site tour -->
+  <div class="tour" id="tour" hidden>
+    <div class="tour-catch"></div>
+    <div class="tour-spot"></div>
+    <div class="tour-tip" role="dialog" aria-modal="true" aria-labelledby="tourTitle" aria-describedby="tourText">
+      <i class="tour-arrow" hidden></i>
+      <img class="tour-owl" src="assets/skin/majoo-avatar.png" alt="">
+      <p class="tour-step" id="tourStep"></p>
+      <h3 class="tour-title" id="tourTitle"></h3>
+      <p class="tour-text" id="tourText"></p>
+      <div class="tour-btns">
+        <button type="button" class="tour-skip" id="tourSkip">End tour</button>
+        <button type="button" class="tour-prev" id="tourPrev">Back</button>
+        <button type="button" class="tour-next" id="tourNext">Next</button>
+      </div>
     </div>
   </div>
 
@@ -605,6 +660,7 @@ function showView(name){
   VIEWS.forEach(v => { document.getElementById('view'+v[0].toUpperCase()+v.slice(1)).hidden = (v !== name); });
   document.body.classList.toggle('is-landing', name==='landing');
   document.body.classList.toggle('is-stage', name==='stage');
+  if(name!=='landing') endTour();
   window.scrollTo({top:0, behavior:'auto'});
 }
 /* Majoo's bubble above the card on the stage. */
@@ -629,6 +685,7 @@ function openRoute(name){
   if(name==='pathfinder') startPathfinder();
   else if(name==='roadmap') renderRoadmap();
   else if(name==='privacy'){ renderIntro(); openPrivacy(); }   /* direct link to the privacy disclaimer */
+  else if(name==='tour'){ renderIntro(); startTour(); }         /* direct link to the guided site tour */
   else renderIntro();
 }
 window.addEventListener('hashchange', ()=>{
@@ -1292,6 +1349,131 @@ function closePrivacy(){
 })();
 
 /* =========================================================================
+   Guided site tour. Dims the page, spotlights one area at a time and explains
+   it in a pop-up box with an arrow. Runs automatically on a visitor's first
+   visit (remembered on the device) and can be replayed from the footer link
+   or the #tour hash. Each step lists its target twice: desktop artwork first,
+   then the stacked phone layout; whichever is visible is used.
+   ========================================================================= */
+const TOUR_STEPS = [
+  { title:'Welcome to MajuLaw', text:'New here? Take a quick tour to see what each part of this page does. It takes less than a minute.' },
+  { target:['.art .hs-ask', '.art-m .hs-ask'], title:'Ask Majoo', text:'Click here to chat with Majoo, our AI assistant, about Singapore’s Muslim estate process: Faraid, the Inheritance Certificate, the Public Trustee and more. Majoo answers in English or Bahasa Melayu, and you can save or email the chat afterwards.' },
+  { target:['.art .tm-how', '.art-m .m-grid'], title:'How it works', text:'A quick overview of what you can do here: chat with Majoo, use our tools to find the right route for your situation, and download or email the information to keep.' },
+  { target:['.art .hs-pf', '.art-m .m-cards [data-view="pathfinder"]'], title:'Guided PathFinder', text:'Not sure where to start? Answer a few short questions and the PathFinder maps out the route for your situation, with the recommended next steps.' },
+  { target:['.art .hs-rm', '.art-m .m-cards [data-view="roadmap"]'], title:'Roadmap', text:'See the usual journey in administering a Muslim estate in Singapore at a glance, from the death certificate to the final distribution.' },
+  { target:['.art .soon', '.art-m .m-cards .pc:first-child'], title:'Form 162 (coming soon)', text:'Soon Majoo will help you fill in Form 162, the form used when applying for a Grant of Probate or Letters of Administration.' },
+  { target:['#privacyMore'], title:'Your privacy', text:'MajuLaw does not collect or store your personal data. Click “Find out more” at any time to read our privacy disclaimer. That’s the end of the tour. Enjoy exploring!' },
+];
+let tourOn = false, tourIdx = 0, tourAnimating = false, tourAnimTimer = 0;
+const tourEl = () => document.getElementById('tour');
+function tourTarget(step){
+  if(!step.target) return null;
+  for(const sel of step.target){ const el = document.querySelector(sel); if(el && el.offsetWidth > 0 && el.offsetHeight > 0) return el; }
+  return null;
+}
+/* Wait for the landing artwork to load so the percentage hotspots have their real size. */
+function tourWhenReady(fn){
+  const imgs = [...document.querySelectorAll('#viewLanding img')].filter(i => i.offsetParent !== null && !i.complete);
+  if(!imgs.length) return fn();
+  let n = imgs.length; const done = () => { if(--n === 0) fn(); };
+  imgs.forEach(i => { i.addEventListener('load', done, {once:true}); i.addEventListener('error', done, {once:true}); });
+}
+function startTour(){
+  if(currentView !== 'landing') goto('landing');
+  closeChat(); closePrivacy();
+  tourWhenReady(() => {
+    tourOn = true; tourEl().hidden = false; document.body.classList.add('tour-on');
+    tourShow(0);
+  });
+}
+function endTour(){
+  if(!tourOn) return;
+  tourOn = false; tourEl().hidden = true; document.body.classList.remove('tour-on');
+  try{ localStorage.setItem('majoo-tour', 'done'); }catch(e){}
+}
+function tourShow(i){
+  tourIdx = Math.max(0, Math.min(TOUR_STEPS.length - 1, i));
+  const step = TOUR_STEPS[tourIdx], t = tourEl(), last = tourIdx === TOUR_STEPS.length - 1;
+  document.getElementById('tourStep').textContent = tourIdx ? tourIdx + ' of ' + (TOUR_STEPS.length - 1) : '';
+  document.getElementById('tourTitle').textContent = step.title;
+  document.getElementById('tourText').textContent = step.text;
+  document.getElementById('tourPrev').hidden = tourIdx === 0;
+  document.getElementById('tourNext').textContent = tourIdx === 0 ? 'Start tour' : (last ? 'Finish' : 'Next');
+  const skip = document.getElementById('tourSkip'); skip.textContent = tourIdx === 0 ? 'No thanks' : 'End tour'; skip.hidden = last;
+  const el = tourTarget(step), tip = t.querySelector('.tour-tip');
+  tip.style.width = Math.min(360, window.innerWidth - 24) + 'px';
+  if(el){
+    /* Scroll instantly (the page's smooth scrolling would make positions wrong mid-scroll);
+       the spotlight and the box glide to their new places instead. */
+    const html = document.documentElement, prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    el.scrollIntoView({block:'center', inline:'nearest'});
+    const r = el.getBoundingClientRect(), vh = window.innerHeight, th = tip.offsetHeight, need = 8 + 14 + th + 8;
+    /* Tall target: neither above nor below fits with it centred, but target + box fit together, so sit the target near the top. */
+    if(r.bottom + need > vh && r.top - need < 0 && r.height + 16 + need + 12 <= vh) window.scrollBy(0, r.top - 20);
+    html.style.scrollBehavior = prev;
+  }
+  tourAnimating = true;
+  tourPlace(true);
+  clearTimeout(tourAnimTimer);
+  tourAnimTimer = setTimeout(() => { tourAnimating = false; tourPlace(false); }, 350);
+  document.getElementById('tourNext').focus({preventScroll:true});
+}
+/* Position the spotlight over the target and the box beside it (below, above, right, left, or pinned to the bottom when nothing fits). */
+function tourPlace(animate){
+  if(!tourOn) return;
+  const t = tourEl(), step = TOUR_STEPS[tourIdx];
+  const spot = t.querySelector('.tour-spot'), tip = t.querySelector('.tour-tip'), arrow = t.querySelector('.tour-arrow');
+  spot.classList.toggle('no-anim', !animate); tip.classList.toggle('no-anim', !animate);
+  const vw = window.innerWidth, vh = window.innerHeight, pad = 8, gap = 14;
+  const el = tourTarget(step);
+  t.classList.toggle('tour-centre', !el);
+  tip.style.width = Math.min(360, vw - 24) + 'px';
+  if(!el){
+    tip.style.left = Math.round((vw - tip.offsetWidth) / 2) + 'px';
+    tip.style.top = Math.round((vh - tip.offsetHeight) / 2) + 'px';
+    arrow.hidden = true; tip.dataset.side = 'centre';
+    return;
+  }
+  const r = el.getBoundingClientRect();
+  const sx = r.left - pad, sy = r.top - pad, sw = r.width + pad * 2, sh = r.height + pad * 2;
+  spot.style.left = sx + 'px'; spot.style.top = sy + 'px'; spot.style.width = sw + 'px'; spot.style.height = sh + 'px';
+  spot.style.borderRadius = getComputedStyle(el).borderRadius || '14px';
+  const tw = tip.offsetWidth, th = tip.offsetHeight, cx = sx + sw / 2, cy = sy + sh / 2;
+  let side, x, y;
+  if(sy + sh + gap + th <= vh - 8) side = 'below';
+  else if(sy - gap - th >= 8) side = 'above';
+  else if(sx + sw + gap + tw <= vw - 8) side = 'right';
+  else if(sx - gap - tw >= 8) side = 'left';
+  else side = 'bottom';
+  if(side === 'below' || side === 'above'){
+    x = Math.min(Math.max(12, cx - tw / 2), vw - tw - 12);
+    y = side === 'below' ? sy + sh + gap : sy - gap - th;
+    arrow.style.top = ''; arrow.style.left = Math.round(Math.min(Math.max(20, cx - x), tw - 20)) + 'px';
+  } else if(side === 'right' || side === 'left'){
+    y = Math.min(Math.max(12, cy - th / 2), vh - th - 12);
+    x = side === 'right' ? sx + sw + gap : sx - gap - tw;
+    arrow.style.left = ''; arrow.style.top = Math.round(Math.min(Math.max(20, cy - y), th - 20)) + 'px';
+  } else { x = (vw - tw) / 2; y = vh - th - 12; }
+  tip.style.left = Math.round(x) + 'px'; tip.style.top = Math.round(y) + 'px';
+  tip.dataset.side = side; arrow.hidden = side === 'bottom';
+}
+(function initTour(){
+  document.getElementById('tourNext').onclick = () => { if(tourIdx === TOUR_STEPS.length - 1) endTour(); else tourShow(tourIdx + 1); };
+  document.getElementById('tourPrev').onclick = () => tourShow(tourIdx - 1);
+  document.getElementById('tourSkip').onclick = endTour;
+  window.addEventListener('scroll', () => { if(!tourAnimating) tourPlace(false); }, {passive:true});
+  window.addEventListener('resize', () => { if(!tourAnimating) tourPlace(false); });
+  window.addEventListener('load', () => tourPlace(false));
+  document.addEventListener('keydown', e => {
+    if(!tourOn) return;
+    if(e.key === 'Escape'){ e.stopImmediatePropagation(); endTour(); }
+    else if(e.key === 'ArrowRight'){ e.preventDefault(); document.getElementById('tourNext').click(); }
+    else if(e.key === 'ArrowLeft' && tourIdx > 0){ e.preventDefault(); tourShow(tourIdx - 1); }
+  }, true);
+})();
+
+/* =========================================================================
    FORM 162 FILLER — currently switched off (no button or route reaches it).
    FORM 162 — Originating Application for Probate / Administration (PAA 1934)
    Collects the intake answers (with skip logic) and fills the official
@@ -1520,10 +1702,18 @@ function wireNav(root){
   root.querySelectorAll('[data-open-chat]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); openChat(); }; });
   root.querySelectorAll('[data-home]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); goto('landing'); }; });
   root.querySelectorAll('[data-privacy]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); openPrivacy(); }; });
+  root.querySelectorAll('[data-tour]').forEach(el=>{ el.onclick = e=>{ e.preventDefault(); startTour(); }; });
 }
 wireNav(document);
 initChat();
 openRoute(location.hash.replace('#','') || 'landing');
+
+/* First visit: offer the guided tour (remembered on the device once taken or declined). */
+(function(){
+  let seen = false; try{ seen = localStorage.getItem('majoo-tour') === 'done'; }catch(e){}
+  if(seen || location.hash) return;
+  setTimeout(() => { if(currentView === 'landing' && !tourOn && document.getElementById('mjWidget').hidden && document.getElementById('pvModal').hidden) startTour(); }, 600);
+})();
 
 </script>
 </body>
