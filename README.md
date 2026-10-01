@@ -18,7 +18,7 @@ generated summary) runs in the browser. No backend or build step is required.
 - The Form 162 filler is switched off for now: no card, link or route reaches it,
   but its code (`renderF162…`, `assets/form162-template.docx`, `assets/skin/card-form162.png`)
   is kept in `index.html` so it can be switched back on.
-- `assets/skin/` — the site artwork (hero illustration, the four cards, Majoo's avatar, logo)
+- `assets/skin/` — the site artwork: `landing.webp` is the whole landing page graphic (clickable regions are placed over it as percentages), the `m-*.webp` pieces are the same graphic cut up for phones, plus Majoo's avatar and the logo
 - `assets/knowledge-base.md` — the vetted material the chatbot answers from
 - `server.js` — optional tiny local web server for testing
 
