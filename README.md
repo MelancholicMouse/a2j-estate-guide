@@ -71,11 +71,10 @@ Majoo, the chat panel (bottom-right, opened from "Ask Majoo" or the "Chat with M
   declining it is remembered on the device (`localStorage` key `majoo-tour`);
   it can be replayed from the footer link "Take the site tour" or the `#tour`
   hash. Steps and copy live in `TOUR_STEPS` in `index.html`.
-- **Privacy disclaimer:** "Find out more" in the top strip, the footer Privacy
-  Policy link and the `#privacy` hash open a pop-up stating that MajuLaw
-  collects no personal data, except that the optional email sends the chat and
-  address through the email service, where they sit on mail servers temporarily.
-  The text lives in `index.html` (`#pvModal`).
+- **Privacy Policy:** "Find out more" in the top strip, the footer Privacy
+  Policy link and the `#privacy` hash open a pop-up with the team's Privacy
+  Policy. The text lives in `index.html` (`#pvModal`); update the "Last updated"
+  date whenever it changes.
 - **Static fallback:** if no key is configured (or the site is served by a
   static-only host), the panel falls back to a scope-locked scripted assistant so
   the chat always works. Nothing breaks before the key is added.
