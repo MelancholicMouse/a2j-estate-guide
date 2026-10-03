@@ -193,6 +193,39 @@
   .rfoot a{color:#fff}
   .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
 
+  /* ---- FAQ page: same maroon page as the roadmap, questions as cream cards that open on click ---- */
+  .faq-head img{width:150px;flex:0 0 150px;filter:drop-shadow(0 14px 22px rgba(0,0,0,.35))}
+  .faq-list{display:flex;flex-direction:column;gap:12px;margin:0;padding:0}
+  .faq{background:var(--cream);border-radius:18px;box-shadow:0 14px 34px rgba(0,0,0,.28);overflow:hidden}
+  .faq summary{list-style:none;display:flex;align-items:center;gap:14px;padding:16px 18px 16px 16px;cursor:pointer;color:var(--navy);font-weight:800;font-size:17.5px;line-height:1.3}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary:hover{background:rgba(203,174,115,.16)}
+  .faq summary:focus-visible{outline:3px solid var(--gold);outline-offset:-3px;border-radius:18px}
+  .faq-q{flex:0 0 36px;width:36px;height:36px;border-radius:50%;background:var(--gold);color:#3a2a10;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 12px rgba(0,0,0,.18)}
+  .faq-t{flex:1}
+  .faq-x{flex:0 0 30px;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(27,39,65,.25);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+  .faq-x::before,.faq-x::after{content:"";position:absolute;width:12px;height:2px;border-radius:2px;background:var(--navy)}
+  .faq-x{position:relative}
+  .faq-x::after{transform:rotate(90deg);transition:transform .2s}
+  .faq[open] .faq-x{background:var(--navy);border-color:var(--navy)}
+  .faq[open] .faq-x::before{background:#fff}
+  .faq[open] .faq-x::after{transform:rotate(0deg);background:#fff}
+  .faq-a{margin:0 18px 18px 66px;padding:12px 16px;background:var(--sand);border-left:4px solid var(--maroon);border-radius:12px;color:#3a2f2a;font-size:15.5px;line-height:1.55}
+  .faq-a a{color:var(--maroon);font-weight:700}
+  .faq-tools{display:flex;justify-content:flex-end;margin:0 0 12px}
+  .faq-tools button{background:none;border:none;color:var(--gold);font-weight:700;font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:4px 2px}
+  .faq-tools button:hover{color:#fff}
+  .faq-more{margin:26px 0 0;text-align:center;color:#e7dccf;font-size:16px}
+  footer h4 a{color:inherit;text-decoration:none}
+  footer h4 a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+  footer h4 a span{font-size:.7em;margin-left:6px;opacity:.75}
+  @media(max-width:560px){
+    .faq summary{font-size:16px;gap:10px;padding:14px 14px 14px 12px}
+    .faq-q{flex-basis:30px;width:30px;height:30px;font-size:14px}
+    .faq-a{margin:0 12px 14px 12px;font-size:15px}
+    .faq-head img{width:110px;flex-basis:auto}
+  }
+
   /* ---- Footer ---- */
   footer{background:var(--navy);color:#dcd8d0;padding:0 0 30px}
   body.is-stage footer{background:var(--maroon-deep);color:#e8dcdc}
@@ -427,6 +460,11 @@
     <section class="view" id="viewRoadmap" hidden>
       <div class="page"><div class="wrap" id="roadmapWrap"></div></div>
     </section>
+
+    <!-- ===== FAQs ===== -->
+    <section class="view" id="viewFaq" hidden>
+      <div class="page"><div class="wrap" id="faqWrap"></div></div>
+    </section>
   </main>
 
   <footer>
@@ -442,7 +480,7 @@
         </div>
       </div>
       <div><h4>Learn more</h4><nav><a href="#" data-view="roadmap">The roadmap</a><a href="#" data-view="pathfinder">PathFinder</a><a href="#tour" data-tour>Take the site tour</a></nav></div>
-      <div><h4>FAQ</h4><nav><a href="#privacy" data-privacy>Privacy Policy</a><a href="#terms">Terms of Use</a></nav></div>
+      <div><h4><a href="#faq" data-view="faq">FAQ<span aria-hidden="true">&#8599;</span></a></h4><nav><a href="#faq" data-view="faq">Frequently asked questions</a><a href="#privacy" data-privacy>Privacy Policy</a><a href="#terms">Terms of Use</a></nav></div>
     </div>
     <div class="fbottom"><b>Copyright &copy; 2026 MajuLaw. All Rights Reserved.</b></div>
   </footer>
@@ -647,7 +685,7 @@ const visibleQuestions = () => QUESTIONS.filter(isVisible);
 const txt = v => typeof v === 'function' ? v(answers) : v;
 const visibleOptions = item => (item.options || []).filter(o => !o.showIf || o.showIf(answers));
 
-const VIEWS = ['landing','stage','roadmap'];
+const VIEWS = ['landing','stage','roadmap','faq'];
 let currentView = 'landing';
 function showView(name){
   currentView = name;
@@ -655,7 +693,7 @@ function showView(name){
   document.body.classList.toggle('is-landing', name==='landing');
   document.body.classList.toggle('is-stage', name==='stage');
   if(name!=='landing') endTour();
-  window.scrollTo({top:0, behavior:'auto'});
+  window.scrollTo({top:0, behavior:'instant'});   /* jump, don't smooth-scroll, when switching pages */
 }
 /* Majoo's bubble above the card on the stage. */
 function stageBubble(text, btnLabel, onClick){
@@ -678,6 +716,7 @@ function goto(name){
 function openRoute(name){
   if(name==='pathfinder') startPathfinder();
   else if(name==='roadmap') renderRoadmap();
+  else if(name==='faq') renderFaq();
   else if(name==='privacy'){ renderIntro(); openPrivacy(); }   /* direct link to the Privacy Policy */
   else if(name==='tour'){ renderIntro(); startTour(); }         /* direct link to the guided site tour */
   else renderIntro();
@@ -988,6 +1027,55 @@ function renderRoadmap(){
       <button type="button" class="btn-secondary" data-open-chat>Ask Majoo</button>
     </div>
     <p class="rfoot">General guidance only &mdash; this is not legal advice.</p>`;
+  wrap.dataset.ready = '1';
+  wireNav(wrap);
+}
+
+/* ---- FAQs (text supplied by the MajuLaw team in Majulaw_FAQs.docx) ---- */
+const FAQS = [
+  { q:'What is Majulaw?',
+    a:'Majulaw is an initiative founded by a group of final year Singapore University of Social Sciences (SUSS) law students seeking to address the gap in the lack of centralised information in relation to the law and procedure surrounding Muslim Estate Succession.' },
+  { q:'Does Majulaw provide legal advice?',
+    a:'No, Majulaw does not provide legal advice; Majulaw seeks to provide some preliminary guidance for common Muslim Estate Succession matters. Please engage a lawyer if you are seeking legal advice or legal representation.' },
+  { q:'Is the information on Majulaw endorsed by the Syariah Court of Singapore or any agencies in Singapore?',
+    a:'No, Majulaw is an initiative founded by a group of final year SUSS students and information provided on the website is not endorsed by any agency in Singapore. Any inaccuracies or mistakes remain our own.' },
+  { q:'Can I provide personal information like NRIC to the Majoo chat-bot?',
+    a:'Please refrain from entering sensitive or personal identifiable information to the chat-bot.' },
+  { q:'Does the Majoo chat-bot store information entered by users?',
+    a:'No. Our chat-bot is programmed to only retain memory for the purposes of the ongoing chat. Once the user leaves the website or refreshes the page, chat history from the previous conversation will be automatically deleted.' },
+  { q:'What is the difference between Majoo chat-bot compared to commercial AI tools like ChatGPT?',
+    a:'While you can often get good results with commercial AI tools, we have directed Majoo to rely on our curated resources on Muslim Estate Succession, guaranteeing more reliable results.' },
+  { q:'Will Majulaw be able to help me make an application for legal aid or for a legal clinic appointment?',
+    a:'Not at the moment. However, Majoo chat-bot is able to provide you with links to useful resources such as legal clinics, counselling services and financial aid. If you are looking for legal aid services, please visit <a href="https://lawgowhere.sg/" target="_blank" rel="noopener">lawgowhere.sg</a>.' },
+];
+function renderFaq(){
+  showView('faq');
+  const wrap = document.getElementById('faqWrap');
+  if(wrap.dataset.ready) return;
+  const items = FAQS.map((f,i)=>`<details class="faq"${i===0?' open':''}><summary><span class="faq-q" aria-hidden="true">Q</span><span class="faq-t">${f.q}</span><i class="faq-x" aria-hidden="true"></i></summary><p class="faq-a">${f.a}</p></details>`).join('');
+  wrap.innerHTML = `
+    <div class="head faq-head">
+      <img src="assets/majoo-owl.png" alt="">
+      <div>
+        <span class="pill">FAQs</span>
+        <h1>Frequently asked questions</h1>
+        <p>Quick answers about MajuLaw, what Majoo can and cannot do, and how your information is handled. Tap a question to see the answer.</p>
+      </div>
+    </div>
+    <div class="faq-tools"><button type="button" id="faqToggle">Expand all</button></div>
+    <div class="faq-list">${items}</div>
+    <p class="faq-more">Still have a question? Majoo can help with Singapore&rsquo;s Muslim estate administration process.</p>
+    <div class="cta">
+      <button type="button" class="btn-secondary" data-open-chat>Ask Majoo</button>
+      <button type="button" class="btn-secondary" data-privacy>Privacy Policy</button>
+    </div>
+    <p class="rfoot">General guidance only &mdash; this is not legal advice.</p>`;
+  const all = () => [...wrap.querySelectorAll('details.faq')];
+  const tog = wrap.querySelector('#faqToggle');
+  const sync = () => { tog.textContent = all().every(d=>d.open) ? 'Collapse all' : 'Expand all'; };
+  tog.onclick = () => { const open = !all().every(d=>d.open); all().forEach(d=>{ d.open = open; }); sync(); };
+  all().forEach(d=>d.addEventListener('toggle', sync));
+  sync();
   wrap.dataset.ready = '1';
   wireNav(wrap);
 }

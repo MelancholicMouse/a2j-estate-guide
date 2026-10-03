@@ -71,6 +71,10 @@ Majoo, the chat panel (bottom-right, opened from "Ask Majoo" or the "Chat with M
   declining it is remembered on the device (`localStorage` key `majoo-tour`);
   it can be replayed from the footer link "Take the site tour" or the `#tour`
   hash. Steps and copy live in `TOUR_STEPS` in `index.html`.
+- **FAQs:** the footer "FAQ" heading (and the "Frequently asked questions"
+  link under it, or the `#faq` hash) opens an FAQ page in the roadmap's style,
+  with each question as a card that opens on click and an Expand all toggle.
+  The questions and answers live in `FAQS` in `index.html`.
 - **Privacy Policy:** "Find out more" in the top strip, the footer Privacy
   Policy link and the `#privacy` hash open a pop-up with the team's Privacy
   Policy. The text lives in `index.html` (`#pvModal`); update the "Last updated"
