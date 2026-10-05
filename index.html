@@ -607,7 +607,7 @@ const QUESTIONS = [
   /* ---- Estate composition questions ---- */
   { key:"nomination", section:"Estate composition", stage:"Nominated assets",
     q:"Does the deceased have a valid <b>CPF nomination</b> or <b>insurance nomination</b>?",
-    help:"Nominated CPF / insurance pays out <b>outside</b> the estate — but a CPF nominee must still distribute per Faraid under the MUIS Fatwa.",
+    help:"Nominated CPF/insurance monies will not form part of the estate - it will not be subjected to distribution under Faraid.",
     options:[
       {value:"yes", label:"Yes", desc:"Yes, there is a nomination."},
       {value:"no", label:"No", desc:"No nomination."},
@@ -654,7 +654,7 @@ const QUESTIONS = [
     q: a => a.wasiat==='yes'
       ? "Have you conducted a caveat search or a search for competing applications before applying for the Grant of Probate?"
       : "Have you conducted a caveat search or a search for competing applications before applying for Letters of Administration?",
-    help:"A <b>caveat</b> or a competing application blocks a grant until it is resolved, so it is checked before applying.",
+    help:"A <b>caveat</b> or a competing application blocks a grant until it is resolved, so it is advisable to check before applying.",
     yes:{label:"Yes — search done", out:"The search has been carried out."},
     no:{label:"No — not yet", out:"Carry out the search before applying.", stop:true} },
 
@@ -826,13 +826,13 @@ function buildNarrative(){
     else if(a.icApplied==='no') parts.push("No Inheritance Certificate has been applied for yet, so applying to the Syariah Court is the first foundational step.");
   }
   if(a.beneficiaryDied==='yes') parts.push("A beneficiary has died before distribution, so the Inheritance Certificate must be revised to reflect the corrected shares before any funds move.");
-  if(a.nomination==='yes') parts.push("Some assets carry a valid CPF or insurance nomination, so they pay out directly to the nominee outside the estate — though a CPF nominee remains obliged to distribute those funds per Faraid under the MUIS Fatwa.");
+  if(a.nomination==='yes') parts.push("Valid CPF nominations and insurance nominations would not form part of the estate and will be paid directly to the nominees.");
   else if(a.nomination==='no') parts.push("Without nominations, CPF and insurance monies fall into the general estate.");
   if(a.holdsProperty==='yes'){
     if(a.propertyHolding==='joint') parts.push("The deceased's property is held in joint tenancy, so it passes automatically to the surviving co-owner by survivorship and sits outside the estate.");
     else if(a.propertyHolding==='tenancy-in-common') parts.push("The property is held as tenancy-in-common, so only the deceased's share falls into the estate and must be included in the administration.");
     else if(a.propertyHolding==='solely') parts.push("The property is held solely by the deceased, so it falls wholly into the estate for distribution.");
-    if(a.propertyHDB==='yes') parts.push("As an HDB flat, HDB's ownership and eligibility rules apply to the transfer, on top of the Faraid distribution.");
+    if(a.propertyHDB==='yes') parts.push("For a HDB flat, the HDB ownership and eligibility rules apply to the transfer, on top of the Faraid distribution rules.");
   } else if(a.holdsProperty==='no') parts.push("There is no real property in the estate to deal with.");
   if(a.smallEstate==='yes') parts.push("As a smaller estate ($50,000 or less, excluding CPF and insurance) with no disqualifying factors, the streamlined Public Trustee route is available, which is faster and cheaper than court.");
   else if(a.smallEstate==='no'){
@@ -841,7 +841,7 @@ function buildNarrative(){
       : (a.underFiveM==='no' ? "Above $50,000 the estate goes through the Family Justice Courts; because it exceeds $5 million, it is handled by the Family Division of the High Court." : "Above $50,000 the estate goes through the Family Justice Courts."));
   }
   if(a.caveatSearch==='yes' && a.caveats==='yes') parts.push("A caveat or competing application has been found, which makes this a contested matter — seek your own legal advice or engage a lawyer before proceeding.");
-  else if(a.caveatSearch==='yes' && a.caveats==='no') parts.push("The caveat search found nothing, so the application can proceed on the standard track.");
+  else if(a.caveatSearch==='yes' && a.caveats==='no') parts.push("Caveat search found nothing, so you may proceed with the application for grant of probate (if there is a wasiat) or grant of letters of administration (if there is no wasiat).");
   if(stop && !parts.length) parts.push("Once you have checked this, retake the PathFinder and I will map the full route for you.");
   return parts.join(" ");
 }
@@ -857,7 +857,7 @@ function buildSteps(){
   } else if(a.priorIC==='yes') steps.push("Retrieve / confirm the Inheritance Certificate that records the lawful heirs and shares.");
   if(a.beneficiaryDied==='yes') steps.push("File a Revision of the Inheritance Certificate at the Syariah Court to update the shares before distributing.");
   pfChecks().forEach(c=>steps.push(c));
-  if(a.nomination==='yes') steps.push("Claim nominated CPF / insurance directly via the nominee, and ensure CPF monies are on-distributed per Faraid (MUIS Fatwa).");
+  if(a.nomination==='yes') steps.push("Contact CPF Board and insurance companies for the monies to be paid directly to the nominees.");
   if(a.holdsProperty==='yes'){
     if(a.propertyHolding==='tenancy-in-common') steps.push("Include the deceased's tenancy-in-common share of the property in the estate inventory.");
     else if(a.propertyHolding==='solely') steps.push("Include the solely-held property in the estate inventory.");
@@ -894,6 +894,7 @@ function typeText(el, text, done){
 /* Clickable keywords in the roadmap narrative — each asks Majoo a question.
    Longer phrases first so they win over their substrings. */
 const KW_MAP = [
+  ['CPF nominations and insurance nominations','How do CPF and insurance nominations work?'],
   ['CPF or insurance nomination','How do CPF and insurance nominations work?'],
   ['Letters of Administration','What are Letters of Administration?'],
   ['Inheritance Certificate','What is an Inheritance Certificate?'],
@@ -907,12 +908,20 @@ const KW_MAP = [
   ['caveat','What is a caveat?'],
 ];
 function linkifyNarrative(text){
-  let html = escv(text);
+  /* Work on plain-text pieces so a phrase is only ever found in text that is not
+     already linked (never inside an earlier link's markup), and link each phrase once. */
+  let pieces = [{ text, q:null }];
   for(const [ph,q] of KW_MAP){
-    const re = new RegExp('\\b'+ph.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b');
-    if(re.test(html)) html = html.replace(re, m=>`<button type="button" class="kw" data-q="${escv(q)}">${m}</button>`);
+    const re = new RegExp('\\b'+ph.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b', 'i');
+    const i = pieces.findIndex(p => !p.q && re.test(p.text));
+    if(i < 0) continue;
+    const p = pieces[i], m = p.text.match(re);
+    pieces.splice(i, 1,
+      { text:p.text.slice(0, m.index), q:null },
+      { text:m[0], q },
+      { text:p.text.slice(m.index + m[0].length), q:null });
   }
-  return html;
+  return pieces.map(p => p.q ? `<button type="button" class="kw" data-q="${escv(p.q)}">${escv(p.text)}</button>` : escv(p.text)).join('');
 }
 
 
